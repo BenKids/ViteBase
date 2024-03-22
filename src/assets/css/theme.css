@@ -1,0 +1,113 @@
+* {
+	margin: 0;
+	padding: 0;
+	/* list-style: none; */
+	/* text-decoration: none; */
+	outline: none;
+	box-sizing: border-box;
+	font-family: "Helvetica Neue", "Helvetica", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+html,
+body,
+#app {
+	width: 100%;
+	height: 100%;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(45, 47, 51, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(55, 55, 55, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background-color: rgba(55, 55, 55, 0.5);
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+:root {
+	--base-shadow-box: 0px 2.8px 2.2px -39px rgba(0, 0, 0, 0.076), 0px 6.7px 5.3px -39px rgba(0, 0, 0, 0.109), 0px 12.5px 10px -39px rgba(0, 0, 0, 0.135), 0px 22.3px 17.9px -39px rgba(0, 0, 0, 0.161), 0px 41.8px 33.4px -39px rgba(0, 0, 0, 0.194), 0px 100px 80px -39px rgba(0, 0, 0, 0.27);
+	--base-shadow-part: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
+	--base-shadow-avatar: 0px 5px 15px 0px rgb(0 0 0 / 15%);
+	--base-radius: 6px;
+	--base-gap: 16px;
+	--base-border: 1px solid #eaeaea;
+	--base-bgc-white: #ffffff;
+	--base-bgc-gray: #f5f5f5;
+	--base-bgc-menu: #404f65;
+	--base-bgc-menu-hover: #4f5f77;
+	--base-color-active: #ffd04b;
+	--base-color-white: #fafafa;
+	--base-color-primary: var(--el-color-primary);
+	--base-color-success: var(--el-color-success);
+	--base-color-warning: var(--el-color-warning);
+	--base-color-danger: var(--el-color-danger);
+	--base-color-info: var(--el-color-info);
+	--base-text-color-primary: var(--el-text-color-primary);
+	--base-text-color-regular: var(--el-text-color-regular);
+	--base-text-color-secondary: var(--el-text-color-secondary);
+	--base-text-color-placeholder: var(--el-text-color-placeholder);
+	--base-text-color-disabled: var(--el-text-color-disabled);
+	--base-icon-size: 24px;
+	--base-header-height: 50px;
+	/* 这里宽度不能小于216，否则element-plus下拉框在多选时会有样式显示问题 */
+	--base-input-width: 216px;
+}
+
+:host {
+	/* 解决报错时页面展示内容被el-table遮盖的问题 */
+	z-index: 10;
+}
+
+vite-error-overlay {
+	/* 解决页面出错时页面层级混乱问题 */
+	z-index: 10000;
+}
+.el-popper {
+	font-size: 14px!important;
+	max-width: 50%;
+}
+.el-popper.base-tooltip-input .el-popper__arrow,
+.el-popper.base-tooltip-select .el-popper__arrow,
+.el-popper.base-tooltip-tree-select .el-popper__arrow {
+	/* 解决文字从有变空时样式问题 */
+	transform: none !important;
+	left: calc(50% - 5px) !important;
+}
+.el-message {
+	align-items: flex-start;
+}
+.el-message__content {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+.el-scrollbar__wrap {
+	overflow: auto;
+}
+.el-popper.is-pure {
+	max-height: calc(100% - 40px);
+	overflow: auto;
+}
