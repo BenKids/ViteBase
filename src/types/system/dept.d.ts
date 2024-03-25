@@ -18,7 +18,7 @@ namespace TsDept {
         email: string;
     }
     interface TreeLazyChild {
-    };
+    }
     interface TreeLazySearch {
         deptName: DeptName;
     }
@@ -45,6 +45,20 @@ namespace TsDept {
     }
     type Table = TableItem[];
     type TableRawdata = Table;
+    interface TreeRoleIdDepts {
+        label: string;
+        id: number;
+        children?: TreeRoleIdDepts[];
+    }
+    interface TreeRoleIdResponse {
+        code: number;
+        msg: string;
+        checkedKeys: number[];
+        depts: TreeRoleIdDepts[];
+    }
+    interface Msg {
+
+    }
 }
 namespace TsDeptAdd {
     interface FormModel {

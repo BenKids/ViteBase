@@ -59,30 +59,10 @@ export default {
 		hitSource: ["apiRoleUpdate"],
 		immediate: false,
 	}),
-	updatePermi: (formModel: TsRoleAuth.FormModel) => apiPut({
+	updatePermit: (formModel: TsRoleAuth.FormModel) => apiPut({
 		name: "apiRoleUpdatePermi",
 		url: "/system/role/dataScope",
 		params: formModel,
-	}),
-	deptPermi: (roleId: Ref<TsRole.RoleId>) => apiGet<TsRoleAuth.Rawdata>({
-		name: "apiRoleDeptPermi",
-		url: "/system/dept/roleDeptTreeselect/",
-		urlExtra: roleId,
-		hitSource: ["apiRoleUpdatePermi"],
-		transformData: (rawdata) => {
-			return {
-				checkedKeys: rawdata.checkedKeys,
-				depts: evRename({
-					data: rawdata.depts,
-					keys: {
-						label: "label",
-						value: "id",
-						children: "children",
-					}
-				})
-			}
-		},
-		immediate: false,
 	}),
 	auth: () => {
 		return [
