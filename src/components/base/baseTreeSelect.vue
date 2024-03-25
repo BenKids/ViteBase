@@ -83,7 +83,6 @@ async function fnShowTooltip() {
     } else {
         await nextTick();
         let node = treeSelectRef.value.$el.children[0].children[0].children[1];
-        console.log("[node]",node,node.offsetWidth, node.scrollWidth);
         if (node.offsetWidth < node.children[0].offsetWidth) {
             showTooltip.value = true;
         } else {

@@ -30,6 +30,7 @@ declare global {
   const IconSolarChatDotsLinear: typeof import('~icons/solar/chat-dots-linear')['default']
   const IconSolarCheckCircleLinear: typeof import('~icons/solar/check-circle-linear')['default']
   const IconSolarCheckSquareLinear: typeof import('~icons/solar/check-square-linear')['default']
+  const IconSolarClapperboardEditBroken: typeof import('~icons/solar/clapperboard-edit-broken')['default']
   const IconSolarClapperboardLinear: typeof import('~icons/solar/clapperboard-linear')['default']
   const IconSolarClapperboardTextLinear: typeof import('~icons/solar/clapperboard-text-linear')['default']
   const IconSolarCloseCircleLinear: typeof import('~icons/solar/close-circle-linear')['default']

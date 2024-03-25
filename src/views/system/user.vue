@@ -1,6 +1,6 @@
 <script setup lang="ts">
-//permi 权限
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+//permit 权限
+const isPermit = (v: TsGen.Permissions) => evPermi(v);
 // 表单实例
 const formRef = ref();
 // 新增弹框实例
@@ -208,10 +208,10 @@ function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="新增" v-if="isPermi(['system:user:add'])" @click="onAdd"></base-button>
-            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermi(['system:user:remove'])" @click="onDeleteMultiple"></base-button>
-            <base-button label="导入" v-if="isPermi(['system:user:import'])"></base-button>
-            <base-button label="导出" v-if="isPermi(['system:user:export'])" @click="onExport"></base-button>
+            <base-button label="新增" v-if="isPermit(['system:user:add'])" @click="onAdd"></base-button>
+            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermit(['system:user:remove'])" @click="onDeleteMultiple"></base-button>
+            <base-button label="导入" v-if="isPermit(['system:user:import'])"></base-button>
+            <base-button label="导出" v-if="isPermit(['system:user:export'])" @click="onExport"></base-button>
         </template>
         <template #table>
             <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
@@ -225,9 +225,9 @@ function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
                 <base-table-column label="创建时间" prop="createTime" width="160"></base-table-column>
                 <base-table-special type="handle" width="245">
                     <template #default="scope">
-                        <base-button label="修改" v-if="scope.row.userId !== 1 && isPermi(['system:user:edit'])" @click="onEdit(scope.row)"></base-button>
-                        <base-button label="删除" v-if="scope.row.userId !== 1 && isPermi(['system:user:remove'])" @click="onDelete(scope.row)"></base-button>
-                        <base-button label="重置密码" :sets="setsResetPsw" v-if="scope.row.userId !== 1 && isPermi(['system:user:resetPwd'])" @click="onReset(scope.row)"></base-button>
+                        <base-button label="修改" v-if="scope.row.userId !== 1 && isPermit(['system:user:edit'])" @click="onEdit(scope.row)"></base-button>
+                        <base-button label="删除" v-if="scope.row.userId !== 1 && isPermit(['system:user:remove'])" @click="onDelete(scope.row)"></base-button>
+                        <base-button label="重置密码" :sets="setsResetPsw" v-if="scope.row.userId !== 1 && isPermit(['system:user:resetPwd'])" @click="onReset(scope.row)"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

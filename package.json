@@ -11,6 +11,8 @@
   "dependencies": {
     "@alova/adapter-axios": "^1.2.3",
     "@alova/scene-vue": "^1.4.2",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "alova": "^2.13.2",
     "axios": "^1.6.7",
     "codemirror": "^5.65.16",

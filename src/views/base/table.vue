@@ -43,6 +43,13 @@ const tableAttr: TsTheBaseTable.Model = [
         default: "",
         optional: "",
     }, {
+        key: "v-model:selectData",
+        explain: "选择的表格行数据，支持跨页",
+        dataType: "TsTable.Model",
+        required: false,
+        default: "",
+        optional: "",
+    }, {
         key: "sets",
         explain: "参数设置",
         dataType: "TsTable.Sets",
@@ -115,84 +122,84 @@ const tableSets: TsTheBaseTable.Model = [
         required: false,
         default: "",
         optional: "string / ((row:TsTable.ModelItem) => string)",
-    },{
+    }, {
         key: "emptyText",
         explain: "无数据时的文本，也可以通过 #empty 自定义",
         dataType: "string",
         required: false,
         default: "暂无数据",
         optional: "",
-    },{
+    }, {
         key: "tooltipEffect",
         explain: "tooltip类型",
         dataType: "enum",
         required: false,
         default: "dark",
         optional: "dark / light",
-    },{
+    }, {
         key: "align",
         explain: "对齐方式",
         dataType: "enum",
         required: false,
         default: "left",
         optional: "left / center / right",
-    },{
+    }, {
         key: "headerAlign",
         explain: "表头对齐方式，若不设置该项，则使用表格的对齐方式",
         dataType: "enum",
         required: false,
         default: "",
         optional: "left / center / right",
-    },{
+    }, {
         key: "showOverflowTooltip",
         explain: "当内容过长被隐藏时显示 tooltip",
         dataType: "boolean",
         required: false,
         default: "true",
         optional: "true / false",
-    },{
+    }, {
         key: "emptyCell",
         explain: "某项无数据时展示文本",
         dataType: "string",
         required: false,
         default: "--",
         optional: "",
-    },{
+    }, {
         key: "showSummary",
         explain: "显示合计",
         dataType: "boolean",
         required: false,
         default: "false",
         optional: "true / false",
-    },{
+    }, {
         key: "sumText",
         explain: "合计第一列文本",
         dataType: "string",
         required: false,
         default: "合计",
         optional: "",
-    },{
+    }, {
         key: "summaryMethod",
         explain: "自定义的合计计算方法",
         dataType: "Function",
         required: false,
         default: "",
         optional: "{ prop: keyof T; fmt: `${string}{v}${string}`; }[]",
-    },{
+    }, {
         key: "spanMethod",
         explain: "自定义的合并行或列计算方法",
         dataType: "Function",
         required: false,
         default: "",
         optional: "(param: SpanMethodProps) => { rowspan: number; colspan: number };",
-    },{
+    }, {
         key: "lazy",
         explain: "懒加载",
         dataType: "boolean",
         required: false,
         default: "false",
         optional: "true / false",
-    },{
+    }, {
         key: "load",
         explain: "懒加载时的方法，需要将lazy设置为true",
         dataType: "Function",
@@ -201,7 +208,7 @@ const tableSets: TsTheBaseTable.Model = [
         optional: "(row: TsDept.TableItem, resolve: (date: TsDept.Table) => void) => void;",
     }
 ];
-const tableSlot:TsTheBaseTableSlot.Model = [
+const tableSlot: TsTheBaseTableSlot.Model = [
     {
         key: "empty",
         explain: "无数据时的自定义插槽"
@@ -209,7 +216,8 @@ const tableSlot:TsTheBaseTableSlot.Model = [
 ]
 </script>
 <template>
-    <the-base-layout :step="step" :template="template" original-link="https://element-plus.gitee.io/zh-CN/component/table.html">
+    <the-base-layout :step="step" :template="template"
+                     original-link="https://element-plus.gitee.io/zh-CN/component/table.html">
         <template #view>
             <base-table v-model="tableData">
                 <base-table-column label="姓名" prop="name"></base-table-column>

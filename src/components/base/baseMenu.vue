@@ -45,21 +45,8 @@ provide("onMenuItem", onMenuItem);
 
 .base-menu :deep(.el-menu-item:not(.is-active) .el-icon),
 .base-menu :deep(.el-sub-menu:not(.is-active) .el-icon) {
-    margin-right: 5px;
     color: var(--base-text-color-placeholder);
 }
-
-.base-menu::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* ::-webkit-scrollbar-thumb:hover {
-	background-color: rgba(255, 255, 255, 0.2);
-}
-
-::-webkit-scrollbar-thumb:active {
-	background-color: rgba(255, 255, 255, 0.2);
-} */
 
 .base-menu :deep(.el-sub-menu__title span) {
     position: relative;

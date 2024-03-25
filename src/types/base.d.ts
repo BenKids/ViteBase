@@ -468,6 +468,14 @@ namespace TsEmpty {
         imageSize?: number;
     }
 }
+namespace TsEdit {
+    type Model = string;
+    interface Sets {
+        placeholder?: string;
+        mode?: "default" | "simple";
+        readOnly?: boolean;
+    }
+}
 namespace TsForm {
     type Model = TsGen.Object;
     type Ref = TsElement.FormInstance;

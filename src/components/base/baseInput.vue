@@ -75,45 +75,40 @@ async function fnShowTooltip() {
             <IconSolarPen2Linear/>
         </el-icon>
     </div>
-    <div class="base-input-box" v-else-if="!sets.readonly">
-        <el-input
-            v-model.lazy="model"
-            :type="sets.type"
-            :maxlength="sets.maxlength"
-            :minlength="sets.minlength"
-            :showWordLimit="sets.showWordLimit"
-            :placeholder="sets.placeholder || '请输入'"
-            :clearable="sets.clearable ?? true"
-            :showPassword="sets.type === 'password' && sets.showPassword === true"
-            :disabled="sets.disabled"
-            :rows="sets.rows"
-            :autosize="sets.autosize ?? true"
-            :readonly="sets.readonly"
-            :resize="sets.resize"
-            :autofocus="sets.autofocus"
-            :min="sets.min"
-            :max="sets.max"
-            :size="sets.size"
-            :prefixIcon="sets.prefixIcon"
-            :suffixIcon="sets.suffixIcon"
-            :class="{
+    <el-input
+        v-else-if="!sets.readonly"
+        v-model.lazy="model"
+        :type="sets.type"
+        :maxlength="sets.maxlength"
+        :minlength="sets.minlength"
+        :showWordLimit="sets.showWordLimit"
+        :placeholder="sets.placeholder || '请输入'"
+        :clearable="sets.clearable ?? true"
+        :showPassword="sets.type === 'password' && sets.showPassword === true"
+        :disabled="sets.disabled"
+        :rows="sets.rows"
+        :autosize="sets.autosize ?? true"
+        :readonly="sets.readonly"
+        :resize="sets.resize"
+        :autofocus="sets.autofocus"
+        :min="sets.min"
+        :max="sets.max"
+        :size="sets.size"
+        :prefixIcon="sets.prefixIcon"
+        :suffixIcon="sets.suffixIcon"
+        :class="{
           'base-input': true,
           'table-in': tableIn,
         }"
-            ref="inputRef"
-            @blur="onBlur">
-            <template #prepend v-if="slots.prepend">
-                <slot name="prepend"></slot>
-            </template>
-            <template #append v-if="slots.append">
-                <slot name="append"></slot>
-            </template>
-        </el-input>
-        <span class="base-input-border-bottom"></span>
-        <span class="base-input-border-right"></span>
-        <span class="base-input-border-top"></span>
-        <span class="base-input-border-left"></span>
-    </div>
+        ref="inputRef"
+        @blur="onBlur">
+        <template #prepend v-if="slots.prepend">
+            <slot name="prepend"></slot>
+        </template>
+        <template #append v-if="slots.append">
+            <slot name="append"></slot>
+        </template>
+    </el-input>
     <el-tooltip v-else :disabled="!showTooltip" placement="top" popper-class="base-tooltip-input">
         <template #content>
             <div>{{ model }}</div>
@@ -126,6 +121,7 @@ async function fnShowTooltip() {
 
 <style scoped>
 .base-input {
+    position: relative;
     width: var(--base-input-width);
 }
 
@@ -189,69 +185,76 @@ async function fnShowTooltip() {
 .view-text-input.placeholder {
     color: var(--el-text-color-placeholder);
 }
-.base-input-box {
-    position: relative;
-}
-.base-input-box :deep(.el-input__wrapper.is-focus) {
+
+
+.base-input :deep(.el-input__wrapper.is-focus) {
     box-shadow: none;
 }
-.base-input ~ span {
+
+.base-input::before,
+.base-input::after,
+.base-input :deep(.el-input__wrapper::before),
+.base-input :deep(.el-input__wrapper::after) {
+    content: "";
+    display: block;
     position: absolute;
     background-color: var(--base-color-primary);
     transition: transform 0.5s ease;
+    z-index: 1;
 }
-.base-input-border-bottom,
-.base-input-border-top {
+
+.base-input::before,
+.base-input::after {
     height: 1px;
     left: 0;
     right: 0;
     transform: scaleX(0);
 }
 
-.base-input-border-left,
-.base-input-border-right {
+.base-input :deep(.el-input__wrapper::before),
+.base-input :deep(.el-input__wrapper::after) {
     width: 1px;
     top: 0;
     bottom: 0;
     transform: scaleY(0);
 }
 
-.base-input-border-bottom {
+.base-input::after {
     bottom: 0;
     transform-origin: bottom right;
 }
 
-.base-input:has(.is-focus) ~ .base-input-border-bottom {
+.base-input:has(.is-focus)::after {
     transform-origin: bottom left;
     transform: scaleX(1);
 }
 
-.base-input-border-right {
+.base-input :deep(.el-input__wrapper::after) {
     right: 0;
     transform-origin: top right;
 }
 
-.base-input:has(.is-focus) ~ .base-input-border-right {
+.base-input:has(.is-focus) :deep(.el-input__wrapper::after) {
     transform-origin: bottom right;
     transform: scaleY(1);
 }
 
-.base-input-border-top {
+.base-input::before {
     top: 0;
     transform-origin: top left;
 }
 
-.base-input:has(.is-focus) ~ .base-input-border-top {
+.base-input:has(.is-focus)::before {
     transform-origin: top right;
     transform: scaleX(1);
 }
 
-.base-input-border-left {
+.base-input :deep(.el-input__wrapper::before) {
     left: 0;
     transform-origin: bottom left;
 }
 
-.base-input:has(.is-focus) ~ .base-input-border-left {
+.base-input:has(.is-focus) :deep(.el-input__wrapper::before) {
     transform-origin: top left;
     transform: scaleY(1);
 }

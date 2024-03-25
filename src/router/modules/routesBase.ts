@@ -146,6 +146,15 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			        icon: IconSolarMapPointRotateLinear,
 			    },
 			},{
+			    path: "Edit",
+			    name: "Edit",
+			    component: () => import("@/views/base/edit.vue"),
+			    meta: {
+			        label: "富文本编辑器",
+			        keepAlive: true,
+			        icon: IconSolarClapperboardEditBroken,
+			    },
+			},{
 			    path: "Empty",
 			    name: "Empty",
 			    component: () => import("@/views/base/empty.vue"),

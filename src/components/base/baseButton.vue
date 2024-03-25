@@ -194,8 +194,8 @@ if (props.sets.link === undefined) {
     z-index: 1;
     background-color: hsla(0, 0%, 100%, 0.5);
     position: absolute;
-    top: -50%;
-    bottom: -50%;
+    top: -100%;
+    bottom: -100%;
     width: 20%;
     transform: translate3d(-525%, 0, 0) rotate(35deg);
 }

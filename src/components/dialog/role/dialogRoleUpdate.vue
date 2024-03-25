@@ -70,7 +70,6 @@ const { data: optionsMenus } = apiMenus.permi();
 //todo 确定
 const { send: sendSubmit } = apiRole.update(formModel);
 function onConfirm() {
-	console.log("[formModel]",formModel.menuIds)
 	formRef.value
 		.validate()
 		.then(() => {

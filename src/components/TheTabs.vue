@@ -1,19 +1,14 @@
 <script setup lang="ts">
+// tabs栏获显示的图标需要用markRaw包裹，但这里是读取的缓存信息，暂时没有想到解决办法
 const storeSystem = system();
 const route = useRoute();
 let { tabs } = pinia.storeToRefs(storeSystem);
-console.error("tabs栏获显示的图标需要用markRaw包裹，但这里是读取的缓存信息，暂时没有想到解决办法")
-let closable = computed(() => {
-	if (tabs.value.length > 1) {
-		return true;
-	} else {
-		return false;
-	}
-});
-const sets:TsTabs.Sets = {
-    closable: closable.value,
-    icon: false,
-}
+const sets = computed(():TsTabs.Sets =>{
+    return {
+        closable: tabs.value.length > 1,
+        icon: false,
+    }
+})
 const removeTab = (targetName: string) => {
 	const name = route.name!.toString();
 	storeSystem.removeTabs(targetName, name);

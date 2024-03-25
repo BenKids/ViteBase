@@ -33,7 +33,7 @@ const {onAuthRequired, onResponseRefreshToken} = createServerTokenAuthentication
 const alovaInstance = createAlova({
     baseURL: import.meta.env.VITE_BASE_API, // baseURL
     statesHook: VueHook, // statesHook
-    cacheLogger: true, // 打印缓存命中日志
+    cacheLogger: false, // 打印缓存命中日志
     requestAdapter: axiosRequestAdapter(), // 请求适配器
     // 请求拦截器
     beforeRequest: onAuthRequired((method) => {
