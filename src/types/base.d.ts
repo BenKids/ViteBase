@@ -792,6 +792,7 @@ namespace TsProgress {
         indeterminate?: boolean;
         duration?: number;
         color?: string | Function | { color: string; percentage: number }[];
+        width?: string | number;
         showText?: boolean;
         strokeLinecap?: 'butt' | 'round' | 'square';
         format?: (percentage: number) => string;

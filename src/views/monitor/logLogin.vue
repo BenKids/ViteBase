@@ -80,7 +80,7 @@ function onUnlock(row:TsLogLogin.TableItem) {
                 <base-table-time label="登录日期" prop="loginTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="解锁" :sets="setsUnlock" @click="onUnlock" v-if="isPermi(['monitor:logininfor:unlock'])"></base-button>
+                        <base-button label="解锁" :sets="setsUnlock" @click="onUnlock(scope.row)" v-if="isPermi(['monitor:logininfor:unlock'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>
