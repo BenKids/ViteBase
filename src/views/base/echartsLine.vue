@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const step:string = `let lineData = reactive<TsEchartsLine.Model>({
+const step:string = `const lineRef = ref();
+let lineData = reactive<TsEchartsLine.Model>({
     data: {},
     axis: ['2022年10月', '2022年11月', '2022年12月', '2023年1月', '2023年2月', '2023年3月', '2023年4月'],
 });

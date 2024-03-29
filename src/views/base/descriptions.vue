@@ -4,7 +4,7 @@ const step:string = `let data = reactive<TsDescriptions.Model>({
     item2: 222,
     item3: 333,
 });
-let optData = reactive<TsDescriptions.Options>([
+let optData = reactive<TsDescriptions.Options<TsDescriptions.Model>>([
     {
         label: "项目1",
         prop: "item1",
@@ -22,7 +22,7 @@ let data = reactive<TsDescriptions.Model>({
     item2: 222,
     item3: 333,
 });
-let optData = reactive<TsDescriptions.Options>([
+let optData = reactive<TsDescriptions.Options<TsDescriptions.Model>>([
     {
         label: "项目1",
         prop: "item1",
@@ -167,8 +167,31 @@ const tableSets:TsTheBaseTable.Model = [
         required: false,
         default: "left",
         optional: "left / center / right",
+    },{
+        key: "labelWidth",
+        explain: "统一设置label宽度",
+        dataType: "string | number",
+        required: false,
+        default: "",
+        optional: "",
+    },{
+        key: "minWidth",
+        explain: "统一设置列最小宽度",
+        dataType: "string | number",
+        required: false,
+        default: "",
+        optional: "",
     }
 ];
+const tableSlot:TsTheBaseTableSlot.Model = [
+    {
+        key: "参数名Label",
+        explain: "对应参数的label插槽"
+    },{
+        key: "参数名Value",
+        explain: "对应参数的value插槽"
+    }
+]
 </script>
 <template>
     <the-base-layout :step="step" :template="template" original-link="https://element.eleme.cn/#/zh-CN/component/descriptions">
@@ -183,6 +206,9 @@ const tableSets:TsTheBaseTable.Model = [
         </template>
         <template #sets>
             <the-base-table :data="tableSets"></the-base-table>
+        </template>
+        <template #slot>
+            <the-base-table-slot :data="tableSlot"></the-base-table-slot>
         </template>
     </the-base-layout>
 </template>

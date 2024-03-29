@@ -272,6 +272,15 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			        icon: IconSolarPrinterMinimalisticLinear,
 			    },
 			},{
+			    path: "Progress",
+			    name: "Progress",
+			    component: () => import("@/views/base/progress.vue"),
+			    meta: {
+			        label: "进度条",
+			        keepAlive: true,
+			        icon: IconSolarSlashSquareLinear,
+			    },
+			},{
 			    path: "Radio",
 			    name: "Radio",
 			    component: () => import("@/views/base/radio.vue"),

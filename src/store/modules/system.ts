@@ -47,6 +47,7 @@ export default defineStore("system", {
                 this.tabs.push({
                     value: to.name!.toString(),
                     label: to.meta.label!.toString(),
+                    query: to.query,
                     icon: shallowRef(to.meta.icon!) as unknown as string,
                 })
             }

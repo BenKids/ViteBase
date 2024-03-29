@@ -51,7 +51,7 @@ if (props.label) {
                 break;
             case "关闭":
                 presets.icon = markRaw(IconSolarCloseCircleOutline);
-                presets.type = "danger";
+                presets.type = "warning";
                 break;
             case "返回":
                 presets.icon = markRaw(IconSolarBackspaceLinear);
@@ -59,6 +59,7 @@ if (props.label) {
                 break;
             case "删除":
             case "批量删除":
+            case "清空":
                 presets.icon = markRaw(IconSolarTrashBinTrashLinear);
                 presets.type = "danger";
                 break;
@@ -90,7 +91,7 @@ if (props.label) {
             case "详情":
             case "查看":
                 presets.icon = markRaw(IconSolarEyeLinear);
-                presets.type = "success";
+                presets.type = "primary";
                 presets.text = true;
                 break;
             case "反馈":

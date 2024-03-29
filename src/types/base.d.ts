@@ -122,8 +122,8 @@ namespace TsDescriptions {
     type Title = string;
     type Model = TsGen.Object;
 
-    interface Option {
-        prop: string;
+    interface Option<T extends TsGen.Obj> {
+        prop: keyof T;
         label?: string | number;
         align?: TsGen.Align;
         labelAlign?: TsGen.Align;
@@ -133,7 +133,7 @@ namespace TsDescriptions {
         icon?: TsGen.Icon;
     }
 
-    type Options = Option[];
+    type Options<T extends TsGen.Obj> = Option<T>[];
 
     interface Sets {
         column?: number;
@@ -142,6 +142,8 @@ namespace TsDescriptions {
         border?: boolean;
         align?: TsGen.Align;
         labelAlign?: TsGen.Align;
+        labelWidth?: string | number;
+        minWidth?: string | number;
     }
 }
 namespace TsDialog {
@@ -436,6 +438,27 @@ namespace TsEchartsPie {
     type ClickParams = ModelItem;
 
     interface Sets {
+        title?: string;
+        titleColor?: string;
+        titleFontStyle?: "normal" | "italic" | "oblique";
+        titleFontWeight?: "normal" | "bold" | "bolder" | "lighter";
+        titleFontFamily?: string;
+        titleFontSize?: number;
+        titleLineHeight?: number;
+        titleAlign?: TsGen.Align;
+        titleLeft?: string | number;
+        titleRight?: string | number;
+        titleTop?: string | number;
+        titleBottom?: string | number;
+        subTitle?: string;
+        subTitleColor?: string;
+        subTitleFontStyle?: "normal" | "italic" | "oblique";
+        subTitleFontWeight?: "normal" | "bold" | "bolder" | "lighter";
+        subTitleFontFamily?: string;
+        subTitleFontSize?: number;
+        subTitleLineHeight?: number;
+        subTitleAlign?: TsGen.Align;
+        color?: string[];
         roseType?: false | "radius" | "area";
         radius?: [number, number] | [string, string];
         borderRadius?: number;
@@ -447,6 +470,7 @@ namespace TsEchartsPie {
         labelStyle?: "normal" | "italic" | "oblique";
         labelWeight?: "normal" | "bold" | "bolder" | "lighter";
         labelSize?: number;
+        labelFormatter?: string | ((params: Object|Array) => string);
         legend?: boolean;
         legendColor?: string;
         legendSize?: number;
@@ -470,6 +494,7 @@ namespace TsEmpty {
 }
 namespace TsEdit {
     type Model = string;
+
     interface Sets {
         placeholder?: string;
         mode?: "default" | "simple";
@@ -518,6 +543,12 @@ namespace TsFormInput {
 
     interface Sets extends TsFormItem.Sets, TsInput.Sets {
         required?: TsFormItem.Sets['required'] | 'phone' | 'email';
+    }
+}
+namespace TsFormEdit {
+    type Label = TsFormItem.Label;
+    type Prop = TsFormItem.Prop;
+    interface Sets extends TsFormItem.Sets, TsEdit.Sets {
     }
 }
 namespace TsFormNumber {
@@ -573,6 +604,7 @@ namespace TsFormUpload {
 }
 namespace TsIcons {
     type Icon = string;
+
     interface Sets {
         color?: string;
         size?: number;
@@ -747,10 +779,30 @@ namespace TsPopover {
         load?: boolean;
         loadingText?: string;
     }
+
     type Stop = () => void;
 }
+namespace TsProgress {
+    type Model = number;
+    interface Sets {
+        type?: 'line' | 'circle' | 'dashboard';
+        strokeWidth?: number;
+        textInside?: boolean;
+        status?: 'success' | 'exception' | 'warning';
+        indeterminate?: boolean;
+        duration?: number;
+        color?: string | Function | { color: string; percentage: number }[];
+        showText?: boolean;
+        strokeLinecap?: 'butt' | 'round' | 'square';
+        format?: (percentage: number) => string;
+        striped?: boolean;
+        stripedFlow?: boolean;
+    }
+}
 namespace TsPrint {
-    interface Model extends TsGen.Object {}
+    interface Model extends TsGen.Object {
+    }
+
     interface Sets {
         empty?: string;
         type?: "A4" | "A5";
@@ -836,6 +888,12 @@ namespace TsSteps {
     }
 
     type Options = Option[];
+}
+namespace TsStatistic {
+    type Model = number | string;
+    interface Sets {
+
+    }
 }
 namespace TsSwitch {
     type Model = boolean | string | number;
@@ -993,6 +1051,13 @@ namespace TsTabs {
     }
 
     type Options = Option[];
+
+    interface ClickObj {
+        index: number,
+        props: {
+            name: string
+        }
+    }
 }
 namespace TsTag {
     type Model = string | number;

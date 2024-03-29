@@ -74,7 +74,10 @@ body,
 	/* 这里宽度不能小于216，否则element-plus下拉框在多选时会有样式显示问题 */
 	--base-input-width: 216px;
 }
-
+@font-face {
+	font-family: "Bebas Neue";
+	src: url("@/assets/css/BebasNeue-Regular.ttf");
+}
 :host {
 	/* 解决报错时页面展示内容被el-table遮盖的问题 */
 	z-index: 10;

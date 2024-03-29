@@ -83,7 +83,69 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					icon: IconSolarBook2Linear,
 					hidden: () => evPermi(["system:dict:list"]),
 				},
+			},{
+			    path: "Notice",
+			    name: "Notice",
+			    component: () => import("@/views/system/notice.vue"),
+			    meta: {
+			        label: "通知公告",
+			        keepAlive: true,
+			        icon: IconSolarChatDotsLinear,
+			        hidden: () => evPermi(["system:dict:list"]),
+			    },
 			},
 		],
-	},
+	},{
+		path: "/Monitor",
+		name: "Monitor",
+		redirect: "/Monitor/LogOper",
+		meta: {
+			label: "系统监控",
+			icon: IconSolarMonitorLinear,
+			hidden: () => evPermi(["monitor:operlog:list","monitor:logininfor:list"]),
+		},
+		children: [
+			{
+				path: "LogOper",
+				name: "LogOper",
+				component: () => import("@/views/monitor/logOper.vue"),
+				meta: {
+					label: "操作日志",
+					keepAlive: true,
+					icon: IconSolarFolderPathConnectLinear,
+					hidden: () => evPermi(["monitor:operlog:list"]),
+				},
+			},{
+				path: "LogLogin",
+				name: "LogLogin",
+				component: () => import("@/views/monitor/logLogin.vue"),
+				meta: {
+					label: "登录日志",
+					keepAlive: true,
+					icon: IconSolarFileRightLinear,
+					hidden: () => evPermi(["monitor/logininfor/index"]),
+				},
+			},{
+			    path: "Online",
+			    name: "Online",
+			    component: () => import("@/views/monitor/online.vue"),
+			    meta: {
+			        label: "在线用户",
+			        keepAlive: true,
+			        icon: IconSolarUserCheckRoundedLinear,
+			        hidden: () => evPermi(["monitor:online:list"]),
+			    },
+			}, {
+			    path: "Serve",
+			    name: "Serve",
+			    component: () => import("@/views/monitor/serve.vue"),
+			    meta: {
+			        label: "服务监控",
+			        keepAlive: true,
+			        icon: IconSolarServer2Linear,
+			        hidden: () => evPermi(["monitor:server:list"]),
+			    },
+			}
+		],
+	}
 ];

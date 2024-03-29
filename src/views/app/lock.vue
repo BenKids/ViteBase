@@ -3,6 +3,15 @@ const stores = system();
 let {lock} = pinia.storeToRefs(stores);
 const {avatar} = pinia.storeToRefs(user());
 const avatarSize = ref<number>(70);
+let time = ref<string>("00:00:00");
+let timeInter = setInterval(() => updateTime(), 1000)
+
+function updateTime() {
+    time.value = evDateFormat({
+        date: new Date(),
+        fmt: "hh:mm:ss"
+    })
+}
 
 function onMouseEnter() {
     avatarSize.value = 80;
@@ -16,12 +25,14 @@ function unlock() {
     lock.value = false;
     router.back();
 }
+onMounted(() => updateTime());
+onUnmounted(() => clearInterval(timeInter));
 </script>
 
 <template>
     <base-lock>
-        <base-avatar v-model="avatar" :sets="{ size: avatarSize }" @click="unlock" @mouseenter="onMouseEnter"
-                     @mouseleave="onMouseLeave"></base-avatar>
+        <div class="clock">{{ time }}</div>
+        <base-avatar v-model="avatar" :sets="{ size: avatarSize }" @click="unlock" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave"></base-avatar>
         <div class="spinner">
             <div class="ball-scale-multiple">
                 <div></div>
@@ -33,6 +44,16 @@ function unlock() {
 </template>
 
 <style scoped>
+.clock {
+    position: absolute;
+    font: bold 300px "Bebas Neue";
+    text-align: center;
+    pointer-events: none;
+    z-index: -1;
+    opacity: .35;
+    letter-spacing: var(--base-gap);
+}
+
 .base-lock :deep(.lock-box) {
     flex-direction: column;
 }

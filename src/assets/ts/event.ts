@@ -498,7 +498,7 @@ export function evTransDateRange(dateRange: TsGen.Date[]) {
 	return dateRange.length > 1 ? "?params%5BbeginTime%5D=" + dateRange[0] + "&params%5BendTime%5D=" + dateRange[1] : ""
 }
 // 移除对象中值为空的键值对
-export function evRemoveEmpty(obj: TsGen.Object, keys?: string[]) {
+export function evRemoveEmpty<T = TsGen.Object>(obj: T, keys?: (keyof T)[]) {
 	let res = JSON.parse(JSON.stringify(obj));
 	for (const key in res) {
 		if (!res[key]) delete res[key];

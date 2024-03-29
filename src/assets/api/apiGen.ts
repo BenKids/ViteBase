@@ -19,4 +19,29 @@ export default {
 				initialData: [],
 			}
 		),
+	// 状态选择数据
+	status: () => {
+		return [
+			{
+				value: "info",
+				label: "默认"
+			},
+			{
+				value: "primary",
+				label: "主要"
+			},
+			{
+				value: "success",
+				label: "成功"
+			},
+			{
+				value: "warning",
+				label: "警告"
+			},
+			{
+				value: "danger",
+				label: "危险"
+			}
+		]
+	}
 };

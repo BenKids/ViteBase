@@ -1,12 +1,15 @@
 // 全局变量
 namespace TsStore {
 	type Avatar = string;
+	interface Tab extends TsTabs.Option{
+		query: TsGen.Object,
+	}
 	interface System {
 		token: string;
 		collapse: boolean;
 		lock: boolean;
 		include: string[];
-		tabs: TsTabs.Options;
+		tabs: Tab[];
 		whitelist: string[];
 		exclude: string[];
 	}

@@ -2,7 +2,7 @@
     withDefaults(defineProps<{
         title?: TsDescriptions.Title,
         sets?: TsDescriptions.Sets,
-        options: TsDescriptions.Options,
+        options: TsDescriptions.Options<TsGen.Object>,
         modelValue: TsDescriptions.Model,
     }>(),{
         sets: () => {
@@ -41,8 +41,8 @@
             :align="item.align || sets.align"
             :label-align="item.labelAlign || sets.labelAlign"
             :span="item.span"
-            :width="item.labelWidth"
-            :min-width="item.minWidth"
+            :width="item.labelWidth ?? sets.labelWidth"
+            :min-width="item.minWidth ?? sets.minWidth"
         >
             <template #label>
                 <slot :name="item.prop + 'Label'" :option="item" :value="modelValue[item.prop]">

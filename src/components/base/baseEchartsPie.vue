@@ -46,6 +46,33 @@ const setOption = function() {
     nextTick(()=>{
         if(!pie) return;
         pie.setOption({
+            title: {
+                show: !!props.sets.title || !!props.sets.subTitle,
+                text: props.sets.title,
+                textStyle: {
+                    color: props.sets.titleColor ?? "#303133",
+                    fontStyle: props.sets.titleFontStyle,
+                    fontWeight: props.sets.titleFontWeight ?? "bolder",
+                    fontFamily: props.sets.titleFontFamily,
+                    fontSize: props.sets.titleFontSize ?? 18,
+                    lineHeight: props.sets.titleLineHeight,
+                },
+                textAlign: props.sets.titleAlign,
+                subtext: props.sets.subTitle,
+                subtextStyle: {
+                    color: props.sets.subTitleColor ?? "#606266",
+                    fontStyle: props.sets.subTitleFontStyle,
+                    fontWeight: props.sets.subTitleFontWeight ?? "normal",
+                    fontFamily: props.sets.subTitleFontFamily,
+                    fontSize: props.sets.subTitleFontSize ?? 12,
+                    align: props.sets.subTitleAlign ?? props.sets.titleAlign,
+                    lineHeight: props.sets.subTitleLineHeight,
+                },
+                left: props.sets.titleLeft ?? "center",
+                right: props.sets.titleRight,
+                top: props.sets.titleTop,
+                bottom: props.sets.titleBottom,
+            },
             tooltip: {
                 trigger: 'item'
             },
@@ -93,8 +120,9 @@ const setOption = function() {
                     name: props.name,
                     type: 'pie',
                     radius: props.sets.radius || ['35%', '70%'],
+                    color: props.sets.color,
                     avoidLabelOverlap: false,
-                    roseType: props.sets.roseType ?? "radius",
+                    roseType: props.sets.roseType ?? false,
                     left: props.sets.left ?? undefined,
                     right: props.sets.right ?? undefined,
                     top: props.sets.top ?? undefined,
@@ -112,6 +140,7 @@ const setOption = function() {
                         fontStyle: props.sets.labelStyle || "normal",
                         fontWeight: props.sets.labelWeight || "bolder",
                         fontSize: props.sets.labelSize || 12,
+                        formatter: props.sets.labelFormatter,
                     },
                     data: (() => {
                         return evRename({

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const step:string = `let data = reactive<TsEchartsPie.Model>([])
+const step:string = `const pieRef = ref();
+let data = reactive<TsEchartsPie.Model>([])
 const sets = reactive<TsEchartsPie.Sets>({
     legend: true,
     legendPosition: "right",
