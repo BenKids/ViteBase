@@ -7,6 +7,7 @@ const props = withDefaults(defineProps<{
         return {}
     }
 })
+const icon = markRaw(IconSolarPenNewRoundLinear);
 const emits = defineEmits(["update:modelValue","blur","change"]);
 const model = useVModel(props,"modelValue",emits);
 const tableIn = inject("tableIn",false);
@@ -50,7 +51,7 @@ const controlsPosition = computed(():TsNumber.Sets['controlsPosition'] => {
             'placeholder': !model
         }">
         {{ model ?? sets.placeholder ?? '请输入' }}
-        <el-icon><IconSolarPenNewRoundLinear/></el-icon>
+        <base-icons :icon="icon"></base-icons>
     </div>
     <el-input-number
         v-else
@@ -91,7 +92,6 @@ const controlsPosition = computed(():TsNumber.Sets['controlsPosition'] => {
     background-color: transparent;
 }
 .base-number.table-in :deep(.el-input) {
-    --el-input-border-color: transparent;
     --el-input-border-color: transparent;
     --el-input-hover-border-color: transparent;
     --el-input-focus-border-color: transparent;

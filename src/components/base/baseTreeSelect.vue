@@ -159,7 +159,7 @@ function onChange(val: TsTreeSelect.Model) {
     border-radius: var(--el-border-radius-base);
     height: var(--el-input-readonly-height);
     line-height: var(--el-input-readonly-height);
-    padding: 0px 11px;
+    padding: 0 11px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

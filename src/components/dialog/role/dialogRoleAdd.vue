@@ -79,7 +79,7 @@ function onClose() {
 }
 </script>
 <template>
-	<base-dialog v-model="model" title="新增角色" :sets="dialogSets">
+	<base-dialog v-model="model" title="新增角色" :sets="dialogSets" class="dialog-role-add">
 		<base-form v-model="formModel" ref="formRef" :sets="formSets">
 			<base-form-input label="角色名称" prop="roleName" :sets="setsRequired"></base-form-input>
 			<base-form-input label="权限字符" prop="roleKey" :sets="setsRequired"></base-form-input>
@@ -97,7 +97,7 @@ function onClose() {
 	</base-dialog>
 </template>
 <style scoped>
-.base-form {
+.dialog-role-add :deep(.base-form) {
 	padding-right: 560px;
     position: relative;
 	height: 500px;
@@ -110,7 +110,7 @@ function onClose() {
 	height: 100%;
 	margin-bottom: 0;
 }
-.base-tree {
+.dialog-role-add :deep(.base-tree) {
 	width: 100%;
 	height: 100%;
 }

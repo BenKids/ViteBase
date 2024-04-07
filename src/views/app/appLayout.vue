@@ -18,7 +18,7 @@ let {include} = pinia.storeToRefs(system());
     </base-layout>
 </template>
 <style scoped>
-.app-layout :deep( > .base-layout-view) {
+.app-layout :deep( .base-layout-tabs + .base-layout-view) {
     background-color: var(--base-bgc-gray);
     padding: var(--base-gap);
 }

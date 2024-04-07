@@ -43,7 +43,7 @@ export function evThousands(num: number): string {
 		}
 		resLeft = numLeft[index] + resLeft;
 	}
-	let resRight = "";
+	let resRight: string;
 	if (numRight) {
 		resRight = ".";
 		let right = numRight.split("");
@@ -60,8 +60,7 @@ export function evThousands(num: number): string {
 			resRight += "0";
 		}
 	}
-	let res = resLeft + resRight;
-	return res;
+	return resLeft + resRight;
 }
 // 终端判断
 export function evClient(): "ios" | "android" | "pc" {
@@ -239,7 +238,7 @@ export function evMatchObjs<T extends TsGen.Object>({data, dataKey, params}:{dat
 				if(objChild.length > 0) {
 					res = [...res, ...objChild]
 					break;
-				};
+				}
 			}
 		}
 	})
@@ -415,19 +414,15 @@ export function evIntTree<D extends TsGen.Object>({ data, id, parentId, children
 }
 // 权限判断
 export function evPermit(value: TsGen.Permissions): boolean {
-	if (value && value instanceof Array && value.length > 0) {
+	if (value && value.length > 0) {
 		const { permissions } = pinia.storeToRefs(user());
 		const permissionDatas = value;
 		const all_permission = "*:*:*";
 
-		const hasPermission = permissions.value.some((permission: string) => {
+		return permissions.value.some((permission: string) => {
 			return all_permission === permission || permissionDatas.includes(permission);
 		});
 
-		if (!hasPermission) {
-			return false;
-		}
-		return true;
 	} else {
 		console.error(`need roles! Like checkPermi="['system:user:add','system:user:edit']"`);
 		return false;
