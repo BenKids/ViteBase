@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //permit 权限
-const isPermit = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 新增弹框实例
@@ -222,7 +222,7 @@ function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
                 <base-table-column label="部门" prop="deptName" width="210"></base-table-column>
                 <base-table-column label="手机号码" prop="phonenumber" width="130"></base-table-column>
                 <base-table-switch label="状态" prop="status" :sets="setsSwitch" width="72" @change="onSwitch"></base-table-switch>
-                <base-table-column label="创建时间" prop="createTime" width="160"></base-table-column>
+                <base-table-time label="创建时间" prop="createTime"></base-table-time>
                 <base-table-special type="handle" width="245">
                     <template #default="scope">
                         <base-button label="修改" v-if="scope.row.userId !== 1 && isPermit(['system:user:edit'])" @click="onEdit(scope.row)"></base-button>

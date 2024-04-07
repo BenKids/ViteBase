@@ -56,6 +56,17 @@ export default ({ mode }) => {
 							["useWatcher", "useWatcher"],
 							["invalidateCache", "invalidateCache"],
 						],
+						"@vueuse/core": [
+							["*", "vueuse"],
+							["useDraggable", "useDraggable"],
+							["useVModel","useVModel"],
+							["useDateFormat","useDateFormat"],
+							["useWindowSize","useWindowSize"],
+							["useElementSize","useElementSize"],
+							["useUrlSearchParams","useUrlSearchParams"],
+							["useWebNotification","useWebNotification"],
+							["useStorage","useStorage"]
+						],
 						"@alova/scene-vue": [
 							["usePagination", "usePagination"],
 							["useSQRequest", "useSQRequest"],

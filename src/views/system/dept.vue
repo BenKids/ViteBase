@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //? 权限
-const isPermi = (v:TsGen.Permissions) => evPermi(v);
+const isPermit = (v:TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 新增弹框实例
@@ -74,7 +74,7 @@ function onUpdate(row:TsDept.TableItem) {
 			</base-form>
 		</template>
 		<template #handleLeft>
-			<base-button label="新增" v-if="isPermi(['system:dept:add'])" @click="onAdd"></base-button>
+			<base-button label="新增" v-if="isPermit(['system:dept:add'])" @click="onAdd"></base-button>
 		</template>
 		<template #table>
 			<base-table v-model="tableModel" v-loading="tableLoading" ref="tableRef" :row-key="tableKey">
@@ -84,9 +84,9 @@ function onUpdate(row:TsDept.TableItem) {
 				<base-table-time label="创建时间" prop="createTime"></base-table-time>
 				<base-table-special type="handle" width="216">
 					<template #default="scope">
-						<base-button label="新增" v-if="isPermi(['system:dept:edit'])" @click="onAdd(scope.row)"></base-button>
-						<base-button label="修改" v-if="isPermi(['system:dept:add'])" @click="onUpdate(scope.row)"></base-button>
-						<base-button label="删除" v-if="isPermi(['system:dept:remove']) && scope.row.parentId != 0" @click="onDelete(scope.row)"></base-button>
+						<base-button label="新增" v-if="isPermit(['system:dept:edit'])" @click="onAdd(scope.row)"></base-button>
+						<base-button label="修改" v-if="isPermit(['system:dept:add'])" @click="onUpdate(scope.row)"></base-button>
+						<base-button label="删除" v-if="isPermit(['system:dept:remove']) && scope.row.parentId != 0" @click="onDelete(scope.row)"></base-button>
 					</template>
 				</base-table-special>
 			</base-table>

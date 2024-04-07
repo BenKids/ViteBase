@@ -37,7 +37,7 @@ if (demo) {
                 <slot name="view"></slot>
             </div>
         </div>
-        <div class="the-base-vue part">
+        <div class="the-base-vue part" v-if="step || template">
             <template v-if="step">
                 <div class="part-title step">Step</div>
                 <div class="part-content step">

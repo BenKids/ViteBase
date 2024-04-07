@@ -166,6 +166,13 @@ namespace TsDialog {
 
     type Done = () => void;
 }
+namespace TsDraggable {
+    interface Sets {
+        x?: number;
+        y?: number;
+        disabled?: boolean;
+    }
+}
 namespace TsEchartsBar {
     interface Model {
         data: Data;
@@ -862,7 +869,6 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
-
         [x: string]: any;
     }
 
@@ -1084,6 +1090,40 @@ namespace TsTag {
     }
 
     type Options = Option[];
+}
+namespace TsTour {
+    type Model = boolean;
+    type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
+    interface Sets {
+        showArrow?: boolean;
+        placement?: Placement;
+        contentStyle?: string;
+        mask?: boolean | { style?: CSSProperties; color?: string; };
+        type?: "default" | "primary";
+        current?: number;
+        scrollIntoViewOptions?: boolean;
+        zIndex?: number;
+        showClose?: boolean;
+        closeIcon?: string;
+        closeOnPressEscape?: boolean;
+        targetAreaClickable?: boolean;
+    }
+    interface Option {
+        target?: `#${string}` | (() => HTMLElement);
+        title?: string;
+        description?: string;
+        showArrow?: boolean;
+        placement?: TsTour.Sets.Placement;
+        contentStyle?: string;
+        mask?: boolean | { style?: CSSProperties; color?: string; };
+        type?: "default" | "primary";
+        nextButtonProps?: { children: VueNode | string; onClick: Function }
+        prevButtonProps?: { children: VueNode | string; onClick: Function }
+        scrollIntoViewOptions?: boolean;
+        showClose?: boolean;
+        closeIcon?: string;
+    }
+    type Options = Option[]
 }
 namespace TsTree {
     type Model = string[] | number[] | string | number;

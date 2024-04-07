@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //? 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -106,9 +106,9 @@ function onDeleteMultiple() {
 			</base-form>
 		</template>
 		<template #handleLeftExtra>
-			<base-button label="新增" @click="dialogAdd = true" v-if="isPermi(['system:post:add'])"></base-button>
-			<base-button label="批量删除" :sets="setsDeleteMultiple" @click="onDeleteMultiple" v-if="isPermi(['system:post:remove'])"></base-button>
-			<base-button label="导出" v-if="isPermi(['system:post:export'])"></base-button>
+			<base-button label="新增" @click="dialogAdd = true" v-if="isPermit(['system:post:add'])"></base-button>
+			<base-button label="批量删除" :sets="setsDeleteMultiple" @click="onDeleteMultiple" v-if="isPermit(['system:post:remove'])"></base-button>
+			<base-button label="导出" v-if="isPermit(['system:post:export'])"></base-button>
 		</template>
 		<template #table>
 			<base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
@@ -121,8 +121,8 @@ function onDeleteMultiple() {
 				<base-table-tag label="状态" prop="status" :options="statusOptions"></base-table-tag>
 				<base-table-special type="handle">
 					<template #default="scope">
-						<base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermi(['system:post:edit'])"></base-button>
-						<base-button label="删除" @click="onDelete(scope.row)" v-if="isPermi(['system:post:remove'])"></base-button>
+						<base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:post:edit'])"></base-button>
+						<base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:post:remove'])"></base-button>
 					</template>
 				</base-table-special>
 			</base-table>

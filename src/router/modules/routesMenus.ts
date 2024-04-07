@@ -25,7 +25,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "用户管理",
 					keepAlive: true,
 					icon: IconSolarUserHandsLinear,
-					hidden: () => evPermi(["system:user:list"]),
+					hidden: () => evPermit(["system:user:list"]),
 				},
 			},
 			{
@@ -36,7 +36,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "角色管理",
 					keepAlive: true,
 					icon: IconSolarUsersGroupTwoRoundedLinear,
-					hidden: () => evPermi(["system:role:list"]),
+					hidden: () => evPermit(["system:role:list"]),
 				},
 			},
 			{
@@ -47,7 +47,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "部门管理",
 					keepAlive: true,
 					icon: IconSolarBuildingsLinear,
-					hidden: () => evPermi(["system:dept:list"]),
+					hidden: () => evPermit(["system:dept:list"]),
 				},
 			},
 			{
@@ -58,7 +58,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "岗位管理",
 					keepAlive: true,
 					icon: IconSolarCupLinear,
-					hidden: () => evPermi(["system:post:list"]),
+					hidden: () => evPermit(["system:post:list"]),
 				},
 			},
 			{
@@ -69,7 +69,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "字典管理",
 					keepAlive: true,
 					icon: IconSolarBook2Linear,
-					hidden: () => evPermi(["system:dict:list"]),
+					hidden: () => evPermit(["system:dict:list"]),
 				},
 			},
 			{
@@ -81,7 +81,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "字典数据",
 					keepAlive: true,
 					icon: IconSolarBook2Linear,
-					hidden: () => evPermi(["system:dict:list"]),
+					hidden: () => evPermit(["system:dict:list"]),
 				},
 			},{
 			    path: "Notice",
@@ -91,7 +91,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 			        label: "通知公告",
 			        keepAlive: true,
 			        icon: IconSolarChatDotsLinear,
-			        hidden: () => evPermi(["system:dict:list"]),
+			        hidden: () => evPermit(["system:dict:list"]),
 			    },
 			},
 		],
@@ -102,7 +102,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 		meta: {
 			label: "系统监控",
 			icon: IconSolarMonitorLinear,
-			hidden: () => evPermi(["monitor:operlog:list","monitor:logininfor:list"]),
+			hidden: () => evPermit(["monitor:operlog:list","monitor:logininfor:list"]),
 		},
 		children: [
 			{
@@ -113,7 +113,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "操作日志",
 					keepAlive: true,
 					icon: IconSolarFolderPathConnectLinear,
-					hidden: () => evPermi(["monitor:operlog:list"]),
+					hidden: () => evPermit(["monitor:operlog:list"]),
 				},
 			},{
 				path: "LogLogin",
@@ -123,7 +123,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 					label: "登录日志",
 					keepAlive: true,
 					icon: IconSolarFileRightLinear,
-					hidden: () => evPermi(["monitor/logininfor/index"]),
+					hidden: () => evPermit(["monitor/logininfor/index"]),
 				},
 			},{
 			    path: "Online",
@@ -133,7 +133,7 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 			        label: "在线用户",
 			        keepAlive: true,
 			        icon: IconSolarUserCheckRoundedLinear,
-			        hidden: () => evPermi(["monitor:online:list"]),
+			        hidden: () => evPermit(["monitor:online:list"]),
 			    },
 			}, {
 			    path: "Serve",
@@ -141,9 +141,9 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 			    component: () => import("@/views/monitor/serve.vue"),
 			    meta: {
 			        label: "服务监控",
-			        keepAlive: true,
+			        keepAlive: false,
 			        icon: IconSolarServer2Linear,
-			        hidden: () => evPermi(["monitor:server:list"]),
+			        hidden: () => evPermit(["monitor:server:list"]),
 			    },
 			}
 		],

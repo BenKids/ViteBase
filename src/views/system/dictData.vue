@@ -1,10 +1,10 @@
 <script setup lang="ts">
 //? 全局变量
 const soreSystem = system();
-//? 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+//permit 权限判断
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 //? 参数获取
-const route = useRoute();
+const params = useUrlSearchParams('hash');
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -47,8 +47,8 @@ const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} 
 const {send: sendDelete } = apiDict.dataDelete();
 //todo 获取页面传值
 onMounted(async () => {
-    if(!route.query || !route.query.dictId) return;
-    const res = await getDictMsg(route.query.dictId);
+    if(!params.dictId) return;
+    const res = await getDictMsg(params.dictId);
     formModel.dictType = res.dictType;
 })
 
@@ -102,9 +102,9 @@ function onBack() {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="新增" @click="onAdd" v-if="isPermi(['system:dict:add'])"></base-button>
-            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermi(['system:dict:remove'])"></base-button>
-            <base-button label="导出" v-if="isPermi(['system:dict:export'])"></base-button>
+            <base-button label="新增" @click="onAdd" v-if="isPermit(['system:dict:add'])"></base-button>
+            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermit(['system:dict:remove'])"></base-button>
+            <base-button label="导出" v-if="isPermit(['system:dict:export'])"></base-button>
             <base-button label="返回" @click="onBack"></base-button>
         </template>
         <template #table>
@@ -119,8 +119,8 @@ function onBack() {
                 <base-table-time label="创建时间" prop="createTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermi(['system:dict:edit'])"></base-button>
-                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermi(['system:dict:remove'])"></base-button>
+                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:dict:edit'])"></base-button>
+                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:dict:remove'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

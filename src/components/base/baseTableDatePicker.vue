@@ -11,9 +11,9 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-    <base-table-column :label="label" :prop="prop" :sets="sets" :class-name="'base-table-date-picker ' + sets.className">
+    <base-table-column :label="label" :prop="prop" :sets="{width: 200, ...sets}" :class-name="'base-table-date-picker ' + sets.className">
         <template #default="scope">
-            <base-date-picker v-model="scope.row[prop]" v-bind="$attrs" :sets="sets"></base-date-picker>
+            <base-date-picker v-model="scope.row[prop]" v-bind="$attrs" :sets="{type: 'datetime', ...sets}"></base-date-picker>
         </template>
     </base-table-column>
 </template>

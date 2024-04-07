@@ -34,14 +34,7 @@ const defaultProps = {
     disabled: "disabled",
 };
 const emits = defineEmits(["update:modelValue", "change"]);
-const model = computed({
-    get: () => {
-        return props.modelValue;
-    },
-    set: (val) => {
-        emits("update:modelValue", val);
-    },
-});
+const model = useVModel(props,"modelValue",emits);
 const multiple = (() => {
     if (modelType == "array") return true;
     return false;

@@ -8,6 +8,7 @@ export default {
                 },
             }),
             {
+                force: true,
                 immediate: true,
                 initialData: {
                     cpu: {

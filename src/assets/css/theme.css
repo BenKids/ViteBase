@@ -125,7 +125,7 @@ vite-error-overlay {
 
 /*菜单导航*/
 .base-menu {
-    border-right: none;
+    border-right: none!important;
 }
 
 .base-menu:not(.el-menu--collapse) {

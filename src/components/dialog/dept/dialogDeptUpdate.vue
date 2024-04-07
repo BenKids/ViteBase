@@ -1,30 +1,35 @@
 <script setup lang="ts">
 // 表单实例
 const formRef = ref();
-//* 弹框设置
+//sets 弹框设置
 const dialogSets: TsDialog.Sets = {
     width: 500,
     beforeClose: onClose,
 };
-//* 表单设置
+//sets 表单设置
 const formSets: TsForm.Sets = {
     labelWidth: "7em",
     inline: false,
 };
-//* 显示顺序
+//sets 上级部门设置
+const setsTreeSelect:TsFormTreeSelect.Sets = {
+    required: true,
+    checkStrictly: true,
+}
+//sets 显示顺序
 const setsOrderNum: TsFormNumber.Sets = {
     min: 0,
     required: true,
 };
-//* 联系电话
+//sets 联系电话
 const setsPhone: TsFormInput.Sets = {
     required: 'phone',
 }
-//* 邮箱设置
+//sets 邮箱设置
 const setsEmail: TsFormInput.Sets = {
     required: "email",
 }
-//* 必填项
+//sets 必填项
 const setsRequired: TsFormItem.Sets = {
     required: true,
 };
@@ -93,7 +98,7 @@ defineExpose({
 <template>
     <base-dialog v-model="model" title="修改部门" :sets="dialogSets">
         <base-form v-model="formModel" ref="formRef" :sets="formSets">
-            <base-form-tree-select label="上级部门" prop="parentId" :options="optionsDeptId" :sets="setsRequired" v-if="formModel.parentId != 0"></base-form-tree-select>
+            <base-form-tree-select label="上级部门" prop="parentId" :options="optionsDeptId" :sets="setsTreeSelect" v-if="formModel.parentId != 0"></base-form-tree-select>
             <base-form-input label="部门名称" prop="deptName" :sets="setsRequired"></base-form-input>
             <base-form-number label="显示顺序" prop="orderNum" :sets="setsOrderNum"></base-form-number>
             <base-form-input label="负责人" prop="leader"></base-form-input>

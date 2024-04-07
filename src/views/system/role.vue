@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //? 权限
-const isPermi = (v:TsGen.Permissions) => evPermi(v);
+const isPermit = (v:TsGen.Permissions) => evPermit(v);
 //? 表单实例
 const formRef = ref();
 //ref 表单数据
@@ -120,9 +120,9 @@ function onDeleteMultiple() {
 			</base-form>
 		</template>
 		<template #handleLeftExtra>
-			<base-button label="新增" v-if="isPermi(['system:role:add'])" @click="dialogAdd = true"></base-button>
-			<base-button label="批量删除" v-if="isPermi(['system:role:remove'])" :sets="setsDeleteMultiple" @click="onDeleteMultiple"></base-button>
-			<base-button label="导出" v-if="isPermi(['system:role:export'])"></base-button>
+			<base-button label="新增" v-if="isPermit(['system:role:add'])" @click="dialogAdd = true"></base-button>
+			<base-button label="批量删除" v-if="isPermit(['system:role:remove'])" :sets="setsDeleteMultiple" @click="onDeleteMultiple"></base-button>
+			<base-button label="导出" v-if="isPermit(['system:role:export'])"></base-button>
 		</template>
 		<template #table>
 			<base-table v-model="tableModel" v-model:selectData="tableSelect" ref="tableRef" :sets="tableSets">
@@ -135,9 +135,9 @@ function onDeleteMultiple() {
 				<base-table-time label="创建时间" prop="createTime"></base-table-time>
 				<base-table-special type="handle" width="240">
 					<template #default="scope">
-						<base-button label="修改" v-if="scope.row.roleKey != 'admin' && isPermi(['system:role:edit'])" @click="onUpdate(scope.row)"></base-button>
-						<base-button label="数据权限" :sets="setsPermi" v-if="scope.row.roleKey != 'admin' && isPermi(['system:role:edit'])" @click="onAuth(scope.row)"></base-button>
-						<base-button label="删除" v-if="scope.row.roleKey != 'admin' && isPermi(['system:role:remove'])" @click="onDelete(scope.row)"></base-button>
+						<base-button label="修改" v-if="scope.row.roleKey != 'admin' && isPermit(['system:role:edit'])" @click="onUpdate(scope.row)"></base-button>
+						<base-button label="数据权限" :sets="setsPermi" v-if="scope.row.roleKey != 'admin' && isPermit(['system:role:edit'])" @click="onAuth(scope.row)"></base-button>
+						<base-button label="删除" v-if="scope.row.roleKey != 'admin' && isPermit(['system:role:remove'])" @click="onDelete(scope.row)"></base-button>
 					</template>
 				</base-table-special>
 			</base-table>

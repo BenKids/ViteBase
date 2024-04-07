@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //permit 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -76,9 +76,9 @@ function onDetail(row: TsLogOper.TableItem) {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="批量删除" :sets="setsBatch" @click="onDeleteBatch" v-if="isPermi(['monitor:operlog:remove'])"></base-button>
-            <base-button label="清空" @click="onClear" v-if="isPermi(['monitor:operlog:remove'])"></base-button>
-            <base-button label="导出" v-if="isPermi(['monitor:operlog:export'])"></base-button>
+            <base-button label="批量删除" :sets="setsBatch" @click="onDeleteBatch" v-if="isPermit(['monitor:operlog:remove'])"></base-button>
+            <base-button label="清空" @click="onClear" v-if="isPermit(['monitor:operlog:remove'])"></base-button>
+            <base-button label="导出" v-if="isPermit(['monitor:operlog:export'])"></base-button>
         </template>
         <template #table>
             <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">

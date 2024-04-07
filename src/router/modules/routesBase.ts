@@ -101,6 +101,15 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			        icon: IconSolarNotificationLinesRemoveLinear,
 			    },
 			},{
+			    path: "Draggable",
+			    name: "Draggable",
+			    component: () => import("@/views/base/draggable.vue"),
+			    meta: {
+			        label: "自由拖拽",
+			        keepAlive: true,
+			        icon: IconSolarHandShakeLinear,
+			    },
+			},{
 			    path: "EchartsBar",
 			    name: "EchartsBar",
 			    component: () => import("@/views/base/echartsBar.vue"),
@@ -245,6 +254,15 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			        icon: IconSolarWidget5Linear,
 			    },
 			},{
+				path: "Notification",
+				name: "Notification",
+				component: () => import("@/views/base/notification.vue"),
+				meta: {
+					label: "桌面消息通知",
+					keepAlive: true,
+					icon: IconSolarNotificationUnreadLinesLinear,
+				},
+			},{
 			    path: "Pagination",
 			    name: "Pagination",
 			    component: () => import("@/views/base/pagination.vue"),
@@ -342,6 +360,15 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			        label: "标签",
 			        keepAlive: true,
 			        icon: IconSolarBookmarkOpenedLinear,
+			    },
+			},{
+			    path: "Tour",
+			    name: "Tour",
+			    component: () => import("@/views/base/tour.vue"),
+			    meta: {
+			        label: "漫游式引导",
+			        keepAlive: true,
+			        icon: IconSolarSignpost2Linear,
 			    },
 			},{
 			    path: "Tree",

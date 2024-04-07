@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //permit 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -85,8 +85,8 @@ function onDelete(row: TsNotice.TableItem) {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="新增" @click="onAdd" v-if="isPermi(['system:notice:add'])"></base-button>
-            <base-button label="批量删除" :sets="setsDeleteBatch" v-if="isPermi(['system:notice:remove'])"></base-button>
+            <base-button label="新增" @click="onAdd" v-if="isPermit(['system:notice:add'])"></base-button>
+            <base-button label="批量删除" :sets="setsDeleteBatch" v-if="isPermit(['system:notice:remove'])"></base-button>
         </template>
         <template #table>
             <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
@@ -98,8 +98,8 @@ function onDelete(row: TsNotice.TableItem) {
                 <base-table-time label="创建时间" prop="createTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermi(['system:notice:edit'])"></base-button>
-                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermi(['system:notice:remove'])"></base-button>
+                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:notice:edit'])"></base-button>
+                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:notice:remove'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

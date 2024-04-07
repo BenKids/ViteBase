@@ -40,4 +40,7 @@
 .base-avatar.black {
     background-color: var(--el-text-color-primary);
 }
+.base-avatar :deep(img) {
+    pointer-events: none;
+}
 </style>

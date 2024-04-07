@@ -9,10 +9,7 @@ const props = withDefaults(defineProps<{
     }
 })
 const emits = defineEmits(["update:modelValue"])
-const show = computed({
-    get: () => props.modelValue,
-    set: (val) => emits("update:modelValue", val)
-})
+const show = useVModel(props,"modelValue",emits);
 </script>
 
 <template>

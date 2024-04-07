@@ -6,7 +6,7 @@ const setsUnlock:TsButton.Sets = {
     type: "success",
     icon: markRaw(IconSolarLockUnlockedLinear)
 }
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -62,9 +62,9 @@ function onUnlock(row:TsLogLogin.TableItem) {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="批量删除" :sets="setsDeleteBatch" v-if="isPermi(['monitor:logininfor:remove'])"></base-button>
-            <base-button label="清空" v-if="isPermi(['monitor:logininfor:remove'])"></base-button>
-            <base-button label="导出" v-if="isPermi(['monitor:logininfor:export'])"></base-button>
+            <base-button label="批量删除" :sets="setsDeleteBatch" v-if="isPermit(['monitor:logininfor:remove'])"></base-button>
+            <base-button label="清空" v-if="isPermit(['monitor:logininfor:remove'])"></base-button>
+            <base-button label="导出" v-if="isPermit(['monitor:logininfor:export'])"></base-button>
         </template>
         <template #table>
             <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
@@ -80,7 +80,7 @@ function onUnlock(row:TsLogLogin.TableItem) {
                 <base-table-time label="登录日期" prop="loginTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="解锁" :sets="setsUnlock" @click="onUnlock(scope.row)" v-if="isPermi(['monitor:logininfor:unlock'])"></base-button>
+                        <base-button label="解锁" :sets="setsUnlock" @click="onUnlock(scope.row)" v-if="isPermit(['monitor:logininfor:unlock'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

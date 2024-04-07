@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //permit 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 //sets 强退按钮设置
 const setsForceLogout:TsButton.Sets = {
     type: "danger",
@@ -60,7 +60,7 @@ function onForceLogout(row:TsOnline.TableItem) {
                 <base-table-time label="登录时间" prop="loginTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="强退" :sets="setsForceLogout" @click="onForceLogout(scope.row)" v-if="isPermi(['monitor:online:forceLogout'])"></base-button>
+                        <base-button label="强退" :sets="setsForceLogout" @click="onForceLogout(scope.row)" v-if="isPermit(['monitor:online:forceLogout'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

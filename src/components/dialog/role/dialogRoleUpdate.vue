@@ -6,10 +6,7 @@ const props = withDefaults(
 	{}
 );
 const emits = defineEmits(["update:modelValue"]);
-const model = computed({
-	get: () => props.modelValue,
-	set: (val) => emits("update:modelValue", val),
-});
+const model = useVModel(props,"modelValue",emits);
 //* 弹框设置
 const dialogSets: TsDialog.Sets = {
 	width: 1100,

@@ -8,10 +8,7 @@ const props = withDefaults(defineProps<{
     }
 })
 const emits = defineEmits(["update:modelValue","blur","change"]);
-const model = computed({
-    get: () => props.modelValue,
-    set: val => emits("update:modelValue",val),
-})
+const model = useVModel(props,"modelValue",emits);
 const tableIn = inject("tableIn",false);
 const numberRef = ref();
 let isEdit = ref<boolean>(false);

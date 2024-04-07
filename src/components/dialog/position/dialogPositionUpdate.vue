@@ -12,10 +12,7 @@ const dialogSets: TsDialog.Sets = {
 	},
 };
 const emits = defineEmits(["update:modelValue"]);
-const model = computed({
-	get: () => props.modelValue,
-	set: (val) => emits("update:modelValue", val),
-});
+const model = useVModel(props,"modelValue",emits);
 //* 表单设置
 const formSets: TsForm.Sets = {
 	inline: false,

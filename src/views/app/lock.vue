@@ -1,17 +1,11 @@
 <script setup lang="ts">
+const {useNow, useDateFormat} = vueuse;
+const {storeToRefs} = pinia;
 const stores = system();
-let {lock} = pinia.storeToRefs(stores);
-const {avatar} = pinia.storeToRefs(user());
+let {lock} = storeToRefs(stores);
+const {avatar} = storeToRefs(user());
 const avatarSize = ref<number>(70);
-let time = ref<string>("00:00:00");
-let timeInter = setInterval(() => updateTime(), 1000)
-
-function updateTime() {
-    time.value = evDateFormat({
-        date: new Date(),
-        fmt: "hh:mm:ss"
-    })
-}
+let time = useDateFormat(useNow(), 'HH:mm:ss');
 
 function onMouseEnter() {
     avatarSize.value = 80;
@@ -25,8 +19,6 @@ function unlock() {
     lock.value = false;
     router.back();
 }
-onMounted(() => updateTime());
-onUnmounted(() => clearInterval(timeInter));
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 权限判断
-const isPermi = (v: TsGen.Permissions) => evPermi(v);
+const isPermit = (v: TsGen.Permissions) => evPermit(v);
 // 表单实例
 const formRef = ref();
 // 表格实例
@@ -91,9 +91,9 @@ function onExport() {
             </base-form>
         </template>
         <template #handleLeftExtra>
-            <base-button label="新增" v-if="isPermi(['system:dict:add'])" @click="onAdd"></base-button>
-            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermi(['system:dict:remove'])"></base-button>
-            <base-button label="导出" v-if="isPermi(['system:dict:export'])" @click="onExport"></base-button>
+            <base-button label="新增" v-if="isPermit(['system:dict:add'])" @click="onAdd"></base-button>
+            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermit(['system:dict:remove'])"></base-button>
+            <base-button label="导出" v-if="isPermit(['system:dict:export'])" @click="onExport"></base-button>
         </template>
         <template #table>
             <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
@@ -111,8 +111,8 @@ function onExport() {
                 <base-table-time label="创建时间" prop="createTime"></base-table-time>
                 <base-table-special type="handle">
                     <template #default="scope">
-                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermi(['system:dict:edit'])"></base-button>
-                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermi(['system:dict:remove'])"></base-button>
+                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:dict:edit'])"></base-button>
+                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:dict:remove'])"></base-button>
                     </template>
                 </base-table-special>
             </base-table>

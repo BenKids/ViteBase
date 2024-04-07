@@ -15,7 +15,7 @@ namespace TsGen {
 		[propName: string | number]: any;
 	}
 	// 日期格式
-	type Fmt = "YYYY-MM-DD hh:mm:ss" | "YYYY-MM-DD hh:mm" | "YYYY-MM-DD" | "YYYY-MM" | "MM-DD" | "hh:mm:ss" | "mm:ss";
+	type Fmt = "YYYY-MM-DD hh:mm:ss" | "YYYY-MM-DD hh:mm" | "YYYY-MM-DD" | "YYYY-MM" | "MM-DD" | "hh:mm:ss" | "mm:ss" | "YYYY";
 	type Date = `${number}-${number}-${number}`;
 	type Time = `${number}-${number}-${number} ${number}:${number}:${number}`;
 	type CreateTime = Date | string;
