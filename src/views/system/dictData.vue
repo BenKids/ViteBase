@@ -45,27 +45,27 @@ const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} = apiDict.data(formModel);
 //api 删除数据
 const {send: sendDelete } = apiDict.dataDelete();
-//todo 获取页面传值
+//handle 获取页面传值
 onMounted(async () => {
     if(!params.dictId) return;
     const res = await getDictMsg(params.dictId);
     formModel.dictType = res.dictType;
 })
 
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
-//todo 新增
+//handle 新增
 function onAdd() {
     dialogAddRef.value.open(formModel.dictType);
 }
-//todo 修改
+//handle 修改
 async function onUpdate(row: TsDictData.TableItem) {
     dialogUpdateRef.value.open(row.dictCode);
 }
 
-//todo 删除
+//handle 删除
 function onDelete(row: TsDictData.TableItem) {
     ElMessageBox
         .confirm("是否确认删除字典编码为“" + row.dictCode + "”的数据项？","系统警告",{
@@ -83,7 +83,7 @@ function onDelete(row: TsDictData.TableItem) {
         })
         .catch(()=>{})
 }
-//todo 返回
+//handle 返回
 function onBack() {
     router.back();
     soreSystem.removeTabs("DictData");

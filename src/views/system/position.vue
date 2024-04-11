@@ -36,16 +36,16 @@ const { data: statusOptions } = apiGen.dicts("sys_normal_disable");
 //api 删除接口
 let postId = ref<TsPosition.Id>("");
 const { send: sendDelete } = apiPosition.delete(postId);
-//todo 重置
+//handle 重置
 function reload() {
 	formRef.value.resetFields();
 }
-//todo 修改
+//handle 修改
 function onUpdate(row: TsPosition.TableItem) {
 	dialogUpdate.value = true;
 	dialogUpdateRef.value.getRow(row);
 }
-//todo 删除
+//handle 删除
 function onDelete(row: TsPosition.TableItem) {
 	ElMessageBox.confirm("是否确认删除岗位编号为“" + row.postId + "”的数据项?", "警告", {
 		confirmButtonText: "确认",
@@ -65,7 +65,7 @@ function onDelete(row: TsPosition.TableItem) {
 		})
 		.catch(() => {});
 }
-//todo 批量删除
+//handle 批量删除
 function onDeleteMultiple() {
     let ids = "";
     for (let index = 0; index < tableSelect.value.length; index++) {

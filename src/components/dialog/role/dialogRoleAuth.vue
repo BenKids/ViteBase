@@ -1,22 +1,18 @@
 <script setup lang="ts">
-const props = withDefaults(
-    defineProps<{
-        modelValue: TsDialog.Model;
-    }>(),
-    {}
-);
-const emits = defineEmits(["update:modelValue"]);
-const model = useVModel(props,"modelValue",emits);
-//* 弹框设置
-const dialogSets: TsDialog.Sets = {
-    width: 500,
-    beforeClose: (done) => {
-        formRef.value.clearValidate();
-        done();
-    },
+//sets 角色名称设置
+const roleNameSets: TsFormInput.Sets = {
+    readonly: true,
 };
-//? 表单实例
-const formRef = ref();
+//sets 权限字符设置
+const roleKeySets: TsFormInput.Sets = {
+    readonly: true,
+};
+//sets 数据权限设置
+const deptSets: TsTree.Sets = {
+    showCheckbox: true,
+    handleBtn: true,
+    checkOnClickNode: true,
+};
 //ref 表单数据
 let formModel = reactive<TsRoleAuth.FormModel>({
     roleId: "",
@@ -26,34 +22,27 @@ let formModel = reactive<TsRoleAuth.FormModel>({
     deptCheckStrictly: false,
     deptIds: [],
 });
-//* 表单设置
-const formSets: TsForm.Sets = {
-    labelWidth: "7em",
-    inline: false,
-};
-//* 角色名称设置
-const roleNameSets: TsFormInput.Sets = {
-    readonly: true,
-};
-//* 权限字符设置
-const roleKeySets: TsFormInput.Sets = {
-    readonly: true,
-};
-//api 权限范围数据
-const optionsAuth = apiRole.auth();
-//* 数据权限设置
-const deptSets: TsTree.Sets = {
-    showCheckbox: true,
-    handleBtn: true,
-    checkOnClickNode: true,
-};
 //ref 数据权限数据
 let optionsDept = reactive<TsTree.Options>([]);
+//api 权限范围数据
+const optionsAuth = apiRole.auth();
 //api 数据权限数据
 const {send: sendDept} = apiDept.roleId();
+//api 提交表单
+const {send: sendSubmit} = apiRole.updatePermit(formModel);
+//composable 弹框表单组合式函数
+const {dialogSets, formRef, formSets, visible, confirm, close} = comDialogForm({
+    dialogSets: {
+        width: 500,
+    },
+    formSets: {
+        inline: false,
+    }
+});
 
-//todo 数据回显
-async function getRow(row: TsRole.TableItem) {
+//handle 数据回显
+async function open(row: TsRole.TableItem) {
+    visible.value = true;
     formModel = evReObj({
         obj: formModel,
         cover: row,
@@ -63,38 +52,24 @@ async function getRow(row: TsRole.TableItem) {
     formModel.deptIds = deptObj.checkedKeys;
 }
 
-//todo 确定
-const {send: sendSubmit} = apiRole.updatePermit(formModel);
-
+//handle 确定
 function onConfirm() {
-    formRef.value
-        .validate()
-        .then(() => {
-            return sendSubmit();
-        })
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "数据权限修改成功",
-            });
-            formRef.value.resetFields();
-            onClose();
-            accessAction("apiRoleTable", (el) => el.refresh());
+    confirm().then(() => sendSubmit()).then(() => {
+        ElMessage({
+            type: "success",
+            message: "数据权限修改成功",
         });
-}
-
-//todo 取消
-function onClose() {
-    formRef.value.clearValidate();
-    model.value = false;
+        accessAction("apiRoleTable", (el) => el.refresh());
+        close();
+    });
 }
 
 defineExpose({
-    getRow,
+    open,
 });
 </script>
 <template>
-    <base-dialog v-model="model" title="分配数据权限" :sets="dialogSets" class="dialog-role-auth">
+    <base-dialog v-model="visible" title="分配数据权限" :sets="dialogSets" class="dialog-role-auth">
         <base-form v-model="formModel" ref="formRef" :sets="formSets">
             <base-form-input label="角色名称" prop="roleName" :sets="roleNameSets"></base-form-input>
             <base-form-input label="权限字符" prop="roleKey" :sets="roleKeySets"></base-form-input>
@@ -105,7 +80,7 @@ defineExpose({
         </base-form>
         <template #footer>
             <base-button label="确定" @click="onConfirm"></base-button>
-            <base-button label="取消" @click="onClose"></base-button>
+            <base-button label="取消" @click="close"></base-button>
         </template>
     </base-dialog>
 </template>

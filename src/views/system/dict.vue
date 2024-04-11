@@ -39,22 +39,22 @@ const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} 
 //api 删除请求
 const {send: sendDelete} = apiDict.delete();
 
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
 
-//todo 新增
+//handle 新增
 function onAdd() {
     dialogAddRef.value.open();
 }
 
-//todo 修改
+//handle 修改
 function onUpdate(row: TsDict.TableItem) {
     dialogUpdateRef.value.open(row.dictId);
 }
 
-//todo 删除
+//handle 删除
 function onDelete(row: TsDict.TableItem) {
     ElMessageBox.confirm("确认删除字典编号为“" + row.dictId + "”的数据项？删除后无法恢复！", "系统警告", {
         confirmButtonText: "确认",
@@ -72,7 +72,7 @@ function onDelete(row: TsDict.TableItem) {
         });
 }
 
-//todo 导出
+//handle 导出
 function onExport() {
 
 }

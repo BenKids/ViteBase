@@ -36,10 +36,10 @@ watch(
         } else {
             getChecked();
             treeKey.value = treeKey.value ? 0 : 1
-        };
+        }
     }
 );
-//todo 选中回显
+//handle 选中回显
 function getChecked() {
     if(typeof(props.modelValue) == "object") {
         let keys:(string | number)[] = [];
@@ -58,19 +58,19 @@ function getChecked() {
 }
 //ref 用于判断是否是本组件内的操作，防止props.modelValue的监听事件重复执行
 let clickVal = ref<boolean>(false);
-//todo 移除高亮
+//handle 移除高亮
 const removeHighlight = () => {
     const current = treeRef.value.$el.getElementsByClassName("is-current");
     if(current && current.length > 0) {
         current[0].classList.remove("is-current");
     }
 }
-//todo 重置
+//handle 重置
 const reset = () => {
     removeHighlight();
     filterText.value = "";
 }
-//todo 节点点击
+//handle 节点点击
 function onNodeClick(params:TsTree.Option) {
     clickVal.value = true;
     if(!props.sets.showCheckbox) {
@@ -78,7 +78,7 @@ function onNodeClick(params:TsTree.Option) {
     }
     emits("nodeClick",params);
 }
-//todo 多选框选择
+//handle 多选框选择
 function onCheckbox(item:TsTree.Option) {
     clickVal.value = true;
     let modelValue = treeRef.value.getCheckedKeys();
@@ -86,7 +86,7 @@ function onCheckbox(item:TsTree.Option) {
     emits("update:modelValue",modelValue);
     emits("checkChange",item);
 }
-//todo 全部收起
+//handle 全部收起
 function onFold(val: boolean) {
     let nodes = treeRef.value.store.nodesMap;
     for (const key in nodes) {

@@ -27,9 +27,6 @@ namespace TsUser {
         postIds: TsPosition.Id[];
     }
 
-
-
-
     interface UpdateStatus {
         userId: Id;
         status: TsGen.StatusIs | "";

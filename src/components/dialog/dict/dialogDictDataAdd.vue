@@ -39,7 +39,7 @@ const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 //api 提交表单
 const {send: sendSubmit} = apiDict.dataAdd(formModel);
 
-//todo 确定
+//handle 确定
 function onConfirm() {
     formRef.value
         .validate()
@@ -54,13 +54,13 @@ function onConfirm() {
         })
 }
 
-//todo 取消
+//handle 取消
 function onClose() {
     formRef.value.resetFields();
     model.value = false;
 }
 
-//todo 打开弹框
+//handle 打开弹框
 function open(type: TsDict.Type) {
     model.value = true;
     formModel.dictType = type;

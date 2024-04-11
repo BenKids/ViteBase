@@ -41,7 +41,7 @@ const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 const {send: sendSubmit} = apiDict.dataUpdate(formModel);
 //api 修改数据信息获取
 const {send: sendDataMsg} = apiDict.dataMsg();
-//todo 确定
+//handle 确定
 function onConfirm() {
     formRef.value
         .validate()
@@ -56,13 +56,13 @@ function onConfirm() {
         })
 }
 
-//todo 取消
+//handle 取消
 function onClose() {
     formRef.value.resetFields();
     model.value = false;
 }
 
-//todo 打开弹框
+//handle 打开弹框
 async function open(id:TsDict.Id) {
     model.value = true;
     const dataMsg = await sendDataMsg(id);

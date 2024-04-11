@@ -39,11 +39,11 @@ const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} 
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_common_status");
 
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
-//todo 解锁
+//handle 解锁
 function onUnlock(row:TsLogLogin.TableItem) {
     console.log("[row]",row);
 }

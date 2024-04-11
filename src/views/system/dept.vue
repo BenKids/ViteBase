@@ -28,15 +28,15 @@ let rowDeptId = ref<TsDept.DeptId>("");
 const { send:sendDel } = apiDept.deptDel(rowDeptId);
 //api 表格数据
 const { loading: tableLoading, data: tableModel, send: sendTable } = apiDept.table(formModel);
-//todo 重置
+//handle 重置
 function onReset() {
 	formRef.value.resetFields();
 }
-//todo 新增
+//handle 新增
 function onAdd(row?: TsDept.TableItem) {
 	dialogAddRef.value.open(row ? row.deptId : undefined);
 }
-//todo 删除
+//handle 删除
 function onDelete(row:TsDept.TableItem) {
 	ElMessageBox
 		.confirm("是否确认删除“"+row.deptName+"”？删除后无法恢复","警告",{
@@ -57,7 +57,7 @@ function onDelete(row:TsDept.TableItem) {
 		})
 		.catch(()=>{})
 }
-//todo 修改
+//handle 修改
 function onUpdate(row:TsDept.TableItem) {
 	dialogUpdateRef.value.open(row.deptId);
 }

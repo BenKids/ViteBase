@@ -33,7 +33,7 @@ const { data: optionsStatus } = apiGen.dicts("sys_normal_disable");
 const { send: sendGet } = apiDict.msg();
 //api 提交数据
 const { send: sendSubmit } = apiDict.update(formModel);
-//todo 确定
+//handle 确定
 function onConfirm() {
 	formRef.value
 		.validate()
@@ -47,12 +47,12 @@ function onConfirm() {
 			accessAction("apiDictTable", (api) => api.refresh());
 		});
 }
-//todo 取消
+//handle 取消
 function onClose() {
 	formRef.value.resetFields();
 	model.value = false;
 }
-//todo 打开弹框
+//handle 打开弹框
 async function open(id: TsDict.Id) {
 	model.value = true;
 	formModel = evReObj({

@@ -68,12 +68,12 @@ const {data: optionsType} = apiGen.dicts("sys_oper_type");
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_common_status");
 
-//todo 关闭
+//handle 关闭
 function onClose() {
     model.value = false;
 }
 
-//todo 打开弹框
+//handle 打开弹框
 function open(row: TsLogOper.TableItem) {
     model.value = true;
     formModel = row;

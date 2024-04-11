@@ -34,16 +34,16 @@ const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} 
 const {data: optionsType} = apiGen.dicts("sys_oper_type");
 //api 状态数据
 const {data:optionsStatus} = apiGen.dicts("sys_common_status");
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
 
-//todo 批量删除
+//handle 批量删除
 function onDeleteBatch() {
     console.log("[tableSelect.value]", tableSelect.value);
 }
-//todo 清空
+//handle 清空
 function onClear() {
     ElMessageBox
         .confirm("是否确认清空所有操作日志数据项？","系统警告",{
@@ -54,7 +54,7 @@ function onClear() {
         .then(()=>{})
         .catch(()=>{})
 }
-//todo 详细
+//handle 详细
 function onDetail(row: TsLogOper.TableItem) {
     console.log("[row]", row);
     dialogDetailRef.value.open(row);

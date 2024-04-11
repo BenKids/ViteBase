@@ -68,22 +68,22 @@ const {send: getExport} = apiUser.export(formModel);
 //api 修改状态
 const {send: sendStatus} = apiUser.updateStatus(statusObj);
 
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
 
-//todo 新增
+//handle 新增
 function onAdd() {
     dialogAddRef.value.open();
 }
 
-//todo 修改
+//handle 修改
 function onEdit(row: TsUser.TableItem) {
     dialogUpdateRef.value.open(row.userId);
 }
 
-//todo 删除
+//handle 删除
 function onDelete(row: TsUser.TableItem) {
     ElMessageBox.confirm("是否确认删除用户“" + row.nickName + "”？", "警告", {
         confirmButtonText: "确认",
@@ -102,7 +102,7 @@ function onDelete(row: TsUser.TableItem) {
         });
 }
 
-//todo 批量删除
+//handle 批量删除
 function onDeleteMultiple() {
     const ids = evArrGetKey({
         data: tableSelect.value,
@@ -125,7 +125,7 @@ function onDeleteMultiple() {
         });
 }
 
-//todo 重置密码
+//handle 重置密码
 function onReset(row: TsUser.TableItem) {
     ElMessageBox.prompt("请输入" + row.userName + "的新密码", "提示", {
         confirmButtonText: "确认",
@@ -148,7 +148,7 @@ function onReset(row: TsUser.TableItem) {
         });
 }
 
-//todo 导出
+//handle 导出
 function onExport() {
     ElMessageBox.confirm("是否确认导出所有用户数据项?", "系统提示", {
         confirmButtonText: "确认",
@@ -165,7 +165,7 @@ function onExport() {
         });
 }
 
-//todo 切换状态
+//handle 切换状态
 function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
     const text = val === "1" ? "停用" : "启用";
     ElMessageBox.confirm("确认要" + text + "用户“" + row.userName + "”吗？", "系统提示", {

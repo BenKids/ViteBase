@@ -34,11 +34,11 @@ const optBreadcrumb = computed(() => {
 });
 //api 退出登录
 const {send: sendLogout} = apiLogin.logout();
-//todo 导航折叠
+//handle 导航折叠
 function onCollapse() {
     collapse.value = !collapse.value;
 }
-//todo 锁屏
+//handle 锁屏
 function onLock() {
     lock.value = true;
     router.push({

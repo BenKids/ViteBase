@@ -67,9 +67,7 @@ const resize = function () {
     });
 };
 const resizeEv = evDebounce({
-    func: () => {
-        resize();
-    },
+    func: resize,
     wait: 300,
 });
 const clear = function () {
@@ -129,11 +127,7 @@ init();
 
 function maxFn() {
     let max = 0;
-    let objActive = "";
-    for (const key in props.options) {
-        objActive = key;
-        break;
-    }
+    let objActive = Object.keys(props.options)[0];
     for (const key in props.data) {
         let item = props.data[key];
         if (item && objActive && Number(item[objActive]) > max) {
@@ -242,11 +236,7 @@ const setOption = function () {
                         },
                         // 数据：
                         data: (() => {
-                            let objActive = "";
-                            for (const key in props.options) {
-                                objActive = key;
-                                break;
-                            }
+                            let objActive = Object.keys(props.options)[0];
                             let res = [];
                             for (let index = 0; index < mapOptions[adcode.value].regions.length; index++) {
                                 const item = mapOptions[adcode.value].regions[index];

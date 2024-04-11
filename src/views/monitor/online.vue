@@ -24,11 +24,11 @@ let tableSelect = ref<TsOnline.Table>([]);
 //api 表格数据
 const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} = apiOnline.table(formModel);
 
-//todo 重置
+//handle 重置
 function reload() {
     formRef.value.resetFields();
 }
-//todo 强退
+//handle 强退
 function onForceLogout(row:TsOnline.TableItem) {
     console.log("[row]",row);
 }

@@ -30,7 +30,7 @@ let formModel = reactive<TsDictAdd.FormModel>({
 const { data: optionsStatus } = apiGen.dicts("sys_normal_disable");
 //api 提交表单
 const { send: sendSubmit } = apiDict.add(formModel);
-//todo 确定
+//handle 确定
 function onConfirm() {
 	formRef.value
 		.validate()
@@ -43,13 +43,13 @@ function onConfirm() {
 			onClose();
 		});
 }
-//todo 取消
+//handle 取消
 function onClose() {
 	formRef.value.resetFields();
 	model.value = false;
     accessAction("apiDictTable", (api) => api.refresh());
 }
-//todo 打开弹框
+//handle 打开弹框
 function open() {
 	model.value = true;
 }

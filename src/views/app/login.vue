@@ -57,7 +57,7 @@ const {loading: loadingLogin, send: sendLogin} = apiLogin.login(formModel);
 // accessAction("apiLogout",(api) => api.send());
 //api 用户信息
 const {loading: loadingUser, send: sendUser} = apiLogin.user();
-//todo 登录方法
+//handle 登录方法
 const onLogin = () => {
     formRef.value
         .validate()

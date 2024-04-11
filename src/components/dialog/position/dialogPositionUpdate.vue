@@ -35,7 +35,7 @@ const setsRequired: TsFormItem.Sets = {
 const { data: statusOptions } = apiGen.dicts("sys_normal_disable");
 //api 提交表单
 const { send: sendSubmit } = apiPosition.update(formModel);
-//todo 确定
+//handle 确定
 function onConfirm() {
 	formRef.value
 		.validate()
@@ -51,11 +51,11 @@ function onConfirm() {
             })
 		});
 }
-//todo 取消
+//handle 取消
 function onClose() {
 	model.value = false;
 }
-//todo 数据回显
+//handle 数据回显
 function getRow(row:TsPosition.TableItem) {
     evReObj({
         obj: formModel,

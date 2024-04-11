@@ -235,9 +235,7 @@ const resize = function () {
     });
 };
 const resizeEv = evDebounce({
-    func: () => {
-        resize();
-    },
+    func: resize,
     wait: 300,
 });
 defineExpose({

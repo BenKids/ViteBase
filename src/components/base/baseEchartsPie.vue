@@ -30,8 +30,8 @@ const init = function () {
     nextTick(() => {
         pie = echarts.init(pieRef.value);
         window.addEventListener("resize", resizeEv)
-        pie.on("click", function (params) {
-            emits("click", props.modelValue[params.dataIndex]);
+        pie.on("click", function ({dataIndex}) {
+            emits("click", props.modelValue[dataIndex]);
         })
     })
 }
@@ -161,9 +161,7 @@ const resize = function () {
     pie.resize();
 }
 const resizeEv = evDebounce({
-    func: () => {
-        resize();
-    },
+    func: resize,
     wait: 300,
 })
 defineExpose({

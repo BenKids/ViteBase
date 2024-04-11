@@ -52,7 +52,7 @@ const { data: optionsDeptId } = apiDept.tree();
 const { data: optionsStatus } = apiGen.dicts("sys_normal_disable");
 //api 提交数据
 const { send:sendSubmit } = apiDept.deptAdd(formModel);
-//todo 确定
+//handle 确定
 function onConfirm() {
 	formRef.value.validate().then(() => {
 		return sendSubmit();
@@ -66,12 +66,12 @@ function onConfirm() {
 		accessAction("apiDeptTree", (api) => api.send());
 	});
 }
-//todo 取消
+//handle 取消
 function onClose() {
 	formRef.value.resetFields();
 	model.value = false;
 }
-//todo 打开弹框
+//handle 打开弹框
 function open(id?:TsDept.DeptId) {
 	model.value = true;
 	nextTick(()=>{

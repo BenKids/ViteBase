@@ -33,7 +33,7 @@ const {send: sendMsg} = apiNotice.msg();
 //api 提交表单
 const {send: sendSubmit} = apiNotice.update(formModel);
 
-//todo 确定
+//handle 确定
 function onConfirm() {
     formRef.value
         .validate()
@@ -48,13 +48,13 @@ function onConfirm() {
         })
 }
 
-//todo 取消
+//handle 取消
 function onClose() {
     formRef.value.resetFields();
     model.value = false;
 }
 
-//todo 打开弹框
+//handle 打开弹框
 async function open(id: TsNotice.Id) {
     model.value = true;
     const msg = await sendMsg(id);

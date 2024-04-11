@@ -7,7 +7,10 @@ onActivated(() => {
 	resize();
 });
 onUnmounted(() => {
-	if (mapEcharts) mapEcharts.off("click");
+	if (mapEcharts) {
+      mapEcharts.off("click");
+      mapEcharts.getZr().off("click");
+  }
 	mapEcharts = null;
 	window.removeEventListener("resize", resizeEv);
 });
@@ -190,7 +193,7 @@ const setOption = function () {
 					if (!value) return texts;
 					for (const key in value) {
 						const option = props.options[key];
-						if (!option || option.tooltip === false) continue;
+						if (!option || !option.tooltip) continue;
 						texts += "<div class='tooltip-content'>";
 						texts += "<span class='tooltip-label'>" + option.name + "</span>";
 						texts += "<span class='tooltip-value'>" + value[key] + "</span>";
@@ -415,7 +418,7 @@ const setOption = function () {
 							});
 							const item = props.data[option.adcode];
 							for (const key in item) {
-								if (!props.options[key] || props.options[key].map === false) continue;
+								if (!props.options[key] || !props.options[key].map) continue;
 								res += `\n{option|${props.options[key].name + "："}}` + `{option|${item[key]}}`;
 							}
 							return res;
@@ -463,9 +466,7 @@ const resize = function () {
 	});
 };
 const resizeEv = evDebounce({
-	func: () => {
-		resize();
-	},
+	func: resize,
 	wait: 300,
 });
 defineExpose({
