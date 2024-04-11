@@ -84,7 +84,20 @@ export function comPaginationDateRange<T extends TsGen.Object, R extends TsTable
     )
 }
 
-// export function comGet()
+export function comGet(params: TsComposable.Get) {
+    return useRequest(
+        () =>
+            request.Get<TsUser.Export>(params.url,
+                {
+                    name: params.name,
+                    params: params.formModel,
+                }
+            ),
+        {
+            immediate: false,
+        }
+    )
+}
 export function comGetMsgId<T extends TsGen.Object>(params: TsComposable.GetMsgId<T>) {
     return useRequest(
         (id: TsGen.Id) => request.Get(params.url + id, {

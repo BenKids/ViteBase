@@ -155,11 +155,10 @@ function onExport() {
         cancelButtonText: "取消",
         type: "warning",
     })
-        .then(async () => {
-            return await getExport();
-        })
+        .then(async () => getExport())
         .then((res) => {
-            evDownload(res.msg);
+            console.log("[res]",res);
+            // evDownload(res.msg);
         })
         .catch(() => {
         });

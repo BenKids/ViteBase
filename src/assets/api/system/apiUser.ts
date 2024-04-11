@@ -58,17 +58,21 @@ export default {
        url: "/system/user/resetPwd",
     }),
     // 导出
-    export: (formModel: TsUser.FormModel) =>
-        useRequest(
-            () =>
-                request.Get<TsUser.Export>("/system/user/export",
-                    {
-                        name: "apiUser.Export",
-                        params: formModel,
-                    }
-                ),
-            {
-                immediate: false,
-            }
-        ),
+    export: (formModel: TsUser.FormModel) => comPost({
+        name: "apiUserExport",
+        url: "/system/user/export",
+        formModel
+    })
+        // useRequest(
+        //     () =>
+        //         request.Get<TsUser.Export>("/system/user/export",
+        //             {
+        //                 name: "apiUser.Export",
+        //                 params: formModel,
+        //             }
+        //         ),
+        //     {
+        //         immediate: false,
+        //     }
+        // ),
 };
