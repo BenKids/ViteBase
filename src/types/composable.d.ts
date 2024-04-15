@@ -7,22 +7,28 @@ namespace TsComposable {
         formSets?: TsForm.Sets;
         dialogSets?: TsDialog.Sets;
     }
+    interface Dialog {
+        dialogSets?: TsDialog.Sets;
+    }
     interface Basic {
         name: Name;
         url: Url;
     }
-    interface PaginationDateRange<T extends TsGen.Object, R extends TsTable.Model> extends Basic {
+    interface PaginationDateRange<T extends TsGen.Object, R> extends Basic {
         formModel: Reactive<T>;
         hitSource?: HitSource;
         watchingStates?: (keyof T)[];
         transformData?: (rawdata: R) => void;
     }
-    interface Get extends Basic {
-        formModel: FormModel,
+    interface Get<T extends TsGen.Object> extends Basic {
+        formModel?: FormModel;
+        transformData?: (rawdata: unknown) => T;
+        immediate?: boolean;
     }
-    interface GetMsgId<T extends TsGen.Object> extends Basic {
+    interface GetMsgId extends Basic {
         hitSource?: HitSource;
-        transformData?: (rawdata: T) => any;
+        transformData?: (rawdata: TsGen.Object<any>) => any | Promise<any>;
+        immediate?: boolean;
     }
     interface Put extends Basic {
         formModel: FormModel

@@ -157,7 +157,7 @@ function onExport() {
     })
         .then(async () => getExport())
         .then((res) => {
-            console.log("[res]",res);
+            console.log("[res]", res);
             // evDownload(res.msg);
         })
         .catch(() => {

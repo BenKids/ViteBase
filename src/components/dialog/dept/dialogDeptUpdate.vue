@@ -1,18 +1,6 @@
 <script setup lang="ts">
-// 表单实例
-const formRef = ref();
-//sets 弹框设置
-const dialogSets: TsDialog.Sets = {
-    width: 500,
-    beforeClose: onClose,
-};
-//sets 表单设置
-const formSets: TsForm.Sets = {
-    labelWidth: "7em",
-    inline: false,
-};
 //sets 上级部门设置
-const setsTreeSelect:TsFormTreeSelect.Sets = {
+const setsTreeSelect: TsFormTreeSelect.Sets = {
     required: true,
     checkStrictly: true,
 }
@@ -29,12 +17,6 @@ const setsPhone: TsFormInput.Sets = {
 const setsEmail: TsFormInput.Sets = {
     required: "email",
 }
-//sets 必填项
-const setsRequired: TsFormItem.Sets = {
-    required: true,
-};
-//ref 弹框开关
-let model = ref<TsDialog.Model>(false);
 //ref 表单数据
 let formModel = reactive<TsDeptUpdate.FormModel>({
     deptId: "",
@@ -54,40 +36,32 @@ const {data: optionsDeptId} = apiDept.tree();
 const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 //api 表单提交
 const {send: sendSubmit} = apiDept.deptUpdate(formModel);
+//cpa 弹框表单组合式函数
+const {dialogSets, formRef, formSets, setsRequired, visible, open: onOpen, confirm, close} = comDialogForm();
 
 //handle 确定
 function onConfirm() {
-    formRef.value.validate().then(() => {
-        return sendSubmit();
-    }).then(() => {
-        ElMessage({
-            type: "success",
-            message: "修改成功",
-        })
-        accessAction("apiDeptTable", (el) => {
-            el.send(true);
+    confirm()
+        .then(() => sendSubmit())
+        .then(() => {
+            ElMessage({
+                type: "success",
+                message: "修改成功",
+            })
+            accessAction("apiDeptTable", (el) => el.send(true));
+            close();
         });
-        onClose();
-    });
-}
-
-//handle 取消
-function onClose() {
-    model.value = false;
-    formRef.value.resetFields();
 }
 
 //handle 打开
 function open(id: TsDept.DeptId) {
-    model.value = true;
+    onOpen();
     nextTick(async () => {
         const res = await sendForm(id);
-        console.log("[res]",res);
         formModel = evReObj({
             obj: formModel,
             cover: res.data,
-        })
-        console.log("[formModel]",formModel);
+        });
     })
 }
 
@@ -96,7 +70,7 @@ defineExpose({
 })
 </script>
 <template>
-    <base-dialog v-model="model" title="修改部门" :sets="dialogSets">
+    <base-dialog v-model="visible" title="修改部门" :sets="dialogSets">
         <base-form v-model="formModel" ref="formRef" :sets="formSets">
             <base-form-tree-select label="上级部门" prop="parentId" :options="optionsDeptId" :sets="setsTreeSelect" v-if="formModel.parentId != 0"></base-form-tree-select>
             <base-form-input label="部门名称" prop="deptName" :sets="setsRequired"></base-form-input>
@@ -108,7 +82,7 @@ defineExpose({
         </base-form>
         <template #footer>
             <base-button label="确定" @click="onConfirm"></base-button>
-            <base-button label="取消" @click="onClose"></base-button>
+            <base-button label="取消" @click="close"></base-button>
         </template>
     </base-dialog>
 </template>

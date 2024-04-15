@@ -29,8 +29,6 @@ const setsDeleteMultiple = computed((): TsButton.Sets => {
     };
 });
 
-//ref 删除传递参数
-let deleteRoleId = ref<TsRole.RoleId>("");
 //ref 表单数据
 let formModel = reactive<TsRole.FormModel>({
     roleName: "",
@@ -46,7 +44,7 @@ const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 //api 表格数据
 const {data: tableModel, page, pageSize, total, refresh} = apiRole.table(formModel);
 //api 删除
-const {send: sendDelete} = apiRole.delete(deleteRoleId);
+const {send: sendDelete} = apiRole.delete();
 
 //handle 重置
 function onReset() {
@@ -70,10 +68,7 @@ function onDelete(row: TsRole.TableItem) {
         cancelButtonText: "取消",
         type: "warning",
     })
-        .then(() => {
-            deleteRoleId.value = row.roleId;
-            return sendDelete();
-        })
+        .then(() => sendDelete(row.roleId))
         .then(() => {
             ElMessage({
                 type: "success",
@@ -96,10 +91,7 @@ function onDeleteMultiple() {
         cancelButtonText: "取消",
         type: "warning",
     })
-        .then(() => {
-            deleteRoleId.value = ids.join();
-            return sendDelete();
-        })
+        .then(() => sendDelete(ids.join()))
         .then(() => {
             ElMessage({
                 type: "success",

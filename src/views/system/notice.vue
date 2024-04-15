@@ -53,9 +53,8 @@ function onUpdate(row: TsNotice.TableItem) {
 
 //handle 删除
 function onDelete(row: TsNotice.TableItem) {
-    console.log("[row]", row);
     ElMessageBox
-        .confirm("是否确认删除公告编号为“" + row.noticeId + "”的数据项？", "系统警告", {
+        .confirm("是否确认删除“" + row.noticeTitle + "”的数据项？", "系统警告", {
             type: "warning",
             confirmButtonText: "确认",
             cancelButtonText: "取消",

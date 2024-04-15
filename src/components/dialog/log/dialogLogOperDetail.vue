@@ -1,9 +1,4 @@
 <script setup lang="ts">
-//sets 弹框设置
-const dialogSets: TsDialog.Sets = {
-    width: 1100,
-    beforeClose: onClose,
-}
 //options 配置
 const options: TsDescriptions.Options<TsLogOperDetail.FormModel> = [
     {
@@ -43,8 +38,6 @@ const options: TsDescriptions.Options<TsLogOperDetail.FormModel> = [
         prop: "errorMsg"
     }
 ]
-//ref 弹框开关
-let model = ref<TsDialog.Model>(false);
 //ref 展示数据
 let formModel = reactive<TsLogOperDetail.FormModel>({
     operId: "",
@@ -67,16 +60,21 @@ let formModel = reactive<TsLogOperDetail.FormModel>({
 const {data: optionsType} = apiGen.dicts("sys_oper_type");
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_common_status");
-
-//handle 关闭
-function onClose() {
-    model.value = false;
-}
+//cpa 弹框组合式函数
+const {dialogSets, visible, open: onOpen, close} = comDialog({
+    dialogSets: {
+        width: 1100,
+    }
+});
 
 //handle 打开弹框
 function open(row: TsLogOper.TableItem) {
-    model.value = true;
-    formModel = row;
+    onOpen().then(() => {
+        formModel = evReObj({
+            obj: formModel,
+            cover: row,
+        });
+    })
 }
 
 defineExpose({
@@ -84,7 +82,7 @@ defineExpose({
 })
 </script>
 <template>
-    <base-dialog v-model="model" title="操作日志详细" :sets="dialogSets" class="dialog-log-oper-detail">
+    <base-dialog v-model="visible" title="操作日志详细" :sets="dialogSets" class="dialog-log-oper-detail">
         <base-descriptions v-model="formModel" :options="options">
             <template #titleValue>
                 <span style="margin-right:var(--base-gap);">{{ formModel.title }}</span>
@@ -98,7 +96,7 @@ defineExpose({
             </template>
         </base-descriptions>
         <template #footer>
-            <base-button label="关闭" @click="onClose"></base-button>
+            <base-button label="关闭" @click="close"></base-button>
         </template>
     </base-dialog>
 </template>

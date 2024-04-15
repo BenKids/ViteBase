@@ -206,6 +206,13 @@ const tableSets: TsTheBaseTable.Model = [
         required: false,
         default: "",
         optional: "(row: TsDept.TableItem, resolve: (date: TsDept.Table) => void) => void;",
+    },{
+        key: "defaultExpandAll",
+        explain: "默认展开所有行",
+        dataType: "boolean",
+        required: false,
+        default: "false",
+        optional: "true / false",
     }
 ];
 const tableSlot: TsTheBaseTableSlot.Model = [

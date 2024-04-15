@@ -1,24 +1,4 @@
 <script setup lang="ts">
-const props = withDefaults(
-    defineProps<{
-        modelValue: TsDialog.Model;
-    }>(),
-    {}
-);
-const dialogSets: TsDialog.Sets = {
-    width: 450,
-    beforeClose: (done) => {
-        done();
-    },
-};
-const emits = defineEmits(["update:modelValue"]);
-const model = useVModel(props,"modelValue",emits);
-//* 表单设置
-const formSets:TsForm.Sets = {
-    inline: false,
-}
-//? 表单实例
-const formRef = ref();
 //ref 表单数据
 let formModel = reactive<TsPositionAdd.FormModel>({
     postName: "",
@@ -26,40 +6,38 @@ let formModel = reactive<TsPositionAdd.FormModel>({
     postSort: 0,
     status: "0",
 })
-//* 表单必填项
-const setsRequired: TsFormItem.Sets = {
-    required: true,
-}
 //api 状态数据
 const { data: statusOptions } = apiGen.dicts("sys_normal_disable");
 //api 表单提交
 const { send: sendSubmit } = apiPosition.add(formModel);
+//cpa 弹框表单组合式函数
+const {dialogSets, formRef, formSets, setsRequired, visible, open, confirm, close} = comDialogForm({
+    dialogSets: {
+        width: 450,
+    },
+    formSets: {
+        inline: false,
+    }
+});
 //handle 确定
 function onConfirm() {
-    formRef.value
-        .validate()
+    confirm()
+        .then(()=>sendSubmit())
         .then(()=>{
-            return sendSubmit();
-        })
-        .then(()=>{
+            close();
             ElMessage({
                 type: "success",
                 message: "添加岗位成功！",
             });
-            formRef.value.resetFields();
-            onClose();
-            accessAction("apiPositionTable", (api)=>{
-                api.refresh();
-            });
+            accessAction("apiPositionTable", (api)=>api.refresh());
         });
 }
-//handle 取消
-function onClose() {
-    model.value = false;
-}
+defineExpose({
+    open,
+})
 </script>
 <template>
-    <base-dialog v-model="model" title="添加岗位" :sets="dialogSets">
+    <base-dialog v-model="visible" title="添加岗位" :sets="dialogSets">
         <base-form v-model="formModel" ref="formRef" :sets="formSets">
             <base-form-input label="岗位名称" prop="postName" :sets="setsRequired"></base-form-input>
             <base-form-input label="岗位编码" prop="postCode" :sets="setsRequired"></base-form-input>
@@ -68,7 +46,7 @@ function onClose() {
         </base-form>
         <template #footer>
             <base-button label="确定" @click="onConfirm"></base-button>
-            <base-button label="取消" @click="onClose"></base-button>
+            <base-button label="取消" @click="close"></base-button>
         </template>
     </base-dialog>
 </template>

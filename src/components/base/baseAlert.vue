@@ -1,5 +1,6 @@
 <script setup lang="ts">
     withDefaults(defineProps<{
+        title?: TsAlert.Title,
         sets?: TsAlert.Sets,
     }>(),{
         sets() {
@@ -9,6 +10,7 @@
 </script>
 <template>
     <el-alert
+        :title="title"
         :type="sets.type ?? 'warning'"
         :closable="sets.closable ?? false"
         :closeText="sets.closeText"

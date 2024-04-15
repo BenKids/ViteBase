@@ -953,6 +953,7 @@ namespace TsTable {
         spanMethod?: (param: SpanMethodProps) => { rowspan: number; colspan: number };
         lazy?: boolean;
         load?: (row: TsDept.TableItem, resolve: (date: TsDept.Table) => void) => void;
+        defaultExpandAll?: boolean;
     }
 
     interface SummaryParams<T = TsGen.Object> {

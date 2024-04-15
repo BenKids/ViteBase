@@ -1,16 +1,15 @@
 namespace TsRole {
-    type RoleId = string;
+    type RoleId = TsGen.Id;
+    type Name = string;
     interface FormModel {
-        roleName: string;
+        roleName: Name;
         roleKey: string;
         status: string;
         dateRange: TsGen.Date[];
-        "params%5BbeginTime%5D"?: TsGen.Date | "",
-        "params%5BendTime%5D"?: TsGen.Date | "",
     }
     interface TableItem {
         roleId: RoleId;
-        roleName: string;
+        roleName: Name;
         roleKey: string;
         roleSort: number;
         status: TsGen.Status;
@@ -20,7 +19,7 @@ namespace TsRole {
 }
 namespace TsRoleAdd {
     interface FormModel {
-        roleName: string;
+        roleName: Name;
         roleKey: string;
         roleSort: number;
         status: TsGen.Status;
@@ -40,7 +39,7 @@ namespace TsRoleUpdate {
 namespace TsRoleAuth {
     interface FormModel {
         roleId: TsRole.RoleId;
-        roleName: string;
+        roleName: Name;
         roleKey: string;
         dataScope: "1" | "2" | "3" | "4" | "5" | "";
         deptCheckStrictly: boolean;

@@ -43,28 +43,30 @@ const {data: optionsRoleIds} = apiRole.select();
 const {send: getData} = apiUser.msg();
 //api 提交表单
 const {send: sendSubmit} = apiUser.update(formModel);
-//composable 弹框表单组合式函数
+//cpa 弹框表单组合式函数
 const {dialogSets, formRef, formSets, setsRequired, visible, confirm, close} = comDialogForm();
 
 //handle 确定
 function onConfirm() {
-    confirm().then(() => sendSubmit()).then(() => {
-        ElMessage({
-            type: "success",
-            message: "修改成功！",
-        });
-        accessAction("apiUserTable", (api) => api.refresh());
-        close();
-    })
+    confirm()
+        .then(() => sendSubmit())
+        .then(() => {
+            ElMessage({
+                type: "success",
+                message: "修改成功！",
+            });
+            accessAction("apiUserTable", (api) => api.refresh());
+            close();
+        })
 }
 
 //handle 打开弹框
 function open(id: TsUser.Id) {
     visible.value = true;
-    getData(id).then((data) => {
+    getData(id).then((res) => {
         evReObj({
             obj: formModel,
-            cover: data,
+            cover: res,
         });
     })
 }

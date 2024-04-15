@@ -1,5 +1,5 @@
 namespace TsUser {
-    type Id = string;
+    type Id = TsGen.Id;
     type UserName = string;
     type NickName = string;
     interface FormModel {
@@ -23,6 +23,10 @@ namespace TsUser {
     }
     type Table = TableItem[];
     interface Msg extends TsGen.Response<TsUserEdit.FormModel>{
+        roles: {
+            roleId: TsRole.RoleId;
+            roleName: TsRole.Name;
+        }[]
         roleIds: TsRole.RoleId[];
         postIds: TsPosition.Id[];
     }

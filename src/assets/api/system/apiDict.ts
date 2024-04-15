@@ -138,7 +138,6 @@ export default {
             }),
             {
                 immediate: false,
-                middleware: actionDelegationMiddleware(""),
             }
         ),
     // 添加字典数据

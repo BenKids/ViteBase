@@ -49,19 +49,54 @@ export function comDialogForm(params?: TsComposable.DialogForm) {
         close,
     }
 }
-
-export function comPaginationDateRange<T extends TsGen.Object, R extends TsTable.Model>(params: TsComposable.PaginationDateRange<T, R>) {
+export function comDialog(params?: TsComposable.Dialog) {
+    //sets 弹框设置
+    const dialogSets: TsDialog.Sets = {
+        width: 750,
+        beforeClose: close,
+        ...params?.dialogSets,
+    };
+    //ref 弹框开关
+    let visible = ref<TsDialog.Model>(false);
+    //handle 打开
+    function open() {
+        return new Promise((resolve) => {
+            visible.value = true;
+            resolve(true);
+        })
+    }
+    //handle 确定
+    function confirm() {
+        return new Promise((resolve) => {
+            close();
+            resolve(true);
+        })
+    }
+    //handle 取消
+    function close() {
+        visible.value = false;
+    }
+    return {
+        dialogSets,
+        visible,
+        open,
+        confirm,
+        close,
+    }
+}
+export function comPagination<T extends TsGen.Object, R extends TsTable.Model>(params: TsComposable.PaginationDateRange<T, R>) {
     return usePagination(
-        (pageNum, pageSize) => request.Get<R>(params.url + evTransDateRange(params.formModel.dateRange), {
+        (pageNum, pageSize) => request.Get<R>(params.url, {
             name: params.name,
             params: {
-                ...evRemoveEmpty(params.formModel, ["dateRange"]),
+                ...params.formModel,
                 pageNum,
                 pageSize,
             },
             hitSource: params.hitSource,
         }),
         {
+            append: false,
             watchingStates: (() => {
                 let res = [params.formModel];
                 if (!params.watchingStates) return res;
@@ -84,30 +119,64 @@ export function comPaginationDateRange<T extends TsGen.Object, R extends TsTable
     )
 }
 
-export function comGet(params: TsComposable.Get) {
-    return useRequest(
-        () =>
-            request.Get<TsUser.Export>(params.url,
-                {
-                    name: params.name,
-                    params: params.formModel,
-                }
-            ),
-        {
-            immediate: false,
-        }
-    )
-}
-export function comGetMsgId<T extends TsGen.Object>(params: TsComposable.GetMsgId<T>) {
-    return useRequest(
-        (id: TsGen.Id) => request.Get(params.url + id, {
-            transformData(rawdata: T) {
-                return params.transformData ? params.transformData(rawdata) : rawdata.data;
+export function comPaginationDateRange<T extends TsGen.Object, R>(params: TsComposable.PaginationDateRange<T, R>) {
+    return usePagination(
+        (pageNum, pageSize) => request.Get<R>(params.url + evTransDateRange(params.formModel.dateRange), {
+            name: params.name,
+            params: {
+                ...evRemoveEmpty(params.formModel, ["dateRange"]),
+                pageNum,
+                pageSize,
             },
             hitSource: params.hitSource,
         }),
         {
-            immediate: false,
+            append: false,
+            watchingStates: (() => {
+                let res = [params.formModel];
+                if (!params.watchingStates) return res;
+                for (let i = 0; i < params.watchingStates.length; i++) {
+                    res.push(toRef(params.formModel, params.watchingStates[i]))
+                }
+                return res;
+            })(),
+            debounce: (() => {
+                let res = [0];
+                if (!params.watchingStates) return res;
+                for (let i = 0; i < params.watchingStates.length; i++) {
+                    res.push(300)
+                }
+                return res;
+            })(),
+            middleware: actionDelegationMiddleware(params.name),
+            data: (res: TsGen.ResponseTable<R>) => params.transformData ? params.transformData(res.rows) : res.rows,
+            // initialData: {
+            //     data: [],
+            //     total: 0,
+            // }
+        }
+    )
+}
+
+export function comGet<T extends TsGen.Object>(params: TsComposable.Get<T>) {
+    return useRequest(
+        () =>
+            request.Get<T>(params.url,
+                {
+                    name: params.name,
+                    params: params.formModel,
+                    transformData: params.transformData,
+                }
+            ),
+        {
+            immediate: params.immediate ?? false,
+        }
+    )
+}
+
+export function comGetMsgId(a:any,params?: TsComposable.GetMsgId) {
+    return useRequest(a,{
+            immediate: (params && params.immediate) ?? false,
         }
     )
 }

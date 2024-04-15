@@ -56,7 +56,6 @@ function onClear() {
 }
 //handle 详细
 function onDetail(row: TsLogOper.TableItem) {
-    console.log("[row]", row);
     dialogDetailRef.value.open(row);
 }
 </script>

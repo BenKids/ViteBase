@@ -30,7 +30,7 @@ const optionsAuth = apiRole.auth();
 const {send: sendDept} = apiDept.roleId();
 //api 提交表单
 const {send: sendSubmit} = apiRole.updatePermit(formModel);
-//composable 弹框表单组合式函数
+//cpa 弹框表单组合式函数
 const {dialogSets, formRef, formSets, visible, confirm, close} = comDialogForm({
     dialogSets: {
         width: 500,

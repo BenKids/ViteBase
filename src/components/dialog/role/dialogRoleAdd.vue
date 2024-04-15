@@ -27,7 +27,7 @@ const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 const {data: optionsMenus} = apiMenus.permi();
 //api 提交表单
 const {send: sendSubmit} = apiRole.add(formModel);
-//composable 弹框表单组合式函数
+//cpa 弹框表单组合式函数
 const {dialogSets, formRef, formSets, setsRequired, visible, open, confirm, close} = comDialogForm({
     dialogSets: {
         width: 1100,
@@ -36,7 +36,7 @@ const {dialogSets, formRef, formSets, setsRequired, visible, open, confirm, clos
         inline: false,
     }
 });
-
+//handle 提交
 function onConfirm() {
     confirm().then(() => sendSubmit()).then(() => {
         close();

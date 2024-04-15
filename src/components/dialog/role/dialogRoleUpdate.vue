@@ -24,13 +24,8 @@ let formModel = reactive<TsRoleUpdate.FormModel>({
     menuIds: [],
     remark: "",
 });
-//ref 传递参数
-let roleId = ref<TsRole.RoleId>("");
 //api 权限数据
-const {send: getMenusPermi} = apiRole.menuPermi(roleId);
-
-
-
+const {send: getMenusPermi} = apiRole.menuPermi();
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
 //api 菜单权限数据
@@ -53,9 +48,8 @@ async function open(row: TsRole.TableItem) {
         obj: formModel,
         cover: row
     });
-    roleId.value = row.roleId;
-    formModel.menuIds = await getMenusPermi();
-    onOpen();
+    formModel.menuIds = await getMenusPermi(row.roleId);
+    await onOpen();
 }
 function onConfirm() {
     confirm().then(() => sendSubmit()).then(() => {
