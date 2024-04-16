@@ -18,9 +18,11 @@ const refUpload = ref(),
     emits = defineEmits(["beforeSelect", "change", "update:modelValue"]);
 let localHandle = ref<boolean>(false),
     loading = ref<boolean>(false),
-    initialIndex = ref<number>(0),
     dialogVisible = ref(false),
     dialogImageUrl = ref<string[]>([]);
+const dialogSets = reactive<TsImageViewer.Sets>({
+    initialIndex: 0,
+});
 let allowUpload = computed(() => {
     if (props.sets.readonly) return false;
     else if (props.sets.limit && props.modelValue.length >= props.sets.limit) return false;
@@ -63,9 +65,9 @@ watch(
 const onPreview = (file: TsElement.UploadFile) => {
     model.value.forEach((item, num) => {
         if (file.uid && file.uid === item.uid) {
-            initialIndex.value = num;
+            dialogSets.initialIndex = num;
         } else if (!file.uid && file.name === item.name) {
-            initialIndex.value = num;
+            dialogSets.initialIndex = num;
         }
     });
     if (file.url) {
@@ -187,8 +189,7 @@ async function updateModelValue() {
             </div>
         </template>
     </el-upload>
-    <base-image-viewer v-model="dialogVisible" :options="dialogImageUrl" :active="initialIndex"
-                       @close="onClose"></base-image-viewer>
+    <base-image-viewer v-model="dialogVisible" :options="dialogImageUrl" :sets="dialogSets" @close="onClose"></base-image-viewer>
 </template>
 
 <style scoped>
