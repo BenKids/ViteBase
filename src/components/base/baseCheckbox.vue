@@ -18,8 +18,8 @@ withDefaults(defineProps<{
     >
         <template v-if="sets.type == 'button'">
             <el-checkbox-button
-                v-for="(item, index) in options"
-                :key="index"
+                v-for="item in options"
+                :key="item.value"
                 :value="item.value"
                 :disabled="item.disabled"
                 :border="item.border"
@@ -27,8 +27,8 @@ withDefaults(defineProps<{
         </template>
         <template v-else>
             <el-checkbox
-                v-for="(item, index) in options"
-                :key="index"
+                v-for="item in options"
+                :key="item.value"
                 :value="item.value"
                 :disabled="item.disabled"
             >{{item.label}}</el-checkbox>

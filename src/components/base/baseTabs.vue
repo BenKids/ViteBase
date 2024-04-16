@@ -17,8 +17,8 @@ withDefaults(defineProps<{
         class="base-tabs"
     >
         <el-tab-pane
-            v-for="(item, index) in options"
-            :key="index"
+            v-for="item in options"
+            :key="item.value"
             :name="item.value"
             :disabled="item.disabled"
             :closable="item.closable ?? sets.closable"

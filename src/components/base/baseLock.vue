@@ -37,7 +37,7 @@ onMounted(() => {
                     <path id="leaf" d="M0 0 5 60" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" />
                 </defs>
                 <g class="leaf">
-                    <use v-for="(item, index) in leafs" :key="index" xlink:href="#leaf" :x="item" y="0" />
+                    <use v-for="item in leafs" :key="item" xlink:href="#leaf" :x="item" y="0" />
                 </g>
             </svg>
             <!--Waves end-->
@@ -139,7 +139,7 @@ onMounted(() => {
 
 .base-lock .waves {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 15vh;

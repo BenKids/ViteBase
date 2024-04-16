@@ -1,6 +1,6 @@
 <script setup lang="ts">
     withDefaults(defineProps<{
-        modelValue: TsInfiniteScroll.Model[],
+        modelValue: TsInfiniteScroll.Model,
         sets?: TsInfiniteScroll.Sets,
     }>(),{
         sets: () => {

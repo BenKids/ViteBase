@@ -36,8 +36,8 @@
         <template #title v-if="temp.title"><slot name="title"></slot></template>
         <template #extra v-if="temp.extra"><slot name="extra"></slot></template>
         <el-descriptions-item
-            v-for="(item, index) in options"
-            :key="index"
+            v-for="item in options"
+            :key="item.prop"
             :align="item.align || sets.align"
             :label-align="item.labelAlign || sets.labelAlign"
             :span="item.span"
