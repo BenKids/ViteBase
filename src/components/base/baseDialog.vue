@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
     sets?: TsDialog.Sets
 }>(),{
     sets: () => {
@@ -13,6 +13,11 @@ onMounted(()=>{
     const slots = useSlots()
     if (Object.prototype.hasOwnProperty.call(slots, "footer")) footer.value = true;
 })
+const emits = defineEmits(["beforeClose"]);
+function closeDialog(): void {
+    props.sets.beforeClose && props.sets.beforeClose
+    emits("beforeClose");
+}
 </script>
 
 <template>
@@ -26,7 +31,7 @@ onMounted(()=>{
             :close-on-click-modal="sets.closeOnClickModal"
             :close-on-press-escape="sets.closeOnPressEscape"
             :show-close="sets.showClose"
-            :before-close="sets.beforeClose"
+            :before-close="closeDialog"
             :draggable="sets.draggable"
             :center="sets.center"
             :align-center="sets.alignCenter"

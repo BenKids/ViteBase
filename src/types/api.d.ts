@@ -40,45 +40,12 @@ namespace TsApi {
 		transformData?: (data: PaginationRawdata<T>, headers?: Headers) => any;
 		data?: (T:TsGen.ResponseTable<T>) => T;
 	}
-	interface Get<R> {
-		name?: Name;
-		url: Url;
-		urlExtra?: UrlExtra;
-		params?: FormModel;
-		transformData?: (data: GetRawdata<R> & Omit<R, "data">, headers?: Headers) => any;
-		hitSource?: HitSource;
-		immediate?: Immediate;
-		force?: Force;
-		initialData?: R;
-	}
-	interface Wathcer<R> {
-		name?: Name;
-		url: Url;
-		urlExtra?: UrlExtra;
-		watcher: (object | WatchSource<any>)[];
-		params?: FormModel;
-		paramsExtra?: globalThis.ComputedRef<FormModel>;
-		debounce?: number | number[];
-		force?: Force;
-		immediate?: Immediate;
-		transformData?: (data: WathcerRawdata<R>, headers?: Headers) => R;
-		initialData?: R;
-		hitSource?: HitSource;
-	}
-	interface Post {
-		url: Url;
-		name?: Name;
-		params: FormModel;
-	}
-	interface Put {
-		url: Url;
-		name?: Name;
-		params: FormModel;
-	}
-	interface Delete {
-		url: Url;
-		name?: Name;
-		urlExtra?: Ref<string | number>;
-		params?: FormModel;
+	interface Form<T extends TsForm.Model> {
+		form: T;
+		send: any;
+		onSuccess?: (data: T) => void;
+		onError?: (error: Error) => void;
+		onComplete?: (data: T) => void;
+		loading?: boolean;
 	}
 }

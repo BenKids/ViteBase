@@ -1,11 +1,16 @@
 <script setup lang="ts">
 const step: string = `const setsRequired: TsFormItem.Sets = {
+    required: true
+}
+const {setsPhonenumber} = cpaSets();
+const setsPhone:TsFormInput.Sets = {
     required: true,
+    ...setsPhonenumber
 }
 const formRef = ref();
 const formData = reactive<TsTheBaseForm.Model>({
     userName: "",
-    phone: "",
+    phone: ""
 })
 
 function onSearch() {
@@ -15,14 +20,19 @@ function onSearch() {
     })
 }`;
 const template: string = `<base-form ref="formRef" v-model="formData" @keyup.enter.native="onSearch">
-    <base-form-input label="用户名" prop="username" :sets="setsRequired"></base-form-input>
-    <base-form-input label="手机号" prop="phone" :sets="setsRequired"></base-form-input>
+    <base-form-input label="用户名" v-model="formData.userName" prop="userName" :sets="setsRequired"></base-form-input>
+    <base-form-input label="手机号" v-model="formData.phone" prop="phone" :sets="setsRequired"></base-form-input>
     <template #handle>
         <base-button label="查询"></base-button>
     </template>
 </base-form>`;
 const setsRequired: TsFormItem.Sets = {
     required: true,
+}
+const {setsPhonenumber} = cpaSets();
+const setsPhone:TsFormInput.Sets = {
+    required: true,
+    ...setsPhonenumber,
 }
 const formRef = ref();
 const formData = reactive<TsTheBaseForm.Model>({
@@ -44,10 +54,10 @@ const tableSets: TsTheBaseTable.Model = [];
     <the-base-layout :step="step" :template="template" original-link="https://element-plus.gitee.io/zh-CN/component/form.html">
         <template #view>
             <base-form ref="formRef" v-model="formData" @keyup.enter.native="onSearch">
-                <base-form-input label="用户名" prop="username" :sets="setsRequired"></base-form-input>
-                <base-form-input label="手机号" prop="phone" :sets="setsRequired"></base-form-input>
+                <base-form-input label="用户名" v-model="formData.userName" prop="userName" :sets="setsRequired"></base-form-input>
+                <base-form-input label="手机号" v-model="formData.phone" prop="phone" :sets="setsPhone"></base-form-input>
                 <template #handle>
-                    <base-button label="查询"></base-button>
+                    <base-button label="查询" @click="onSearch"></base-button>
                 </template>
             </base-form>
         </template>

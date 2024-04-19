@@ -62,12 +62,6 @@ function onDelete(row: TsDict.TableItem) {
         type: "warning",
     })
         .then(() => sendDelete(row.dictId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "“" + row.dictId + "”删除成功",
-            })
-        })
         .catch(() => {
         });
 }
@@ -81,10 +75,10 @@ function onExport() {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="字典名称" prop="dictName"></base-form-input>
-                <base-form-input label="字典类型" prop="dictType"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
-                <base-form-date-picker label="创建时间" prop="dateRange" :sets="dateRangeSets"></base-form-date-picker>
+                <base-form-input label="字典名称" v-model="formModel.dictName" prop="dictName"></base-form-input>
+                <base-form-input label="字典类型" v-model="formModel.dictType" prop="dictType"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-date-picker label="创建时间" v-model="formModel.dateRange" prop="dateRange" :sets="dateRangeSets"></base-form-date-picker>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

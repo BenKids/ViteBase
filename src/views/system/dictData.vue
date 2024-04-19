@@ -46,15 +46,18 @@ const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} 
 //api 删除数据
 const {send: sendDelete } = apiDict.dataDelete();
 //handle 获取页面传值
-onMounted(async () => {
+onMounted(async () => getMsg())
+//handle 获取页面数据
+function getMsg() {
     if(!params.dictId) return;
-    const res = await getDictMsg(params.dictId);
-    formModel.dictType = res.dictType;
-})
-
+    getDictMsg(params.dictId).then(res => {
+        formModel.dictType = res.dictType;
+    });
+}
 //handle 重置
 function reload() {
     formRef.value.resetFields();
+    getMsg();
 }
 //handle 新增
 function onAdd() {
@@ -74,13 +77,6 @@ function onDelete(row: TsDictData.TableItem) {
             cancelButtonText: "取消",
         })
         .then(()=>sendDelete(row.dictCode))
-        .then(()=>{
-            ElMessage({
-                type: "success",
-                message: "删除成功！",
-            })
-            accessAction("apiDictData",(api) => api.refresh());
-        })
         .catch(()=>{})
 }
 //handle 返回
@@ -93,9 +89,9 @@ function onBack() {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-select label="字典名称" prop="dictType" :options="optionsType" :sets="setsType"></base-form-select>
-                <base-form-input label="字典标签" prop="dictLabel"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-select label="字典名称" v-model="formModel.dictType" prop="dictType" :options="optionsType" :sets="setsType"></base-form-select>
+                <base-form-input label="字典标签" v-model="formModel.dictLabel" prop="dictLabel"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
+    modelValue: TsFormEdit.Model,
     prop: TsFormEdit.Prop,
     label?: TsFormEdit.Label,
     sets?: TsFormEdit.Sets,
@@ -8,10 +9,11 @@ withDefaults(defineProps<{
         return {}
     }
 })
-let model = getCurrentInstance()?.parent?.props.model as TsForm.Model;
+const emits = defineEmits(["update:modelValue"]);
+let model = useVModel(props, "modelValue", emits);
 </script>
 <template>
     <base-form-item :label="label" :prop="prop" :sets="sets">
-        <base-edit v-bind="$attrs" v-model="model[prop]" :sets="sets" v-if="!sets.hidden"></base-edit>
+        <base-edit v-bind="$attrs" v-model="model" :sets="sets" v-if="!sets.hidden"></base-edit>
     </base-form-item>
 </template>

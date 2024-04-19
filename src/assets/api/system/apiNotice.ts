@@ -41,30 +41,57 @@ export default {
             }
         ),
     // 新增公告
-    add: (formModel: TsNoticeAdd.FormModel) =>
-        useRequest(
-            () =>
-                request.Post("/system/notice", formModel, {
-                    name: "apiNoticeAdd",
-                }),
-            {
-                immediate: false,
+    add: () => {
+        let res = useForm(
+            (formModel: TsNoticeAdd.FormModel) => request.Post("/system/notice",formModel,{
+                name: "apiNoticeAdd",
+            }),{
+                resetAfterSubmiting: true,
+                initialForm: {
+                    noticeTitle: "",
+                    noticeType: "",
+                    status: "0",
+                    noticeContent: "",
+                }
             }
-        ),
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "新增通知公告成功！",
+            });
+            accessAction("apiNoticeTable",(api) => api.refresh());
+        });
+        return res;
+    },
     // 修改公告
-    update: (formModel:TsNoticeUpdate.FormModel) => 
-        useRequest(
-            () => 
-                request.Put("/system/notice",formModel,{
-                    name: "apiNoticeUpdate",
-    		    }),
-            {
-    			immediate: false,
+    update: () => {
+        let res = useForm(
+            (formModel: TsNoticeUpdate.FormModel) => request.Put("/system/notice",formModel,{
+                name: "apiNoticeUpdate",
+            }),{
+                resetAfterSubmiting: true,
+                initialForm: {
+                    noticeId: "",
+                    noticeTitle: "",
+                    noticeType: "",
+                    status: "",
+                    noticeContent: "",
+                }
             }
-        ),
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "通知公告修改成功！",
+            });
+            accessAction("apiNoticeTable", (api) => api.refresh());
+        })
+        return res;
+    },
     // 删除公告
-    delete: () =>
-        useRequest(
+    delete: () => {
+        let res = useRequest(
             (id: TsNotice.Id) =>
                 request.Delete(
                     "/system/notice/" + id,
@@ -76,5 +103,14 @@ export default {
             {
                 immediate: false,
             }
-        ),
+        )
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "通知公告删除成功",
+            });
+            accessAction("apiNoticeTable",(api) => api.refresh());
+        })
+        return res;
+    },
 }

@@ -9,18 +9,18 @@ const setsLogin = computed((): TsButton.Sets => {
         loading: loadingLogin.value || loadingUser.value,
     };
 });
-//* 表单设置
+//sets 表单设置
 const formSets = reactive({
     size: "large",
     inline: true,
 });
-//* 账号框设置
+//sets 账号框设置
 const setsUser: TsFormInput.Sets = {
     required: true,
     prefixIcon: IconSolarShieldUserLinear,
     placeholder: "请输入账号",
 };
-//* 密码框设置
+//sets 密码框设置
 const setsPsw: TsFormInput.Sets = {
     required: true,
     type: "password",
@@ -29,7 +29,7 @@ const setsPsw: TsFormInput.Sets = {
     placeholder: "请输入密码",
     prefixIcon: IconSolarPasswordMinimalisticInputLinear,
 };
-//* 验证码框设置
+//sets 验证码框设置
 const setsCode: TsFormInput.Sets = {
     required: true,
     prefixIcon: IconSolarProgrammingLinear,
@@ -82,9 +82,9 @@ const onLogin = () => {
         <div class="login-box">
             <div class="login-title">欢迎登录</div>
             <base-form v-model="formModel" :sets="formSets" ref="formRef" @keyup.enter="onLogin">
-                <base-form-input prop="username" :sets="setsUser"></base-form-input>
-                <base-form-input prop="password" :sets="setsPsw"></base-form-input>
-                <base-form-input prop="code" :sets="setsCode" class="input-code"></base-form-input>
+                <base-form-input v-model="formModel.username" prop="username" :sets="setsUser"></base-form-input>
+                <base-form-input v-model="formModel.password" prop="password" :sets="setsPsw"></base-form-input>
+                <base-form-input v-model="formModel.code" prop="code" :sets="setsCode" class="input-code"></base-form-input>
                 <base-image v-model="codeImage.img" @click="sendImage"></base-image>
                 <template #handle>
                     <base-button label="登录" :sets="setsLogin" @click="onLogin"></base-button>

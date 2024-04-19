@@ -50,13 +50,6 @@ function onDelete(row: TsDept.TableItem) {
             type: "warning",
         })
         .then(() => sendDel(row.deptId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            sendTable(true);
-        })
         .catch(() => {
         })
 }
@@ -70,8 +63,8 @@ function onUpdate(row: TsDept.TableItem) {
     <base-layout @refresh="sendTable(true)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="部门名称" prop="deptName"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-input label="部门名称" v-model="formModel.deptName" prop="deptName"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
                 <template #handle>
                     <base-button label="重置" @click="onReset"></base-button>
                 </template>

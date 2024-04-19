@@ -39,6 +39,7 @@ namespace TsUser {
     interface PostsItem {
         postId: number;
         postName: string;
+        status: TsGen.StatusIs;
     }
     interface RolesItem {
         roleId: number;
@@ -50,7 +51,7 @@ namespace TsUser {
         data: TsUserEdit.FormModel;
     }
     interface ResetPassword {
-        userId: string;
+        userId: Id;
         password: string;
     }
     interface Export {

@@ -1,24 +1,22 @@
 <script setup lang="ts">
-const props = withDefaults(
-    defineProps<{
-        modelValue: TsFormUpload.Model;
-        prop: TsFormUpload.Prop;
-        label?: TsFormUpload.Label;
-        sets?: TsFormUpload.Sets;
-    }>(),
-    {
-        sets: () => {
-            return {};
-        },
+const props = withDefaults(defineProps<{
+    modelValue: TsFormTreeSelect.Model,
+    prop: TsFormTreeSelect.Prop,
+    options: TsFormTreeSelect.Options,
+    label?: TsFormTreeSelect.Label,
+    sets?: TsFormTreeSelect.Sets,
+}>(), {
+    sets: () => {
+        return {}
     }
-);
+})
 const emits = defineEmits(["update:modelValue"]);
 let model = useVModel(props,"modelValue",emits);
 const rules = computed(() => {
     if (!props.sets || !props.sets.required) return undefined;
     let r: TsElement.FormItemRule[] = [{
         required: true,
-        message: "请输入" + props.label,
+        message: "请选择" + props.label,
         trigger: "change",
     }];
     if (typeof (props.sets.required) == "function") {
@@ -33,7 +31,7 @@ const rules = computed(() => {
 });
 </script>
 <template>
-    <base-form-item :label="label" :prop="prop" :rules="rules" :sets="sets" class="base-form-upload">
-        <base-upload v-bind="$attrs" v-model="model" :sets="sets"></base-upload>
+    <base-form-item :label="label" :prop="prop" :rules="rules" :sets="sets" class="base-form-tree">
+        <base-tree v-bind="$attrs" v-model="model" :options="options" :sets="sets"></base-tree>
     </base-form-item>
 </template>

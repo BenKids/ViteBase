@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
-import {
-    IToolbarConfig,
-    IEditorConfig,
-    // DomEditor
-} from '@wangeditor/editor'
+import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 
 const props = withDefaults(
     defineProps<{

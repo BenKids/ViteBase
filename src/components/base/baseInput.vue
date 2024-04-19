@@ -60,6 +60,7 @@ async function fnShowTooltip() {
         showTooltip.value = node.scrollWidth > node.clientWidth;
     }
 }
+const icon = markRaw(IconSolarPen2Linear);
 </script>
 <template>
     <div
@@ -71,9 +72,7 @@ async function fnShowTooltip() {
           placeholder: !model,
         }">
         {{ model || sets.placeholder || "请输入" }}
-        <el-icon>
-            <IconSolarPen2Linear/>
-        </el-icon>
+        <base-icons :icon="icon"></base-icons>
     </div>
     <el-input
         v-else-if="!sets.readonly"

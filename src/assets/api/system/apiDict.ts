@@ -40,32 +40,57 @@ export default {
             }
         ),
     // 添加字典
-    add: (formModel: TsDictAdd.FormModel) =>
-        useRequest(
-            () =>
-                request.Post("/system/dict/type", formModel, {
-                    name: "apiDictAdd",
-                }),
-            {
-                force: false,
-                immediate: false,
-            }
-        ),
-    // 修改字典
-    update: (formModel: TsDictUpdate.FormModel) => {
-        return useRequest(
-            () =>
-                request.Put("/system/dict/type", formModel, {
-                    name: "apiDictUpdate",
-                }),
-            {
-                immediate: false,
+    add: () => {
+        let res = useForm(
+            (formModel: TsDictAdd.FormModel) => request.Post("/system/dict/type", formModel, {
+                name: "apiDictAdd",
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    dictName: "",
+                    dictType: "",
+                    status: "0",
+                    remark: "",
+                }
             }
         );
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "新增字典类型成功",
+            });
+            accessAction("apiDictTable", (api) => api.refresh());
+        })
+        return res;
+    },
+    // 修改字典
+    update: () => {
+        let res = useForm(
+            (formModel: TsDictUpdate.FormModel) => request.Put("system/dict/type", formModel, {
+                name: "apiDictUpdate",
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    dictId: "",
+                    dictName: "",
+                    dictType: "",
+                    status: "0",
+                    remark: ""
+                }
+            }
+        );
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "修改成功",
+            });
+            accessAction("apiDictTable", (api) => api.refresh());
+        })
+        return res;
     },
     // 删除字典
-    delete: () =>
-        useRequest(
+    delete: () => {
+        let res = useRequest(
             (id: TsDict.Id) =>
                 request.Delete(
                     "/system/dict/type/" + id,
@@ -77,7 +102,16 @@ export default {
             {
                 immediate: false,
             }
-        ),
+        );
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "字典删除成功",
+            });
+            accessAction("apiDictTable", (api) => api.refresh());
+        })
+        return res;
+    },
     // 字典下拉数据
     options: () =>
         useRequest(
@@ -131,8 +165,8 @@ export default {
         useRequest(
             (id: TsDict.Id) => request.Get("/system/dict/data/" + id, {
                 name: "apiDictDataMsg",
-                transformData(rawdata:TsGen.Response<TsDictDataUpdate.FormModel>) {
-                  return rawdata.data;
+                transformData(rawdata: TsGen.Response<TsDictDataUpdate.FormModel>) {
+                    return rawdata.data;
                 },
                 hitSource: ["apiDictDataUpdate"],
             }),
@@ -141,30 +175,65 @@ export default {
             }
         ),
     // 添加字典数据
-    dataAdd: (formModel: TsDictDataAdd.FormModel) =>
-        useRequest(
-            () =>
-                request.Post("/system/dict/data", formModel, {
-                    name: "apiDictDataAdd",
-                }),
-            {
-                immediate: false,
+    dataAdd: () => {
+        let res = useForm(
+            (formModel: TsDictDataAdd.FormModel) => request.Post("/system/dict/data", formModel, {
+                name: "apiDictDataAdd",
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    dictType: "",
+                    dictLabel: "",
+                    dictValue: "",
+                    listClass: "info",
+                    dictSort: 0,
+                    status: "0",
+                    remark: "",
+                }
             }
-        ),
+        );
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "字典数据添加成功",
+            })
+            accessAction("apiDictData", (api) => api.refresh());
+            accessAction("apiDicts", (api) => api.send(true));
+        })
+        return res;
+    },
     // 修改字典数据
-    dataUpdate: (formModel: TsDictDataUpdate.FormModel) =>
-        useRequest(
-            () =>
-                request.Put("/system/dict/data", formModel, {
-                    name: "apiDictDataUpdate",
-                }),
-            {
-                immediate: false,
+    dataUpdate: () => {
+        let res = useForm(
+            (formModel: TsDictDataUpdate.FormModel) => request.Put("/system/dict/data", formModel, {
+                name: "apiDictDataUpdate",
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    dictCode: "",
+                    dictType: "",
+                    dictLabel: "",
+                    dictValue: "",
+                    listClass: "info",
+                    dictSort: 0,
+                    status: "",
+                    remark: "",
+                }
             }
-        ),
+        )
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "字典数据修改成功",
+            })
+            accessAction("apiDictData", (api) => api.refresh());
+            accessAction("apiDicts", (api) => api.send(true));
+        })
+        return res;
+    },
     // 删除字典数据
-    dataDelete: () =>
-        useRequest(
+    dataDelete: () => {
+        let res = useRequest(
             (id: TsDict.Id) =>
                 request.Delete(
                     "/system/dict/data/" + id,
@@ -176,5 +245,15 @@ export default {
             {
                 immediate: false,
             }
-        ),
-};
+        )
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "字典数据删除成功！",
+            })
+            accessAction("apiDictData", (api) => api.refresh());
+            accessAction("apiDicts", (api) => api.send(true));
+        })
+        return res;
+    },
+}

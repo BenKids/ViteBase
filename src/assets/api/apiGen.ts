@@ -4,6 +4,7 @@ export default {
 		useRequest(
 			() =>
 				request.Get("/system/dict/data/type/" + params, {
+					name: "apiDicts",
 					transformData(rawdata: TsDicts.Rawdata): TsDicts.Res {
 						return evRename({
 							data: rawdata.data,
@@ -16,7 +17,9 @@ export default {
 					},
 				}),
 			{
-				initialData: [],
+                force: isForce => isForce,
+                initialData: [],
+                middleware: actionDelegationMiddleware("apiDicts"),
 			}
 		),
 	// 状态选择数据

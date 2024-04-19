@@ -55,13 +55,6 @@ function onDelete(row: TsPosition.TableItem) {
         type: "warning",
     })
         .then(() => sendDelete(row.postId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "岗位删除成功！",
-            });
-            refresh();
-        })
         .catch(() => {
         });
 }
@@ -81,13 +74,6 @@ function onDeleteMultiple() {
             type: "warning",
         })
         .then(() => sendDelete(ids))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "岗位删除成功！",
-            });
-            refresh();
-        })
         .catch(() => {
         })
 }
@@ -96,9 +82,9 @@ function onDeleteMultiple() {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="岗位编码" prop="postCode"></base-form-input>
-                <base-form-input label="岗位名称" prop="postName"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="statusOptions"></base-form-select>
+                <base-form-input label="岗位编码" v-model="formModel.postCode" prop="postCode"></base-form-input>
+                <base-form-input label="岗位名称" v-model="formModel.postName" prop="postName"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="statusOptions"></base-form-select>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

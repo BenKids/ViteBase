@@ -547,27 +547,29 @@ namespace TsFormItem {
 namespace TsFormInput {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
-
+    type Model = TsInput.Model;
     interface Sets extends TsFormItem.Sets, TsInput.Sets {
-        required?: TsFormItem.Sets['required'] | 'phone' | 'email';
+        type?: TsInput.Sets["type"] | 'phone' | 'email';
     }
 }
 namespace TsFormEdit {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
+    type Model = TsEdit.Model;
     interface Sets extends TsFormItem.Sets, TsEdit.Sets {
     }
 }
 namespace TsFormNumber {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
-
+    type Model = TsNumber.Model;
     interface Sets extends TsFormItem.Sets, TsNumber.Sets {
     }
 }
 namespace TsFormDatePicker {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
+    type Model = TsDatePicker.Model;
 
     interface Sets extends TsFormItem.Sets, TsDatePicker.Sets {
     }
@@ -575,6 +577,7 @@ namespace TsFormDatePicker {
 namespace TsFormRadio {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
+    type Model = TsRadio.Model;
 
     interface Options extends TsRadio.Options {
     }
@@ -585,6 +588,7 @@ namespace TsFormRadio {
 namespace TsFormSelect {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
+    type Model = TsSelect.Model;
 
     interface Options extends TsSelect.Options {
     }
@@ -592,10 +596,20 @@ namespace TsFormSelect {
     interface Sets extends TsFormItem.Sets, TsSelect.Sets {
     }
 }
+namespace TsFormTree {
+    type Label = TsFormItem.Label;
+    type Prop = TsFormItem.Prop;
+    type Model = TsTreeSelect.Model;
+    interface Options extends TsTree.Options {
+    }
+
+    interface Sets extends TsFormItem.Sets, TsTree.Sets {
+    }
+}
 namespace TsFormTreeSelect {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
-
+    type Model = TsTreeSelect.Model;
     interface Options extends TsTreeSelect.Options {
     }
 
@@ -605,6 +619,7 @@ namespace TsFormTreeSelect {
 namespace TsFormUpload {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
+    type Model = TsUpload.Model;
 
     interface Sets extends TsFormItem.Sets, TsUpload.Sets {
     }

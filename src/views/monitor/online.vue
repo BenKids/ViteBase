@@ -37,8 +37,8 @@ function onForceLogout(row:TsOnline.TableItem) {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="登录地址" prop="ipaddr"></base-form-input>
-                <base-form-input label="用户名称" prop="userName"></base-form-input>
+                <base-form-input label="登录地址" v-model="formModel.ipaddr" prop="ipaddr"></base-form-input>
+                <base-form-input label="用户名称" v-model="formModel.userName" prop="userName"></base-form-input>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

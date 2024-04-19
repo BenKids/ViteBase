@@ -1,4 +1,8 @@
 <script setup lang="ts">
+//sets 弹框设置
+const setsDialog:TsDialog.Sets = {
+    width: 1100,
+}
 //options 配置
 const options: TsDescriptions.Options<TsLogOperDetail.FormModel> = [
     {
@@ -61,11 +65,7 @@ const {data: optionsType} = apiGen.dicts("sys_oper_type");
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_common_status");
 //cpa 弹框组合式函数
-const {dialogSets, visible, open: onOpen, close} = comDialog({
-    dialogSets: {
-        width: 1100,
-    }
-});
+const {visible, open: onOpen, close} = cpaDialogForm();
 
 //handle 打开弹框
 function open(row: TsLogOper.TableItem) {
@@ -82,7 +82,7 @@ defineExpose({
 })
 </script>
 <template>
-    <base-dialog v-model="visible" title="操作日志详细" :sets="dialogSets" class="dialog-log-oper-detail">
+    <base-dialog v-model="visible" title="操作日志详细" :sets="setsDialog" @before-close="close" class="dialog-log-oper-detail">
         <base-descriptions v-model="formModel" :options="options">
             <template #titleValue>
                 <span style="margin-right:var(--base-gap);">{{ formModel.title }}</span>

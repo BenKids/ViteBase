@@ -60,13 +60,6 @@ function onDelete(row: TsNotice.TableItem) {
             cancelButtonText: "取消",
         })
         .then(() => sendDelete(row.noticeId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            accessAction("apiNoticeTable",(api) => api.refresh());
-        })
         .catch(() => {
         })
 }
@@ -75,9 +68,9 @@ function onDelete(row: TsNotice.TableItem) {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="公告标题" prop="noticeTitle"></base-form-input>
-                <base-form-input label="操作人员" prop="createBy"></base-form-input>
-                <base-form-select label="类型" prop="noticeType" :options="optionsType"></base-form-select>
+                <base-form-input label="公告标题" v-model="formModel.noticeTitle" prop="noticeTitle"></base-form-input>
+                <base-form-input label="操作人员" v-model="formModel.createBy" prop="createBy"></base-form-input>
+                <base-form-select label="类型" v-model="formModel.noticeType" prop="noticeType" :options="optionsType"></base-form-select>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

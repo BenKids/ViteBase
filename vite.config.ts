@@ -65,14 +65,16 @@ export default ({ mode }) => {
 							["useElementSize","useElementSize"],
 							["useUrlSearchParams","useUrlSearchParams"],
 							["useWebNotification","useWebNotification"],
-							["useStorage","useStorage"]
+							["useStorage","useStorage"],
 						],
 						"@alova/scene-vue": [
 							["usePagination", "usePagination"],
 							["useSQRequest", "useSQRequest"],
 							["useAutoRequest", "useAutoRequest"],
 							["accessAction", "accessAction"],
-							["actionDelegationMiddleware", "actionDelegationMiddleware"]
+							["actionDelegationMiddleware", "actionDelegationMiddleware"],
+							["useForm", "useForm"],
+							["updateStateEffect","updateStateEffect"]
 						]
 					},
 				],

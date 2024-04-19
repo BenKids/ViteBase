@@ -5,7 +5,7 @@ const isPermit = (v: TsGen.Permissions) => evPermit(v);
 const formRef = ref();
 // 新增弹框实例
 const dialogAddRef = ref();
-//sets 修改弹框实例
+// 修改弹框实例
 const dialogUpdateRef = ref();
 //sets 表单设置
 const formSets: TsForm.Sets = {
@@ -53,18 +53,18 @@ let statusObj = reactive<TsUser.UpdateStatus>({
     userId: "",
     status: "",
 });
-//api 左侧树数据
-const {data: optionsTree} = apiDept.tree();
 //api 状态数据
 const {data: optionsStatus} = apiGen.dicts("sys_normal_disable");
+//api 左侧树数据
+const {data: optionsTree} = apiDept.tree();
 //api 表格数据
 const {loading: tableLoading, data: tableModel, page, pageSize, total, refresh} = apiUser.table(formModel);
 //api 删除
-const {send: sendDelete} = apiUser.delete();
+const {send: sendDelete} = apiUser.remove();
 //api 重置密码
 const {send: resetPassword} = apiUser.resetPassword();
 //api 导出数据查询
-const {send: getExport} = apiUser.export(formModel);
+const {send: getExport} = apiUser.down(formModel);
 //api 修改状态
 const {send: sendStatus} = apiUser.updateStatus(statusObj);
 
@@ -91,13 +91,6 @@ function onDelete(row: TsUser.TableItem) {
         type: "warning",
     })
         .then(() => sendDelete(row.userId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            refresh();
-        })
         .catch(() => {
         });
 }
@@ -114,13 +107,6 @@ function onDeleteMultiple() {
         type: "warning",
     })
         .then(() => sendDelete(ids.join()))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            refresh();
-        })
         .catch(() => {
         });
 }
@@ -138,12 +124,6 @@ function onReset(row: TsUser.TableItem) {
                 password: value,
             })
         )
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "密码修改成功",
-            });
-        })
         .catch(() => {
         });
 }
@@ -177,13 +157,6 @@ function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
             statusObj.userId = row.userId;
             return sendStatus();
         })
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: text + "成功！",
-            });
-            accessAction("apiUserTable", (api) => api.refresh());
-        })
         .catch(() => {
             row.status = val === "0" ? "1" : "0";
         });
@@ -196,10 +169,10 @@ function onSwitch(val: TsSwitch.Change, row: TsUser.TableItem) {
         </template>
         <template #form>
             <base-form v-model="formModel" ref="formRef" :sets="formSets">
-                <base-form-input label="用户名称" prop="userName"></base-form-input>
-                <base-form-input label="手机号码" prop="phonenumber"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
-                <base-form-date-picker label="创建时间" prop="dateRange" :sets="dateRangeSets"></base-form-date-picker>
+                <base-form-input label="用户名称" v-model="formModel.userName" prop="userName"></base-form-input>
+                <base-form-input label="手机号码" v-model="formModel.phonenumber" prop="phonenumber"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-date-picker label="创建时间" v-model="formModel.dateRange" prop="dateRange" :sets="dateRangeSets"></base-form-date-picker>
                 <base-form-item prop="deptId" :sets="setFormItemHidden"></base-form-item>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>

@@ -69,13 +69,6 @@ function onDelete(row: TsRole.TableItem) {
         type: "warning",
     })
         .then(() => sendDelete(row.roleId))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            refresh();
-        })
         .catch(() => {
         });
 }
@@ -92,13 +85,6 @@ function onDeleteMultiple() {
         type: "warning",
     })
         .then(() => sendDelete(ids.join()))
-        .then(() => {
-            ElMessage({
-                type: "success",
-                message: "删除成功",
-            });
-            refresh();
-        })
         .catch(() => {
         });
 }
@@ -107,10 +93,10 @@ function onDeleteMultiple() {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="角色名称" prop="roleName"></base-form-input>
-                <base-form-input label="权限字符" prop="roleKey"></base-form-input>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
-                <base-form-date-picker label="创建时间" prop="dateRange" :sets="setsDateRange"></base-form-date-picker>
+                <base-form-input label="角色名称" v-model="formModel.roleName" prop="roleName"></base-form-input>
+                <base-form-input label="权限字符" v-model="formModel.roleKey" prop="roleKey"></base-form-input>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-date-picker label="创建时间" v-model="formModel.dateRange" prop="dateRange" :sets="setsDateRange"></base-form-date-picker>
                 <template #handle>
                     <base-button label="重置" @click="onReset"></base-button>
                 </template>

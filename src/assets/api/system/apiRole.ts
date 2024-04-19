@@ -3,7 +3,7 @@ export default {
     select: () => useRequest(
         () =>
             request.Get("/system/user/", {
-                name: "apiRoleMsg",
+                name: "apiRoleSelect",
                 transformData(rawdata: TsUser.Msg) {
                     return evRename({
                         data: rawdata.roles,
@@ -15,7 +15,9 @@ export default {
                 },
             }),
         {
+            force: isForce => isForce,
             immediate: true,
+            middleware: actionDelegationMiddleware("apiRoleSelect"),
         }
     ),
     // 表格数据
@@ -41,36 +43,83 @@ export default {
             }
         }
     ),
-    add: (formModel: TsRoleAdd.FormModel) => useRequest(
-        () => request.Post("/system/role", formModel, {
-            name: "apiRoleAdd"
-        }),
-        {
-            immediate: false,
-        }
-    ),
-    delete: () => useRequest(
-        (id: TsRole.RoleId | string) =>
-            request.Delete(
-                "/system/role/" + id,
-                {},
-                {
-                    name: "apiRoleDelete",
+    add: () => {
+        let res = useForm(
+            (formModel: TsRoleAdd.FormModel) => request.Post("/system/role", formModel, {
+                name: "apiRoleAdd",
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    roleName: "",
+                    roleKey: "",
+                    roleSort: 0,
+                    status: "0",
+                    menuIds: [],
+                    remark: "",
                 }
-            ),
-        {
-            immediate: false,
-        }
-    ),
-    update: (formModel: TsRoleUpdate.FormModel) => useRequest(
-        () =>
-            request.Put("/system/role", formModel, {
+            }
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "角色添加成功",
+            });
+            accessAction("apiRoleTable", (api) => api.refresh());
+            accessAction("apiRoleSelect",(api) => api.send(true));
+        })
+        return res;
+    },
+    update: () => {
+        let res = useForm(
+            (formModel: TsRoleUpdate.FormModel) => request.Put("/system/role", formModel,{
                 name: "apiRoleUpdate",
-            }),
-        {
-            immediate: false,
-        }
-    ),
+            }),{
+                resetAfterSubmiting: true,
+                initialForm: {
+                    roleId: "",
+                    roleName: "",
+                    roleKey: "",
+                    roleSort: 0,
+                    status: "0",
+                    menuIds: [],
+                    remark: "",
+                }
+            }
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "角色修改成功",
+            });
+            accessAction("apiRoleTable", (api) => api.refresh());
+            accessAction("apiRoleSelect",(api) => api.send(true));
+        })
+        return res;
+    },
+    delete: () => {
+        let res = useRequest(
+            (id: TsRole.RoleId | string) =>
+                request.Delete(
+                    "/system/role/" + id,
+                    {},
+                    {
+                        name: "apiRoleDelete",
+                    }
+                ),
+            {
+                immediate: false,
+            }
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "角色删除成功",
+            });
+            accessAction("apiRoleTable",(api) => api.refresh());
+            accessAction("apiRoleSelect",(api) => api.send(true));
+        })
+        return res;
+    },
     menuPermi: () => useRequest(
         (id:TsRole.RoleId) => request.Get("/system/menu/roleMenuTreeselect/" + id, {
             name: "apiRoleMenuPermi",
@@ -81,15 +130,30 @@ export default {
             immediate: false,
         }
     ),
-    updatePermit: (formModel: TsRoleAuth.FormModel) => useRequest(
-        () =>
-            request.Put("/system/role/dataScope", formModel, {
+    updatePermit: () => {
+        let res = useForm(
+            (formModel: TsRoleAuth.FormModel) => request.Put("/system/role/dataScope",formModel,{
                 name: "apiRoleUpdatePermi",
-            }),
-        {
-            immediate: false,
-        }
-    ),
+            }),{
+                resetAfterSubmiting: true,
+                initialForm: {
+                    roleId: "",
+                    roleName: "",
+                    roleKey: "",
+                    dataScope: "",
+                    deptCheckStrictly: false,
+                    deptIds: [],
+                }
+            }
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "角色数据权限修改成功",
+            });
+        })
+        return res;
+    },
     auth: () => {
         return [
             {

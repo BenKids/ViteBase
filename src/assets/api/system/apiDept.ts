@@ -16,6 +16,7 @@ export default {
                     });
                 },
             }), {
+                force: (isForce: boolean) => isForce,
                 immediate: true,
                 middleware: actionDelegationMiddleware("apiDeptTree"),
             }
@@ -82,33 +83,81 @@ export default {
         },
     ),
     // 新增部门
-    deptAdd: (formModel: TsDeptAdd.FormModel) => useRequest(
-        () =>
-            request.Post("/system/dept", formModel, {
+    deptAdd: () => {
+        let res = useForm(
+            (formModel: TsDeptAdd.FormModel) => request.Post("/system/dept", formModel, {
                 name: "apiDeptAdd",
-            }),
-        {
-            immediate: false,
-        }
-    ),
-    // 删除部门
-    deptDel: () => useRequest(
-        (id: TsDept.DeptId) =>
-            request.Delete("/system/dept/" + id, {}, {
-                name: "apiDeptDelete",
-            }),
-        {
-            immediate: false,
-        }
-    ),
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    parentId: "",
+                    deptName: "",
+                    orderNum: 0,
+                    leader: "",
+                    phone: "",
+                    email: "",
+                    status: "0",
+                }
+            }
+        );
+        res.onSuccess(()=>{
+            ElMessage({
+                type: "success",
+                message: "部门添加成功",
+            })
+            accessAction("apiDeptTable", (api) => api.send(true));
+            accessAction("apiDeptTree",(api) => api.send(true));
+        })
+        return res;
+    },
     // 修改部门
-    deptUpdate: (formModel: TsDeptUpdate.FormModel) => useRequest(
-        () =>
-            request.Put("/system/dept", formModel, {
+    deptUpdate: () => {
+        let res = useForm(
+            (formModel: TsDeptUpdate.FormModel) => request.Put("/system/dept", formModel, {
                 name: "apiDeptUpdate",
-            }),
-        {
-            immediate: false,
-        }
-    ),
+            }), {
+                resetAfterSubmiting: true,
+                initialForm: {
+                    deptId: "",
+                    parentId: "",
+                    deptName: "",
+                    orderNum: 0,
+                    leader: "",
+                    phone: "",
+                    email: "",
+                    status: "0",
+                }
+            }
+        )
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "部门修改成功",
+            });
+            accessAction("apiDeptTable", (api) => api.send(true));
+            accessAction("apiDeptTree",(api) => api.send(true));
+        })
+        return res;
+    },
+    // 删除部门
+    deptDel: () => {
+        let res = useRequest(
+            (id: TsDept.DeptId) =>
+                request.Delete("/system/dept/" + id, {}, {
+                    name: "apiDeptDelete",
+                }),
+            {
+                immediate: false,
+            }
+        )
+        res.onSuccess(() => {
+            ElMessage({
+                type: "success",
+                message: "部门删除成功",
+            });
+            accessAction("apiDeptTable", (api) => api.send(true));
+            accessAction("apiDeptTree",(api) => api.send(true));
+        })
+        return res;
+    },
 };

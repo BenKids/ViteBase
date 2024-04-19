@@ -63,12 +63,12 @@ function onDetail(row: TsLogOper.TableItem) {
     <base-layout @refresh="refresh(page)">
         <template #form>
             <base-form v-model="formModel" ref="formRef">
-                <base-form-input label="操作地址" prop="operIp"></base-form-input>
-                <base-form-input label="系统模块" prop="title"></base-form-input>
-                <base-form-input label="操作人员" prop="operName"></base-form-input>
-                <base-form-select label="类型" prop="businessType" :options="optionsType"></base-form-select>
-                <base-form-select label="状态" prop="status" :options="optionsStatus"></base-form-select>
-                <base-form-date-picker label="操作时间" prop="dateRange"></base-form-date-picker>
+                <base-form-input label="操作地址" v-model="formModel.operIp" prop="operIp"></base-form-input>
+                <base-form-input label="系统模块" v-model="formModel.title" prop="title"></base-form-input>
+                <base-form-input label="操作人员" v-model="formModel.operName" prop="operName"></base-form-input>
+                <base-form-select label="类型" v-model="formModel.businessType" prop="businessType" :options="optionsType"></base-form-select>
+                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
+                <base-form-date-picker label="操作时间" v-model="formModel.dateRange" prop="dateRange"></base-form-date-picker>
                 <template #handle>
                     <base-button label="重置" @click="reload"></base-button>
                 </template>

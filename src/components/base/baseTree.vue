@@ -93,10 +93,25 @@ function onFold(val: boolean) {
         nodes[key].expanded = val;
     }
 }
+onUpdated(()=>{
+    reset();
+})
 defineExpose({
     reset,
     removeHighlight
 })
+//handle 全选
+function onCheckedAll() {
+    let res:TsTree.Option["value"][] = [];
+    props.options.forEach((item) => {
+        res.push(item.value);
+    });
+    treeRef.value.setCheckedKeys(res,false);
+}
+//handle 全部取消
+function onUncheckAll() {
+    treeRef.value.setCheckedKeys([]);
+}
 </script>
 
 <template>
@@ -110,7 +125,9 @@ defineExpose({
             />
             <template v-if="sets.handleBtn">
                 <el-button type="primary" plain size="small" @click="onFold(true)">全部展开</el-button>
-                <el-button type="primary" plain size="small" @click="onFold(false)">全部收起</el-button>
+                <el-button type="success" plain size="small" @click="onFold(false)">全部收起</el-button>
+                <el-button type="primary" plain size="small" @click="onCheckedAll">全选</el-button>
+                <el-button type="warning" plain size="small" @click="onUncheckAll">全部取消</el-button>
             </template>
         </div>
         <el-tree

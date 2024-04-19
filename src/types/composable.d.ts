@@ -3,13 +3,15 @@ namespace TsComposable {
     type Url = string;
     type HitSource = string[];
     type FormModel = Reactive<TsForm.Model>
+    type Reset = () => void;
     interface DialogForm {
-        formSets?: TsForm.Sets;
-        dialogSets?: TsDialog.Sets;
+        setsForm?: TsForm.Sets;
+        setsDialog?: TsDialog.Sets;
     }
     interface Dialog {
-        dialogSets?: TsDialog.Sets;
+        setsDialog?: TsDialog.Sets;
     }
+
     interface Basic {
         name: Name;
         url: Url;
