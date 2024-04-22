@@ -41,13 +41,13 @@ if (demo) {
             <template v-if="step">
                 <div class="part-title step">Step</div>
                 <div class="part-content step">
-                    <the-code-mirror :code="step"></the-code-mirror>
+                    <base-code-mirror :code="step"></base-code-mirror>
                 </div>
             </template>
             <template v-if="template">
                 <div class="part-title template">Template</div>
                 <div class="part-content template">
-                    <the-code-mirror :code="template"></the-code-mirror>
+                    <base-code-mirror :code="template"></base-code-mirror>
                 </div>
             </template>
         </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// 移除主题样式
+document.documentElement.classList.remove("dark");
 const storeUser = user();
 // 表单实例
 const formRef = ref();
@@ -118,7 +120,7 @@ const onLogin = () => {
     width: 400px;
     height: 420px;
     box-shadow: var(--base-shadow-box);
-    background-color: var(--base-bgc-white);
+    background-color: #ffffff;
     border-radius: 24px;
     padding: 32px 32px 16px;
     position: absolute;

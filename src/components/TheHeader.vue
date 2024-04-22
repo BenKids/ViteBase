@@ -3,12 +3,12 @@
 const route = useRoute();
 let {collapse, lock} = pinia.storeToRefs(system());
 const {avatar, nickName, deptName} = pinia.storeToRefs(user());
-//* 锁屏设置
+//sets 锁屏设置
 const setsLock: TsButton.Sets = {
     text: true,
     icon: IconSolarLockPasswordLinear,
 };
-// 图标
+//ref 图标
 const collapseRight:TsIcons.Icon = shallowRef(IconLineMdMenuFoldRight);
 const collapseLeft:TsIcons.Icon = shallowRef(IconLineMdMenuFoldLeft);
 const iconUser:TsIcons.Icon = markRaw(IconSolarUserLinear);
@@ -60,6 +60,7 @@ function onLock() {
                 {{ nickName }} / {{ deptName }}
             </el-text>
             <base-button label="锁屏" :sets="setsLock" @click="onLock"></base-button>
+            <the-toggle-circle></the-toggle-circle>
             <base-avatar v-model="avatar"></base-avatar>
             <base-button label="退出" @click="sendLogout"></base-button>
         </div>

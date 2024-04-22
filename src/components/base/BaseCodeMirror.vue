@@ -35,4 +35,16 @@ onUnmounted(() => {
   </div>
 </template>
 <style scoped>
+.the-code-mirror :deep(.CodeMirror) {
+    background-color: var(--base-bgc-white);
+    color: var(--base-text-color-primary);
+}
+.the-code-mirror :deep(.CodeMirror-gutters) {
+    background-color: var(--base-bgc-gray);
+    color: var(--base-text-color-primary);
+    border-color: var(--base-border-color);
+}
+.the-code-mirror :deep(.codemirror-container.bordered) {
+    border-color: var(--base-border-color);
+}
 </style>

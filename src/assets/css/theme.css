@@ -15,6 +15,41 @@ body,
     height: 100%;
 }
 
+
+/* Alternative custom animation style */
+::view-transition-old(root),
+::view-transition-new(root) {
+    height: auto;
+    width: 100vw;
+    animation: none;
+    mix-blend-mode: normal;
+}
+html.dark::view-transition-old(root) {
+    z-index: 2147483646;
+}
+html.dark::view-transition-new(root) {
+    z-index: 1;
+}
+html::view-transition-old(root) {
+    z-index: 1;
+}
+html::view-transition-new(root) {
+    z-index: 2147483646;
+}
+
+:host {
+    /* 解决报错时页面展示内容被el-table遮盖的问题 */
+    z-index: 10;
+}
+
+vite-error-overlay {
+    /* 解决页面出错时页面层级混乱问题 */
+    z-index: 10000;
+}
+
+
+
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -52,9 +87,10 @@ body,
     --base-shadow-avatar: 0px 5px 15px 0px rgb(0 0 0 / 15%);
     --base-radius: 6px;
     --base-gap: 16px;
-    --base-border: 1px solid #eaeaea;
-    --base-bgc-white: #ffffff;
-    --base-bgc-gray: #f5f5f5;
+    --base-border: 1px solid var(--el-border-color);
+    --base-border-color: var(--el-border-color);
+    --base-bgc-white: var(--el-bg-color);
+    --base-bgc-gray: var(--el-fill-color-light);
     --base-bgc-menu: #404f65;
     --base-bgc-menu-hover: #4f5f77;
     --base-color-active: #ffd04b;
@@ -78,16 +114,6 @@ body,
 @font-face {
     font-family: "Bebas Neue";
     src: url("@/assets/css/BebasNeue-Regular.ttf");
-}
-
-:host {
-    /* 解决报错时页面展示内容被el-table遮盖的问题 */
-    z-index: 10;
-}
-
-vite-error-overlay {
-    /* 解决页面出错时页面层级混乱问题 */
-    z-index: 10000;
 }
 
 .el-popper {

@@ -66,6 +66,9 @@ export default ({ mode }) => {
 							["useUrlSearchParams","useUrlSearchParams"],
 							["useWebNotification","useWebNotification"],
 							["useStorage","useStorage"],
+							["useToggle","useToggle"],
+							["useDark","useDark"],
+							["useMouse","useMouse"]
 						],
 						"@alova/scene-vue": [
 							["usePagination", "usePagination"],

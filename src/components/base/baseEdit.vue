@@ -72,4 +72,36 @@ const handleCreated = (editor: any) => {
     flex: 1;
     overflow-y: hidden;
 }
+.base-edit :deep(.w-e-text-container) {
+    background-color: var(--base-bgc-gray);
+    color: var(--base-text-color-primary);
+}
+.base-edit :deep(.w-e-bar){
+    background-color: var(--base-bgc-gray);
+}
+.base-edit :deep(.w-e-bar-item-group .w-e-bar-item-menus-container) {
+    background-color: var(--base-bgc-gray);
+    border: var(--base-border);
+}
+.base-edit-toolbar :deep(.w-e-bar-item button),
+.base-edit-toolbar :deep(.w-e-bar-item svg) {
+    color: var(--base-text-color-primary);
+    fill: var(--base-text-color-primary);
+    border-radius: var(--base-radius);
+}
+.base-edit-toolbar :deep(.w-e-bar-item .disabled),
+.base-edit-toolbar :deep(.w-e-bar-item .disabled svg) {
+    color: var(--base-text-color-disabled);
+    fill: var(--base-text-color-disabled);
+}
+.base-edit-toolbar :deep(.w-e-bar-item button:hover),
+.base-edit-toolbar :deep(.w-e-bar-item button:hover svg),
+.base-edit-toolbar :deep(.w-e-bar-item .disabled:hover),
+.base-edit-toolbar :deep(.w-e-bar-item .disabled:hover svg) {
+    color: var(--base-bgc-gray);
+    fill: var(--base-bgc-gray);
+}
+.base-edit :deep(.w-e-bar-divider) {
+    background-color: var(--base-border-color);
+}
 </style>

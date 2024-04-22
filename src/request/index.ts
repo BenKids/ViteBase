@@ -25,7 +25,8 @@ const {onAuthRequired, onResponseRefreshToken} = createServerTokenAuthentication
     },
     // 登出拦截
     logout() {
-        localStorage.clear();
+        system().$reset();
+        user().$reset();
         invalidateCache();
         router.push({name: "Login"});
     },
