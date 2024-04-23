@@ -415,7 +415,7 @@ export function evIntTree<D extends TsGen.Object>({ data, id, parentId, children
 // 权限判断
 export function evPermit(value: TsGen.Permissions): boolean {
 	if (value && value.length > 0) {
-		const { permissions } = pinia.storeToRefs(user());
+		const { permissions } = pinia.storeToRefs(storeUser());
 		const permissionDatas = value;
 		const all_permission = "*:*:*";
 

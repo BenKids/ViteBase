@@ -1,5 +1,5 @@
 <script setup lang="ts">
-let {include} = pinia.storeToRefs(system());
+let {include} = pinia.storeToRefs(storeSystem());
 </script>
 <template>
     <base-layout class="app-layout">

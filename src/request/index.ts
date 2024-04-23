@@ -15,18 +15,17 @@ let isExpired = false;
 const {onAuthRequired, onResponseRefreshToken} = createServerTokenAuthentication<typeof axiosRequestAdapter>({
     // 附加 token
     assignToken(method) {
-        const {token} = pinia.storeToRefs(system());
+        const {token} = pinia.storeToRefs(storeSystem());
         method.config.headers.Authorization = "Bearer " + token.value;
     },
     // 登录拦截
     login(response) {
-        const storeSystem = system();
-        storeSystem.setToken(response.data.token);
+        storeSystem().setToken(response.data.token);
     },
     // 登出拦截
     logout() {
-        system().$reset();
-        user().$reset();
+        storeSystem().$reset();
+        storeUser().$reset();
         invalidateCache();
         router.push({name: "Login"});
     },

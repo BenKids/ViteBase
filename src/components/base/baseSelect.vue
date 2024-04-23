@@ -109,7 +109,7 @@ function onChange(val: TsSelect.Model) {
             v-bind="$attrs"
             ref="selectRef"
             v-model="model"
-            :placeholder="sets.placeholder || '请选择'"
+            :placeholder="sets.placeholder"
             :multiple="sets.multiple"
             :disabled="sets.disabled"
             :size="sets.size"

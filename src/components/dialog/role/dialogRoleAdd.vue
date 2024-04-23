@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //sets 预设设置
-const {setsRequired} = cpaSets();
+const {setsRequired, setsRemark} = cpaSets();
 //sets 其他设置
 const {setsDialog, setsRoleSort, setsMenuIds, setsForm} = cpaRoleDialog();
 //api 提交表单
@@ -36,7 +36,7 @@ defineExpose({
             <base-form-number label="角色顺序" v-model="form.roleSort" prop="roleSort" :sets="setsRoleSort"></base-form-number>
             <base-form-radio label="状态" v-model="form.status" prop="status" :options="optionsStatus"></base-form-radio>
             <base-form-tree label="菜单权限" v-model="form.menuIds" prop="menuIds" :options="optionsMenus" :sets="setsMenuIds" class="menu-ids"></base-form-tree>
-            <base-form-input label="备注" v-model="form.remark" prop="remark"></base-form-input>
+            <base-form-input label="备注" v-model="form.remark" prop="remark" :sets="setsRemark"></base-form-input>
         </base-form>
         <template #footer>
             <base-button label="确定" @click="onConfirm"></base-button>

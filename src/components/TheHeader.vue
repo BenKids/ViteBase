@@ -1,17 +1,19 @@
 <script setup lang="ts">
 //? 全局变量
+import TheAutoInsertSpace from "@/components/Theme/TheAutoInsertSpace.vue";
+
 const route = useRoute();
-let {collapse, lock} = pinia.storeToRefs(system());
-const {avatar, nickName, deptName} = pinia.storeToRefs(user());
+const {collapse, lock} = pinia.storeToRefs(storeSystem());
+const {avatar, nickName, deptName} = pinia.storeToRefs(storeUser());
 //sets 锁屏设置
 const setsLock: TsButton.Sets = {
     text: true,
     icon: IconSolarLockPasswordLinear,
 };
 //ref 图标
-const collapseRight:TsIcons.Icon = shallowRef(IconLineMdMenuFoldRight);
-const collapseLeft:TsIcons.Icon = shallowRef(IconLineMdMenuFoldLeft);
-const iconUser:TsIcons.Icon = markRaw(IconSolarUserLinear);
+const collapseRight: TsIcons.Icon = shallowRef(IconLineMdMenuFoldRight);
+const collapseLeft: TsIcons.Icon = shallowRef(IconLineMdMenuFoldLeft);
+const iconUser: TsIcons.Icon = markRaw(IconSolarUserLinear);
 //ref 面包屑
 const optBreadcrumb = computed(() => {
     let pathArr = route.path.split("/");
@@ -34,10 +36,12 @@ const optBreadcrumb = computed(() => {
 });
 //api 退出登录
 const {send: sendLogout} = apiLogin.logout();
+
 //handle 导航折叠
 function onCollapse() {
     collapse.value = !collapse.value;
 }
+
 //handle 锁屏
 function onLock() {
     lock.value = true;
@@ -61,6 +65,9 @@ function onLock() {
             </el-text>
             <base-button label="锁屏" :sets="setsLock" @click="onLock"></base-button>
             <the-toggle-circle></the-toggle-circle>
+            <the-toggle-language></the-toggle-language>
+            <the-auto-insert-space></the-auto-insert-space>
+            <the-size></the-size>
             <base-avatar v-model="avatar"></base-avatar>
             <base-button label="退出" @click="sendLogout"></base-button>
         </div>
@@ -82,11 +89,17 @@ function onLock() {
     align-items: center;
     gap: var(--base-gap);
 }
-
-.the-header-right :deep(.base-avatar) {
-    vertical-align: middle;
+.the-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--base-gap);
 }
-
+.the-header-right :deep(.base-button) {
+    padding: 0;
+}
+.the-header-right :deep(.base-button:hover) {
+    background-color: transparent;
+}
 .the-icon {
     font-size: 18px;
     color: var(--el-color-primary);

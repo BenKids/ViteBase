@@ -15,7 +15,7 @@ const onMenuItem = (item: TsMenu.Option) => {
     console.log("item",item)
 };`;
 const template: string = `<base-menu v-model="menu" :options="options" :collapse="collapse" @menuItem="onMenuItem"></base-menu>`;
-const stores = system();
+const stores = storeSystem();
 let {collapse} = pinia.storeToRefs(stores);
 const options:TsMenu.Options = routesBase;
 const route = useRoute();

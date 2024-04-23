@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export default defineStore("user", {
+export default defineStore("storeUser", {
 	state: ():TsStore.User => ({
         userName: '',
         nickName: '',

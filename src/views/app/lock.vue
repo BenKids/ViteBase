@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const {useNow, useDateFormat} = vueuse;
 const {storeToRefs} = pinia;
-const stores = system();
+const stores = storeSystem();
 let {lock} = storeToRefs(stores);
-const {avatar} = storeToRefs(user());
+const {avatar} = storeToRefs(storeUser());
 const avatarSize = ref<number>(70);
 let time = useDateFormat(useNow(), 'HH:mm:ss');
 

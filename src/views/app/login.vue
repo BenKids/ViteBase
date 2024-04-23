@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 移除主题样式
 document.documentElement.classList.remove("dark");
-const storeUser = user();
+const storeUs = storeUser();
 // 表单实例
 const formRef = ref();
 //* 按钮设置
@@ -66,7 +66,7 @@ const onLogin = () => {
         .then(() => sendLogin())
         .then(() => sendUser())
         .then((res: TsStore.UserRes) => {
-            storeUser.getUserInfo(res);
+            storeUs.getUserInfo(res);
             router.push({name: "Home"});
         })
         .catch(() => {

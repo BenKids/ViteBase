@@ -62,7 +62,7 @@ function onBlur(val: FocusEvent) {
             v-if="tableIn && !edit"
             :class=" {
                 'view-text': true,
-                'placeholder': !model,
+                'placeholder': !model
             }"
             @click="onText">
             {{ model || sets.placeholder || '请选择' }}

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export default defineStore("system", {
+export default defineStore("storeSystem", {
 	state: ():TsStore.System => ({
         token: "",
         collapse: false,

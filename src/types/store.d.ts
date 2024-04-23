@@ -39,4 +39,9 @@ namespace TsStore {
 			} 
 		};
 	}
+	interface Config {
+		size: TsGen.Size;
+		language: "zh-cn" | "en";
+		autoInsertSpace: boolean;
+	}
 }

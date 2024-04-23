@@ -51,19 +51,19 @@ function updateView() {
 
 </script>
 <template>
-    <el-switch
-        v-model="val"
-        inline-prompt
-        :active-action-icon="iconNight"
-        :inactive-action-icon="iconDay"
-        size="large"
-        @change="updateView"
-        class="the-toggle-circle"
-    />
+    <base-tooltip content="主题">
+        <el-switch
+            v-model="val"
+            inline-prompt
+            :active-action-icon="iconNight"
+            :inactive-action-icon="iconDay"
+            @change="updateView"
+            class="the-toggle-circle"
+        />
+    </base-tooltip>
 </template>
 <style scoped>
 .the-toggle-circle {
     --el-switch-off-color: var(--el-color-warning);
-    margin-right: var(--base-gap);
 }
 </style>

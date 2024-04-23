@@ -18,7 +18,7 @@ const r = createRouter({
 	],
 });
 r.beforeEach((to, _from, next) => {
-	const stores = system();
+	const stores = storeSystem();
 	let { whitelist, token, exclude, lock } = storeToRefs(stores);
 	if(to.name && to.meta) {
 		const meta = to.meta as unknown as TsRoutes.Meta;
@@ -40,13 +40,13 @@ r.beforeEach((to, _from, next) => {
 	}
 });
 r.afterEach((to) => {
-	const storeSystem = system();
-	const storeUser = user();
+	const storeSy = storeSystem();
+	const storeUs = storeUser();
 	if (to.name === "Login") {
-		storeSystem.$reset();
-		storeUser.$reset();
+		storeSy.$reset();
+		storeUs.$reset();
 	} else if (to.meta.keepAlive) {
-		storeSystem.addInclude(to.fullPath);
+		storeSy.addInclude(to.fullPath);
 	}
 });
 export default r;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //? 全局变量
-const soreSystem = system();
+const soreSystem = storeSystem();
 //permit 权限判断
 const isPermit = (v: TsGen.Permissions) => evPermit(v);
 //? 参数获取
