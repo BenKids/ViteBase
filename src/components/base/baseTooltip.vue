@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
     defineProps<{
-        content: TsTooltip.Content,
+        content?: TsTooltip.Content,
         sets?: TsTooltip.Sets,
     }>(),
     {
@@ -13,11 +13,14 @@ withDefaults(
 </script>
 <template>
     <el-tooltip
-        :content="content"
         :rawContent="sets.rawContent"
         :placement="sets.placement"
         :disabled="sets.disabled"
+        class="base-tooltip"
     >
+        <template #content>
+            <slot name="content">{{content}}</slot>
+        </template>
         <slot></slot>
     </el-tooltip>
 </template>

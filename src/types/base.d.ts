@@ -81,6 +81,18 @@ namespace TsCarousel {
         pauseOnHover?: boolean;
     }
 }
+namespace TsCard {
+    interface Sets {
+        bodyClass?: string;
+        bodyStyle?: string;
+        shadow?: "always" | "never" | "hover";
+    }
+
+    interface Slots {
+        header: boolean;
+        footer: boolean;
+    }
+}
 namespace TsCheckbox {
     type Model = string[] | number[];
 
@@ -477,7 +489,7 @@ namespace TsEchartsPie {
         labelStyle?: "normal" | "italic" | "oblique";
         labelWeight?: "normal" | "bold" | "bolder" | "lighter";
         labelSize?: number;
-        labelFormatter?: string | ((params: Object|Array) => string);
+        labelFormatter?: string | ((params: Object | Array) => string);
         legend?: boolean;
         legendColor?: string;
         legendSize?: number;
@@ -548,14 +560,17 @@ namespace TsFormInput {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
     type Model = TsInput.Model;
+
     interface Sets extends TsFormItem.Sets, TsInput.Sets {
-        type?: TsInput.Sets["type"] | 'phone' | 'email';
+        type?: TsInput.Sets["type"] | 'phone' | 'email' | 'idCard';
+        errorMsg?: string;
     }
 }
 namespace TsFormEdit {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
     type Model = TsEdit.Model;
+
     interface Sets extends TsFormItem.Sets, TsEdit.Sets {
     }
 }
@@ -563,6 +578,7 @@ namespace TsFormNumber {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
     type Model = TsNumber.Model;
+
     interface Sets extends TsFormItem.Sets, TsNumber.Sets {
     }
 }
@@ -600,6 +616,7 @@ namespace TsFormTree {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
     type Model = TsTreeSelect.Model;
+
     interface Options extends TsTree.Options {
     }
 
@@ -610,6 +627,7 @@ namespace TsFormTreeSelect {
     type Label = TsFormItem.Label;
     type Prop = TsFormItem.Prop;
     type Model = TsTreeSelect.Model;
+
     interface Options extends TsTreeSelect.Options {
     }
 
@@ -806,6 +824,7 @@ namespace TsPopover {
 }
 namespace TsProgress {
     type Model = number;
+
     interface Sets {
         type?: 'line' | 'circle' | 'dashboard';
         strokeWidth?: number;
@@ -884,6 +903,7 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
+
         [x: string]: any;
     }
 
@@ -913,6 +933,7 @@ namespace TsSteps {
 }
 namespace TsStatistic {
     type Model = number | string;
+
     interface Sets {
 
     }
@@ -942,7 +963,7 @@ namespace TsTable {
 
     type Model = Row[];
     type Loading = boolean;
-
+    type Rules = (()=>boolean)[];
     interface Sets<T = TsGen.Object> {
         height?: string | number;
         maxHeight?: string | number;
@@ -1007,6 +1028,10 @@ namespace TsTableInput {
     type Prop = TsTableColumn.Prop;
 
     interface Sets extends TsTableColumn.Sets, TsInput.Sets {
+        required?: boolean;
+        type?: TsFormInput.Sets["type"],
+        pattern?: RegExp;
+        errorMsg?: string;
     }
 }
 namespace TsTableNumber {
@@ -1030,6 +1055,8 @@ namespace TsTableSelect {
     type Options = TsSelect.Options | string;
 
     interface Sets extends TsTableColumn.Sets, TsSelect.Sets {
+        required?: boolean;
+        errorMsg?: string;
     }
 
     interface ChangeParams {
@@ -1109,6 +1136,7 @@ namespace TsTag {
 }
 namespace TsTooltip {
     type Content = string;
+
     interface Sets {
         effect?: 'dark' | 'light';
         rawContent?: boolean;
@@ -1118,7 +1146,20 @@ namespace TsTooltip {
 }
 namespace TsTour {
     type Model = boolean;
-    type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
+    type Placement =
+        'top'
+        | 'top-start'
+        | 'top-end'
+        | 'bottom'
+        | 'bottom-start'
+        | 'bottom-end'
+        | 'left'
+        | 'left-start'
+        | 'left-end'
+        | 'right'
+        | 'right-start'
+        | 'right-end';
+
     interface Sets {
         showArrow?: boolean;
         placement?: Placement;
@@ -1133,6 +1174,7 @@ namespace TsTour {
         closeOnPressEscape?: boolean;
         targetAreaClickable?: boolean;
     }
+
     interface Option {
         target?: `#${string}` | (() => HTMLElement);
         title?: string;
@@ -1148,6 +1190,7 @@ namespace TsTour {
         showClose?: boolean;
         closeIcon?: string;
     }
+
     type Options = Option[]
 }
 namespace TsTree {
@@ -1222,8 +1265,9 @@ namespace TsUpload {
     type Model = string[];
 
     interface Sets {
+        icon?: string;
         limit?: number;
-        beforeSelect?: boolean;
+        beforeSelect?: (done: Function) => void;
         action?: string;
         drag?: boolean;
         multiple?: boolean;
@@ -1234,5 +1278,6 @@ namespace TsUpload {
         autoUpload?: boolean;
         placeholder?: string;
         readonly?: boolean;
+        tip?: string;
     }
 }

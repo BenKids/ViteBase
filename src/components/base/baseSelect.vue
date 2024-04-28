@@ -24,6 +24,7 @@ const model = computed({
         emits("update:modelValue", val);
     },
 });
+let edit = ref<TsInput.Edit>(false);
 const selectRef = ref();
 const text = computed(() => {
     let res = "";
@@ -43,6 +44,19 @@ const text = computed(() => {
     return res;
 });
 let showTooltip = ref<boolean>(false);
+const iconErr = markRaw(IconSolarCloseCircleLinear);
+const parent = getCurrentInstance() as any;
+let errorMsg = ref<string>("");
+
+function validate() {
+    const rule = parent.props.sets as TsTableSelect.Sets;
+    console.log("[rule]", rule);
+    if (!rule) return
+    if (rule.required) {
+        errorMsg.value = (model.value && model.value !== 0) ? "" : (rule.errorMsg ?? "请选择");
+        return;
+    }
+}
 
 async function fnShowTooltip() {
     if (tableIn) return;
@@ -51,7 +65,7 @@ async function fnShowTooltip() {
         return;
     }
     if (props.sets.readonly) {
-        nextTick(() => {
+        await nextTick(() => {
             const node = selectRef.value;
             if (!node) return;
             showTooltip.value = evTextOver(node);
@@ -65,20 +79,21 @@ async function fnShowTooltip() {
     }
 }
 
-let edit = ref<TsInput.Edit>(false);
-
 function onText() {
     if (props.sets.readonly) return;
     edit.value = true;
     nextTick(() => {
         selectRef.value.focus();
+        selectRef.value.toggleMenu();
     });
 }
 
 function onBlur(val: FocusEvent) {
     emits("blur", val);
-    if (!tableIn) return;
-    edit.value = false;
+    if (tableIn) {
+        validate();
+        edit.value = false;
+    }
 }
 
 function onChange(val: TsSelect.Model) {
@@ -91,14 +106,17 @@ function onChange(val: TsSelect.Model) {
         v-if="tableIn && !edit"
         @click="onText"
         :class="{
-			'base-tooltip-select': true,
-			'el-input__inner': true,
-			'view-text-select': true,
-			'readonly': sets.readonly,
-			placeholder: !text,
-		}">
+          'base-tooltip-select': true,
+          'el-input__inner': true,
+          'view-text-select': true,
+          'readonly': sets.readonly,
+          placeholder: !text,
+        }">
+        <el-tooltip :content="errorMsg" placement="top" v-if="errorMsg">
+            <base-icons :icon="iconErr" class="base-select-error-icon"></base-icons>
+        </el-tooltip>
         {{ text || sets.placeholder || (sets.readonly ? "暂无数据" : "请选择") }}
-        <base-icons :icon="icon" v-if="!sets.readonly"></base-icons>
+        <base-icons :icon="icon" class="base-select-table-icon" v-if="!sets.readonly"></base-icons>
     </div>
     <el-tooltip v-else :disabled="!showTooltip" placement="top" popper-class="base-tooltip-select" :content="text">
         <div :class="{ 'base-select readonly': true, placeholder: !text }" v-if="sets.readonly" ref="selectRef">
@@ -125,10 +143,10 @@ function onChange(val: TsSelect.Model) {
             :no-data-text="sets.noDataText"
             :tag-type="sets.tagType"
             :class="{
-				'base-select': true,
-				overflow: !sets.multiple,
-				'table-in': tableIn,
-			}"
+                'base-select': true,
+                'table-in': tableIn,
+                overflow: !sets.multiple,
+            }"
             @change="onChange"
             @blur="onBlur">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
@@ -182,7 +200,6 @@ function onChange(val: TsSelect.Model) {
 }
 
 .view-text-select {
-    text-align: left;
     cursor: pointer;
     position: relative;
     text-overflow: ellipsis;
@@ -196,14 +213,34 @@ function onChange(val: TsSelect.Model) {
     padding-right: 0;
 }
 
-.view-text-select :deep(.el-icon) {
+.view-text-select :deep(.base-icons) {
     position: absolute;
-    right: 0;
-    top: 8px;
+    right: 5px;
+    top: calc(50% - 0.5em);
     color: var(--el-text-color-placeholder);
 }
 
 .view-text-select.placeholder {
+    color: var(--el-text-color-placeholder);
+}
+
+.view-text-select:has(.base-select-error-icon) {
+    padding-left: var(--base-gap);
+    color: var(--base-color-danger);
+}
+
+.view-text-select .base-select-error-icon {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.5em);
+    color: var(--base-color-danger);
+    cursor: pointer;
+}
+
+.view-text-select .base-select-table-icon {
+    position: absolute;
+    right: 0;
+    top: calc(50% - 0.5em);
     color: var(--el-text-color-placeholder);
 }
 </style>

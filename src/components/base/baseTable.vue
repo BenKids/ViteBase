@@ -17,6 +17,8 @@ let loading = ref<TsTable.Loading>(false);
 const tableRef = ref();
 const rowKey = (props.sets.rowKey as string) ?? "id";
 const emits = defineEmits(["update:selectData", "select", "selectAll", "expandChange"]);
+const validateRules = ref<TsTable.Rules>([]);
+provide("validateRules", validateRules)
 watch(
     () => props.selectData,
     () => reSelection()
@@ -26,7 +28,6 @@ watch(
     () => reSelection(),
 );
 let tableTreeChildrenName = ref<string>('children');
-provide("tableTreeChildrenName", tableTreeChildrenName)
 nextTick(() => {
     tableTreeChildrenName.value = tableRef.value.treeProps.children;
 })
@@ -113,9 +114,19 @@ function load(row: TsDept.TableItem, _treeNode: unknown, resolve: (date: TsDept.
 function rowClass({row}: { row: TsTable.Row }) {
     return row[tableTreeChildrenName.value] ? "row-children" : ""
 }
-
+function validates() {
+    return new Promise((resolve, reject) => {
+        console.log("[validateRules.value]",validateRules.value);
+        let access:boolean = true;
+        validateRules.value.forEach(item => {
+            if(item()) access = false;
+        })
+        access ? resolve(access) : reject(access);
+    })
+}
 defineExpose({
     loading,
+    validates,
 });
 </script>
 <template>
@@ -163,5 +174,8 @@ defineExpose({
 
 .base-table :deep(.cell.el-tooltip) {
     width: 100% !important;
+}
+.base-table :deep(.hidden-columns) {
+    position: fixed;
 }
 </style>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {ElMessage} from "element-plus";
+
+type modelValue = TsInput.Model | undefined;
 const props = withDefaults(
     defineProps<{
         modelValue: TsInput.Model;
@@ -18,12 +21,22 @@ const model = computed({
     },
     set: (val) => emits("update:modelValue", val),
 });
+let showTooltip = ref<boolean>(false);
+const icon = markRaw(IconSolarPen2Linear);
+const iconErr = markRaw(IconSolarCloseCircleLinear);
 const slots = reactive({
     prepend: false,
     append: false,
 });
 const getSlots = useSlots();
 const tableIn = inject("tableIn", false);
+const tableValidates = inject("validateRules",false) as Ref<TsTable.Rules> | false;
+const inputRef = ref();
+let parent:any;
+
+let isEdit = ref<TsInput.Edit>(false);
+let errorMsg = ref<string>("");
+
 onMounted(() => {
     if (getSlots.prepend) {
         slots.prepend = true;
@@ -31,9 +44,13 @@ onMounted(() => {
     if (getSlots.append) {
         slots.append = true;
     }
+    if(tableIn) {
+        parent = getCurrentInstance();
+        const propsSets = parent.props.sets;
+        const modelValue = model.value as modelValue;
+        if((propsSets.required || propsSets.type || propsSets.pattern) && tableValidates && (modelValue !== undefined)) tableValidates.value.push(validate);
+    }
 });
-const inputRef = ref();
-let isEdit = ref<TsInput.Edit>(false);
 
 function onText() {
     isEdit.value = true;
@@ -43,78 +60,108 @@ function onText() {
 }
 
 function onBlur(val: FocusEvent) {
-    if (tableIn) isEdit.value = false;
     emits("blur", val);
+    if (tableIn) {
+        isEdit.value = false;
+        validate();
+    }
 }
 
-let showTooltip = ref<boolean>(false);
+function validate():boolean {
+    const rule = parent.props.sets as TsTableInput.Sets;
+    if (rule) {
+        if(rule.required) {
+            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? "不能为空")
+        } else if(!model.value && model.value !== 0) {
+            errorMsg.value = "";
+        }
+        let pattern;
+        if (rule.pattern) pattern = rule.pattern;
+        else if (rule.type === "phone") pattern = regPhone;
+        else if (rule.type === "email") pattern = regEmail;
+        else if (rule.type === "idCard") pattern = regIdCard;
+        if (pattern && (model.value || model.value === 0)) {
+            errorMsg.value = pattern.test(model.value.toString()) ? "" : (rule.errorMsg ?? "格式不正确")
+        }
+    }
+    if(errorMsg.value) {
+        ElMessage({
+            type: "error",
+            message: errorMsg.value,
+        })
+    }
+    return !!errorMsg.value;
+}
 
 async function fnShowTooltip() {
     if (tableIn) return;
-    else if (props.sets.showTooltip !== undefined) {
+    if (props.sets.showTooltip !== undefined) {
         showTooltip.value = props.sets.showTooltip;
-    } else if (props.sets.readonly) {
-        await nextTick();
-        const node = inputRef.value;
-        if (!node) return;
-        showTooltip.value = node.scrollWidth > node.clientWidth;
+        return;
     }
+    await nextTick();
+    const node = inputRef.value;
+    if (!node) return;
+    showTooltip.value = props.sets.readonly ? node.scrollWidth > node.clientWidth : node.ref.scrollWidth > node.ref.clientWidth;
 }
-const icon = markRaw(IconSolarPen2Linear);
+
 </script>
 <template>
     <div
         v-if="tableIn && !isEdit"
         @click="onText"
         :class="{
-          'el-input__inner': true,
-          'view-text-input': true,
-          placeholder: !model,
-        }">
+              'el-input__inner': true,
+              'view-text-input': true,
+              placeholder: !model,
+            }">
+        <el-tooltip :content="errorMsg" placement="top" v-if="errorMsg">
+            <base-icons :icon="iconErr" class="base-input-error-icon"></base-icons>
+        </el-tooltip>
+        <base-icons :icon="icon" class="base-input-mark-icon" v-else></base-icons>
         {{ model || sets.placeholder || "请输入" }}
-        <base-icons :icon="icon"></base-icons>
     </div>
-    <el-input
-        v-else-if="!sets.readonly"
-        v-model.lazy="model"
-        :type="sets.type"
-        :maxlength="sets.maxlength"
-        :minlength="sets.minlength"
-        :showWordLimit="sets.showWordLimit"
-        :placeholder="sets.placeholder || '请输入'"
-        :clearable="sets.clearable ?? true"
-        :showPassword="sets.type === 'password' && sets.showPassword === true"
-        :disabled="sets.disabled"
-        :rows="sets.rows"
-        :autosize="sets.autosize ?? true"
-        :readonly="sets.readonly"
-        :resize="sets.resize"
-        :autofocus="sets.autofocus"
-        :min="sets.min"
-        :max="sets.max"
-        :size="sets.size"
-        :prefixIcon="sets.prefixIcon"
-        :suffixIcon="sets.suffixIcon"
-        :class="{
-          'base-input': true,
-          'table-in': tableIn,
-        }"
-        ref="inputRef"
-        @blur="onBlur">
-        <template #prepend v-if="slots.prepend">
-            <slot name="prepend"></slot>
-        </template>
-        <template #append v-if="slots.append">
-            <slot name="append"></slot>
-        </template>
-    </el-input>
     <el-tooltip v-else :disabled="!showTooltip" placement="top" popper-class="base-tooltip-input">
         <template #content>
             <div>{{ model }}</div>
         </template>
-        <div :class="'base-input readonly ' + (sets.type || '') + (model === '' ? ' placeholder' : '')" ref="inputRef">
+        <div :class="'base-input readonly ' + (sets.type || '') + (model === '' ? ' placeholder' : '')" ref="inputRef" v-if="sets.readonly">
             {{ model || sets.readonlyPlaceholder || sets.placeholder || '暂无数据' }}
         </div>
+        <el-input
+            v-else
+            v-model.lazy="model"
+            :type="sets.type"
+            :maxlength="sets.maxlength"
+            :minlength="sets.minlength"
+            :showWordLimit="sets.showWordLimit"
+            :placeholder="sets.placeholder || '请输入'"
+            :clearable="sets.clearable ?? true"
+            :showPassword="sets.type === 'password' && sets.showPassword === true"
+            :disabled="sets.disabled"
+            :rows="sets.rows"
+            :autosize="sets.autosize ?? true"
+            :readonly="sets.readonly"
+            :resize="sets.resize"
+            :autofocus="sets.autofocus"
+            :min="sets.min"
+            :max="sets.max"
+            :size="sets.size"
+            :prefixIcon="sets.prefixIcon"
+            :suffixIcon="sets.suffixIcon"
+            :class="{
+              'base-input': true,
+              'table-in': tableIn,
+            }"
+            ref="inputRef"
+            @blur="onBlur">
+            <template #prepend v-if="slots.prepend">
+                <slot name="prepend"></slot>
+            </template>
+            <template #append v-if="slots.append">
+                <slot name="append"></slot>
+            </template>
+        </el-input>
     </el-tooltip>
 </template>
 
@@ -160,24 +207,15 @@ const icon = markRaw(IconSolarPen2Linear);
 }
 
 .base-input.table-in :deep(.el-input__wrapper) {
-    padding: 0;
     background-color: transparent;
 }
 
 .view-text-input {
-    text-align: left;
     cursor: text;
     position: relative;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding-right: 20px;
-}
-
-.view-text-input :deep(.el-icon) {
-    position: absolute;
-    right: 0;
-    top: 8px;
-    color: var(--el-text-color-placeholder);
+    padding-left: var(--base-gap);
 }
 
 .base-input.readonly.placeholder,
@@ -185,6 +223,25 @@ const icon = markRaw(IconSolarPen2Linear);
     color: var(--el-text-color-placeholder);
 }
 
+.view-text-input:has(.base-input-error-icon) {
+    padding-left: var(--base-gap);
+    color: var(--base-color-danger);
+}
+
+.view-text-input .base-input-mark-icon {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.5em);
+    color: var(--el-text-color-placeholder);
+}
+
+.view-text-input .base-input-error-icon {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.5em);
+    color: var(--base-color-danger);
+    cursor: pointer;
+}
 
 .base-input :deep(.el-input__wrapper.is-focus) {
     box-shadow: none;
@@ -257,4 +314,5 @@ const icon = markRaw(IconSolarPen2Linear);
     transform-origin: top left;
     transform: scaleY(1);
 }
+
 </style>

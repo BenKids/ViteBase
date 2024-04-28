@@ -29,7 +29,7 @@ const rules = computed(() => {
     } else if (props.sets.type == 'phone') {
         r = [{
             required: props.sets.required,
-            pattern: /^1[3-9][0-9]\d{8}$/,
+            pattern: regPhone,
             message: "请输入正确的手机号码",
             trigger: "blur"
         }]
@@ -40,6 +40,14 @@ const rules = computed(() => {
             type: "email",
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"]
+        }]
+        props.sets.type = "text";
+    } else if (props.sets.type == 'idCard') {
+        r = [{
+            required: props.sets.required,
+            pattern: regIdCard,
+            message: "请输入正确的身份证号",
+            trigger: "blur"
         }]
         props.sets.type = "text";
     } else if(props.sets.required) {
@@ -54,9 +62,43 @@ const rules = computed(() => {
 if (props.label && props.label.indexOf("备注") >= 0) {
     props.sets.type = "textarea";
 }
+const slots = reactive({
+    append: false,
+    prepend: false,
+})
+const getSlots = useSlots();
+onMounted(()=>{
+    if(getSlots.append) {
+        slots.append = true;
+    }
+    if(getSlots.prepend) {
+        slots.prepend = true;
+    }
+})
 </script>
 <template>
     <base-form-item :label="label" :prop="prop" :sets="sets" :rules="rules" class="base-form-input">
+        <div class="base-form-input-prepend" v-if="slots.prepend">
+            <slot name="prepend"></slot>
+        </div>
         <base-input v-bind="$attrs" v-model="model" :sets="sets" :class="props.sets.type"></base-input>
+        <div class="base-form-input-append" v-if="slots.append">
+            <slot name="append"></slot>
+        </div>
     </base-form-item>
 </template>
+<style scoped>
+.base-form-input-prepend {
+    margin-right: var(--base-gap);
+}
+.base-form-input-append {
+    margin-left: var(--base-gap);
+}
+.base-form-input :deep(.el-form-item__content) {
+    width: var(--base-input-width);
+}
+.base-form-input :deep(.base-input) {
+    flex: 1;
+    width: initial;
+}
+</style>

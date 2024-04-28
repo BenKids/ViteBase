@@ -1,11 +1,18 @@
 <script setup lang="ts">
     const props = withDefaults(defineProps<{
         type: TsTableSpecial.Type,
+        page?: TsGen.FormPage,
         label?: TsTableSpecial.Label,
         sets?: TsTableSpecial.Sets,
     }>(),{
         sets() {
             return {}
+        },
+        page() {
+            return {
+                pageNum: 1,
+                pageSize: 1,
+            }
         }
     })
     const fixed = props.type === "handle" ? "right" : "left";
@@ -30,6 +37,9 @@
         r += props.sets.className ?? '';
         return r;
     })()
+    function indexMethod(index:number){
+        return ((props.page.pageNum-1) * props.page.pageSize + index + 1)
+    }
 </script>
 
 <template>
@@ -43,6 +53,7 @@
         :fixed="fixed"
         :align="align"
         :headerAlign="sets.headerAlign"
+        :index="indexMethod"
     >
         <template #default="{row,column,$index}">
             <slot :row="row" :column="column" :$index="$index" v-if="type === 'handle'"></slot>

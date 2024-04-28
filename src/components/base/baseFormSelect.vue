@@ -32,9 +32,43 @@ const rules = computed(() => {
     }
     return r;
 });
+const slots = reactive({
+    append: false,
+    prepend: false,
+})
+const getSlots = useSlots();
+onMounted(()=>{
+    if(getSlots.append) {
+        slots.append = true;
+    }
+    if(getSlots.prepend) {
+        slots.prepend = true;
+    }
+})
 </script>
 <template>
     <base-form-item :label="label" :prop="prop" :rules="rules" :sets="sets" class="base-form-select">
+        <div class="base-form-select-prepend" v-if="slots.prepend">
+            <slot name="prepend"></slot>
+        </div>
         <base-select v-bind="$attrs" v-model="model" :options="options" :sets="sets"></base-select>
+        <div class="base-form-select-append" v-if="slots.append">
+            <slot name="append"></slot>
+        </div>
     </base-form-item>
 </template>
+<style scoped>
+.base-form-select-prepend {
+    margin-right: var(--base-gap);
+}
+.base-form-select-append {
+    margin-left: var(--base-gap);
+}
+.base-form-select :deep(.el-form-item__content) {
+    width: var(--base-input-width);
+}
+.base-form-select :deep(.base-select) {
+    flex: 1;
+    width: initial;
+}
+</style>

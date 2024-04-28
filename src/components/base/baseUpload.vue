@@ -63,6 +63,7 @@ watch(
     }
 );
 const onPreview = (file: TsElement.UploadFile) => {
+    console.log("[file]", file);
     model.value.forEach((item, num) => {
         if (file.uid && file.uid === item.uid) {
             dialogSets.initialIndex = num;
@@ -92,12 +93,7 @@ const openSelect = () => {
     refUploadClick.value.parentNode.nextSibling.click();
 };
 const onBeforeSelect = () => {
-    const param = props.sets.beforeSelect ?? false;
-    if (param) {
-        emits("beforeSelect", openSelect);
-    } else {
-        openSelect();
-    }
+    props.sets.beforeSelect ? props.sets.beforeSelect(openSelect) : openSelect();
 };
 const onClose = () => {
     dialogVisible.value = false;
@@ -152,7 +148,7 @@ async function updateModelValue() {
         v-model:file-list="model"
         ref="refUpload"
         :action="sets.action || '#'"
-        :drag="sets.drag ?? true"
+        :drag="sets.drag"
         :multiple="sets.multiple ?? true"
         :accept="accept"
         :show-file-list="sets.showFileList ?? true"
@@ -160,22 +156,23 @@ async function updateModelValue() {
         :disabled="sets.disabled"
         :list-type="sets.listType || 'picture-card'"
         :auto-upload="sets.autoUpload ?? false"
+        @preview="onPreview"
         @exceed="onExceed"
         @change="onChange"
         :class="{
-			'base-upload': true,
-			hiddenUpload: !allowUpload,
-		}">
+          'base-upload': true,
+          hiddenUpload: !allowUpload,
+        }"
+    >
         <template v-if="allowUpload">
-            <div class="upload-click" ref="refUploadClick" @click.stop="onBeforeSelect" v-if="sets.drag">
-                <base-icons :icon="iconFolder"></base-icons>
-                <div class="el-upload__text">{{ sets.placeholder || "将文件拖到此处或点击上传" }}</div>
+            <div class="upload-click" ref="refUploadClick" @click.stop="onBeforeSelect">
+                <base-icons :icon="sets.icon || iconFolder" class="upload-click-icon"></base-icons>
+                <div class="el-upload__text" v-if="sets.drag">
+                    <slot name="placeholder">{{ sets.placeholder || "点击/拖拽上传" }}</slot>
+                </div>
             </div>
-            <el-icon v-else>
-                <base-icons :icon="iconFolder"></base-icons>
-            </el-icon>
         </template>
-        <template #file="{ file }">
+        <template #file="{ file }" v-if="sets.listType === 'picture-card'">
             <div>
                 <img class="el-upload-list__item-thumbnail" :src="file.url" alt=""/>
                 <span class="el-upload-list__item-actions">
@@ -186,6 +183,11 @@ async function updateModelValue() {
                     <base-icons :icon="iconTrash"></base-icons>
                   </span>
                 </span>
+            </div>
+        </template>
+        <template #tip>
+            <div class="el-upload__tip">
+                <slot name="tip"><div v-html="sets.tip"></div></slot>
             </div>
         </template>
     </el-upload>
@@ -227,6 +229,16 @@ async function updateModelValue() {
     width: 100%;
     height: 100%;
     padding: 16px;
+    border-radius: var(--base-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--el-fill-color-blank);
+}
+
+.base-upload .upload-click-icon {
+    font-size: 32px;
 }
 
 .base-upload.empty {
