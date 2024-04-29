@@ -1,7 +1,5 @@
 <script setup lang="ts">
 //? 全局变量
-import TheAutoInsertSpace from "@/components/Theme/TheAutoInsertSpace.vue";
-
 const route = useRoute();
 const {collapse, lock} = pinia.storeToRefs(storeSystem());
 const {avatar, nickName, deptName} = pinia.storeToRefs(storeUser());
@@ -19,7 +17,7 @@ const optBreadcrumb = computed(() => {
     let pathArr = route.path.split("/");
     pathArr.splice(0, 1);
     let names = evMatchObjs({
-        data: [...routesMenus, ...routesBase],
+        data: [...routesMenus],
         dataKey: "name",
         params: pathArr,
     });

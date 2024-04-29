@@ -1,4 +1,5 @@
 <script setup lang="ts">
+type modelValue = TsInput.Model | undefined;
 const props = withDefaults(
     defineProps<{
         modelValue: TsSelect.Model;
@@ -14,6 +15,7 @@ const props = withDefaults(
 );
 const icon = markRaw(IconSolarAltArrowDownLinear);
 const tableIn = inject<boolean>("tableIn", false);
+const tableValidates = inject("validateRules", false) as Ref<TsTable.Rules> | false;
 const emits = defineEmits(["update:modelValue", "blur", "change"]);
 const model = computed({
     get: () => {
@@ -45,17 +47,31 @@ const text = computed(() => {
 });
 let showTooltip = ref<boolean>(false);
 const iconErr = markRaw(IconSolarCloseCircleLinear);
-const parent = getCurrentInstance() as any;
+let parent: any;
 let errorMsg = ref<string>("");
-
-function validate() {
-    const rule = parent.props.sets as TsTableSelect.Sets;
-    console.log("[rule]", rule);
-    if (!rule) return
-    if (rule.required) {
-        errorMsg.value = (model.value && model.value !== 0) ? "" : (rule.errorMsg ?? "请选择");
-        return;
+onMounted(() => {
+    if (tableIn) {
+        parent = getCurrentInstance();
+        const propsSets = parent.props.sets;
+        const modelValue = model.value as modelValue;
+        if (propsSets.required && tableValidates && (modelValue !== undefined)) tableValidates.value.push(validate);
     }
+})
+
+function validate(): boolean {
+    const rule = parent.props.sets as TsTableSelect.Sets;
+    if (rule) {
+        if (rule.required) {
+            errorMsg.value = (model.value && model.value !== 0) ? "" : (rule.errorMsg ?? "请选择");
+        }
+        if (errorMsg.value) {
+            ElMessage({
+                type: "error",
+                message: errorMsg.value,
+            })
+        }
+    }
+    return !!errorMsg.value;
 }
 
 async function fnShowTooltip() {

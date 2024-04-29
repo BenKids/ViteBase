@@ -30,7 +30,7 @@ const rules = computed(() => {
         r = [{
             required: props.sets.required,
             pattern: regPhone,
-            message: "请输入正确的手机号码",
+            message: props.sets.errorMsg ?? "请输入正确的手机号码",
             trigger: "blur"
         }]
         props.sets.type = "text";
@@ -38,7 +38,7 @@ const rules = computed(() => {
         r = [{
             required: props.sets.required,
             type: "email",
-            message: "请输入正确的邮箱地址",
+            message: props.sets.errorMsg ?? "请输入正确的邮箱地址",
             trigger: ["blur", "change"]
         }]
         props.sets.type = "text";
@@ -46,7 +46,7 @@ const rules = computed(() => {
         r = [{
             required: props.sets.required,
             pattern: regIdCard,
-            message: "请输入正确的身份证号",
+            message: props.sets.errorMsg ?? "请输入正确的身份证号",
             trigger: "blur"
         }]
         props.sets.type = "text";

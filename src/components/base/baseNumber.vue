@@ -104,14 +104,14 @@ const controlsPosition = computed(():TsNumber.Sets['controlsPosition'] => {
     text-align: left;
 }
 .view-text-number {
-    text-align: left;
     cursor: text;
     position: relative;
+    padding-right: var(--base-gap);
 }
 .view-text-number :deep(.el-icon) {
     position: absolute;
     right: 0;
-    top: 8px;
+    top: calc(50% - 0.5em);
     color: var(--el-text-color-placeholder);
 }
 .view-text-number.placeholder {

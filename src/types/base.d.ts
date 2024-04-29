@@ -1,3 +1,11 @@
+namespace TsAffix {
+    interface Sets {
+        offset?: number;
+        position?: 'top' | 'bottom';
+        target?: string;
+        zIndex?: number;
+    }
+}
 namespace TsAlert {
     type Title = string;
 
@@ -610,6 +618,7 @@ namespace TsFormSelect {
     }
 
     interface Sets extends TsFormItem.Sets, TsSelect.Sets {
+        errorMsg?: string;
     }
 }
 namespace TsFormTree {

@@ -102,7 +102,6 @@ function fnSummary(param: TsTable.SummaryParams): string[] {
     return sums;
 }
 
-// 计算children列的宽度
 function onExpand(row: TsTable.Row, expand: Boolean) {
     emits("expandChange", row, expand);
 }
@@ -114,14 +113,14 @@ function load(row: TsDept.TableItem, _treeNode: unknown, resolve: (date: TsDept.
 function rowClass({row}: { row: TsTable.Row }) {
     return row[tableTreeChildrenName.value] ? "row-children" : ""
 }
-function validates() {
+function validates(mark?:string) {
     return new Promise((resolve, reject) => {
         console.log("[validateRules.value]",validateRules.value);
         let access:boolean = true;
         validateRules.value.forEach(item => {
             if(item()) access = false;
         })
-        access ? resolve(access) : reject(access);
+        access ? resolve(mark ?? access) : reject(mark ?? access);
     })
 }
 defineExpose({

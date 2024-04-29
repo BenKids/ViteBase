@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {ElMessage} from "element-plus";
-
 type modelValue = TsInput.Model | undefined;
 const props = withDefaults(
     defineProps<{
@@ -32,9 +30,8 @@ const getSlots = useSlots();
 const tableIn = inject("tableIn", false);
 const tableValidates = inject("validateRules",false) as Ref<TsTable.Rules> | false;
 const inputRef = ref();
-let parent:any;
-
 let isEdit = ref<TsInput.Edit>(false);
+let parent:any;
 let errorMsg = ref<string>("");
 
 onMounted(() => {
@@ -83,12 +80,12 @@ function validate():boolean {
         if (pattern && (model.value || model.value === 0)) {
             errorMsg.value = pattern.test(model.value.toString()) ? "" : (rule.errorMsg ?? "格式不正确")
         }
-    }
-    if(errorMsg.value) {
-        ElMessage({
-            type: "error",
-            message: errorMsg.value,
-        })
+        if(errorMsg.value) {
+            ElMessage({
+                type: "error",
+                message: errorMsg.value,
+            })
+        }
     }
     return !!errorMsg.value;
 }

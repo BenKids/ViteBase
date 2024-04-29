@@ -4,7 +4,7 @@ export default defineStore("storeConfig", {
     state: ():TsStore.Config => ({
         language: "zh-cn",
         size: "default",
-        autoInsertSpace: true,
+        autoInsertSpace: false,
     }),
     getters: {},
     actions: {},
