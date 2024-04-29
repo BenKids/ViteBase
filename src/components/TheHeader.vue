@@ -17,10 +17,11 @@ const optBreadcrumb = computed(() => {
     let pathArr = route.path.split("/");
     pathArr.splice(0, 1);
     let names = evMatchObjs({
-        data: [...routesMenus],
+        data: [...routesMenus,...routesBase],
         dataKey: "name",
         params: pathArr,
     });
+    console.log("[pathArr,names]",pathArr,names);
     let res: TsBreadcrumb.Options = [];
     for (let index = 0; index < names.length; index++) {
         const item = names[index];
