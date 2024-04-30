@@ -31,7 +31,7 @@ export default defineStore("storeSystem", {
         // 移除缓存页面
         removeInclude(name: string) {
             const res = evKeyChild({
-                data: routesMenus,
+                data: routesExport,
                 param: name,
                 key: "name"
             })

@@ -4,6 +4,7 @@ const props = withDefaults(
     defineProps<{
         modelValue: TsInput.Model;
         sets?: TsInput.Sets;
+        labelText?: TsTableInput.Label;
     }>(),
     {
         sets: () => {
@@ -68,7 +69,8 @@ function validate():boolean {
     const rule = parent.props.sets as TsTableInput.Sets;
     if (rule) {
         if(rule.required) {
-            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? "不能为空")
+            console.log("[labelText]",props.labelText);
+            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? props.labelText + "不能为空")
         } else if(!model.value && model.value !== 0) {
             errorMsg.value = "";
         }

@@ -32,6 +32,7 @@ function onVisible(val:boolean, row:TsGen.Object) {
                 :sets="sets"
                 @change="(val:TsSelect.Model) => onChange(val,scope.row)"
                 @visible-change="(val:boolean) => onVisible(val,scope.row)"
+                :label-text="label"
             ></base-select>
         </template>
     </base-table-column>

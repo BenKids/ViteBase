@@ -8,13 +8,8 @@ const r = createRouter({
 			path: "",
 			name: "",
 			component: () => import("@/views/app/appLayout.vue"),
-			children: routesMenus as unknown as TsRouter.RouteRecordRaw[]
-		},{
-			path: "",
-			name: "",
-			component: () => import("@/views/app/appLayout.vue"),
-			children: routesBase as unknown as TsRouter.RouteRecordRaw[]
-		},
+			children: routesExport as unknown as TsRouter.RouteRecordRaw[]
+		}
 	],
 });
 r.beforeEach((to, _from, next) => {

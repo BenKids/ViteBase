@@ -1,39 +1,103 @@
 <script setup lang="ts">
-const step: string = `const tableData = reactive<TsTable.Model>([
-    {
-        name: "张三丰",
-        sex: "男",
-        age: "30",
-    }, {
-        name: "张三丰",
-        sex: "男",
-        age: "30",
-    }, {
-        name: "张三丰",
-        sex: "男",
-        age: "30",
-    }
-]);`;
-const template: string = `<base-table v-model="tableData">
-    <base-table-column label="姓名" prop="name"></base-table-column>
-    <base-table-column label="性别" prop="sex"></base-table-column>
-    <base-table-column label="年龄" prop="age"></base-table-column>
-</base-table>`;
+const step: string = `const tableRef = ref();
+const {setsRequired} = cpaSets();
 const tableData = reactive<TsTable.Model>([
     {
-        name: "张三丰",
-        sex: "男",
+        name: "",
+        otherName: "张三丰",
+        sex: 0,
         age: "30",
+        birthday: "",
+        status: true,
     }, {
-        name: "张三丰",
-        sex: "男",
+        name: "",
+        otherName: "张三丰",
+        sex: 1,
         age: "30",
+        birthday: "",
+        status: false,
     }, {
-        name: "张三丰",
-        sex: "男",
+        name: "",
+        otherName: "张三丰",
+        sex: 2,
         age: "30",
+        birthday: "",
+        status: true,
     }
 ]);
+const optionsSex: TsTableSelect.Options = [
+    {
+        label: "男",
+        value: 0,
+        type: "primary"
+    }, {
+        label: "女",
+        value: 1,
+        type: "warning"
+    }, {
+        label: "未知",
+        value: 2,
+        type: "danger"
+    }
+]
+function onValidate() {
+    tableRef.value.validates();
+}`;
+const template: string = `<base-button label="表格内容校验" @click="onValidate"></base-button>
+<base-table v-model="tableData" ref="tableRef">
+    <base-table-special type="index"></base-table-special>
+    <base-table-input label="姓名" prop="name" :sets="setsRequired"></base-table-input>
+    <base-table-column label="别名" prop="otherName"></base-table-column>
+    <base-table-select label="性别" prop="sex" :options="optionsSex" :sets="setsRequired"></base-table-select>
+    <base-table-tag label="性别" prop="sex" :options="optionsSex"></base-table-tag>
+    <base-table-number label="年龄" prop="age"></base-table-number>
+    <base-table-date-picker label="出生日期" prop="birthday" :sets="setsRequired"></base-table-date-picker>
+    <base-table-switch label="状态" prop="status"></base-table-switch>
+</base-table>`;
+const tableRef = ref();
+const {setsRequired} = cpaSets();
+const tableData = reactive<TsTable.Model>([
+    {
+        name: "",
+        otherName: "张三丰",
+        sex: 0,
+        age: "30",
+        birthday: "",
+        status: true,
+    }, {
+        name: "",
+        otherName: "张三丰",
+        sex: 1,
+        age: "30",
+        birthday: "",
+        status: false,
+    }, {
+        name: "",
+        otherName: "张三丰",
+        sex: 2,
+        age: "30",
+        birthday: "",
+        status: true,
+    }
+]);
+const optionsSex: TsTableSelect.Options = [
+    {
+        label: "男",
+        value: 0,
+        type: "primary"
+    }, {
+        label: "女",
+        value: 1,
+        type: "warning"
+    }, {
+        label: "未知",
+        value: 2,
+        type: "danger"
+    }
+]
+function onValidate() {
+    tableRef.value.validates();
+}
 const tableAttr: TsTheBaseTable.Model = [
     {
         key: "v-model",
@@ -206,7 +270,7 @@ const tableSets: TsTheBaseTable.Model = [
         required: false,
         default: "",
         optional: "(row: TsDept.TableItem, resolve: (date: TsDept.Table) => void) => void;",
-    },{
+    }, {
         key: "defaultExpandAll",
         explain: "默认展开所有行",
         dataType: "boolean",
@@ -220,16 +284,21 @@ const tableSlot: TsTheBaseTableSlot.Model = [
         key: "empty",
         explain: "无数据时的自定义插槽"
     }
-]
+];
 </script>
 <template>
-    <the-base-layout :step="step" :template="template"
-                     original-link="https://element-plus.gitee.io/zh-CN/component/table.html">
+    <the-base-layout :step="step" :template="template" original-link="https://element-plus.gitee.io/zh-CN/component/table.html">
         <template #view>
-            <base-table v-model="tableData">
-                <base-table-column label="姓名" prop="name"></base-table-column>
-                <base-table-column label="性别" prop="sex"></base-table-column>
-                <base-table-column label="年龄" prop="age"></base-table-column>
+            <base-button label="表格内容校验" @click="onValidate"></base-button>
+            <base-table v-model="tableData" ref="tableRef">
+                <base-table-special type="index"></base-table-special>
+                <base-table-input label="姓名" prop="name" :sets="setsRequired"></base-table-input>
+                <base-table-column label="别名" prop="otherName"></base-table-column>
+                <base-table-select label="性别" prop="sex" :options="optionsSex" :sets="setsRequired"></base-table-select>
+                <base-table-tag label="性别" prop="sex" :options="optionsSex"></base-table-tag>
+                <base-table-number label="年龄" prop="age"></base-table-number>
+                <base-table-date-picker label="出生日期" prop="birthday" :sets="setsRequired"></base-table-date-picker>
+                <base-table-switch label="状态" prop="status"></base-table-switch>
             </base-table>
         </template>
         <template #attr>

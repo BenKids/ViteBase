@@ -1,6 +1,6 @@
 <script setup lang="ts">
 let {collapse} = pinia.storeToRefs(storeSystem());
-const options = [...routesMenus, ...routesBase];
+const options = routesExport;
 const logo = evAssets("image/vite.svg");
 const title = import.meta.env.VITE_BASE_TITLE;
 const scrollbarRef = ref()

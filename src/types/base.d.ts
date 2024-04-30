@@ -912,7 +912,7 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
-
+        type?: TsGen.Types;
         [x: string]: any;
     }
 
@@ -1030,6 +1030,8 @@ namespace TsTableDatePicker {
     type Prop = TsTableColumn.Prop;
 
     interface Sets extends TsTableColumn.Sets, TsDatePicker.Sets {
+        required?: boolean;
+        errorMsg?: string;
     }
 }
 namespace TsTableInput {

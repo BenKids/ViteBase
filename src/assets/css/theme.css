@@ -144,7 +144,7 @@ vite-error-overlay {
     overflow: auto;
 }
 
-.el-popper.is-pure {
+.el-popper.is-pure:has(.el-menu--vertical) {
     max-height: calc(100% - 40px);
     overflow: auto;
 }

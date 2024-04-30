@@ -1,7 +1,9 @@
 <script setup lang="ts">
+type modelValue = TsDatePicker.Model | undefined;
 const props = withDefaults(defineProps<{
     modelValue: TsDatePicker.Model,
     sets?: TsDatePicker.Sets,
+    labelText?: TsTableInput.Label;
 }>(), {
     sets: () => {
         return {}
@@ -9,7 +11,9 @@ const props = withDefaults(defineProps<{
 })
 const iconTime = markRaw(IconSolarClockCircleLinear);
 const iconDate = markRaw(IconSolarCalendarOutline);
+const iconErr = markRaw(IconSolarCloseCircleLinear);
 const tableIn = inject<boolean>("tableIn", false);
+const tableValidates = inject("validateRules", false) as Ref<TsTable.Rules> | false;
 const datePickerRef = ref();
 const emits = defineEmits(["update:modelValue", "blur"]);
 const model = useVModel(props, "modelValue", emits);
@@ -38,7 +42,16 @@ const valueFormat = computed((): string => {
     return res;
 })
 let edit = ref<TsInput.Edit>(false);
-
+let parent: any;
+let errorMsg = ref<string>("");
+onMounted(()=>{
+    if (tableIn) {
+        parent = getCurrentInstance();
+        const propsSets = parent.props.sets;
+        const modelValue = model.value as modelValue;
+        if (propsSets.required && tableValidates && (modelValue !== undefined)) tableValidates.value.push(validate);
+    }
+})
 function onText() {
     edit.value = true;
     nextTick(() => {
@@ -48,8 +61,25 @@ function onText() {
 
 function onBlur(val: FocusEvent) {
     emits("blur", val);
-    if (!tableIn) return;
-    edit.value = false;
+    if (tableIn) {
+        validate();
+        edit.value = false;
+    }
+}
+function validate(): boolean {
+    const rule = parent.props.sets as TsTableDatePicker.Sets;
+    if (rule) {
+        if (rule.required) {
+            errorMsg.value = model.value ? "" : (rule.errorMsg ?? "请选择" + props.labelText);
+        }
+        if (errorMsg.value) {
+            ElMessage({
+                type: "error",
+                message: errorMsg.value,
+            })
+        }
+    }
+    return !!errorMsg.value;
 }
 </script>
 <template>
@@ -61,10 +91,13 @@ function onBlur(val: FocusEvent) {
         <div
             v-if="tableIn && !edit"
             :class=" {
-                'view-text': true,
+                'view-text-date-picker': true,
                 'placeholder': !model
             }"
             @click="onText">
+            <el-tooltip :content="errorMsg" placement="top" v-if="errorMsg">
+                <base-icons :icon="iconErr" class="base-date-picker-error-icon"></base-icons>
+            </el-tooltip>
             {{ model || sets.placeholder || '请选择' }}
             <base-icons :icon="iconTime" v-if="sets.type && sets.type.indexOf('time') >= 0"></base-icons>
             <base-icons :icon="iconDate" v-else></base-icons>
@@ -128,7 +161,7 @@ function onBlur(val: FocusEvent) {
     background-color: transparent;
 }
 
-.view-text {
+.view-text-date-picker {
     text-align: left;
     cursor: text;
     padding-left: 22px;
@@ -140,14 +173,26 @@ function onBlur(val: FocusEvent) {
     vertical-align: middle;
 }
 
-.view-text :deep(.el-icon) {
+.view-text-date-picker :deep(.el-icon) {
     position: absolute;
     left: 0;
     top: 9px;
     color: var(--el-text-color-placeholder);
 }
 
-.view-text.placeholder {
+.view-text-date-picker.placeholder {
     color: var(--el-text-color-placeholder);
+}
+.view-text-date-picker:has(.base-date-picker-error-icon) {
+    padding-left: 22px;
+    color: var(--base-color-danger);
+}
+
+.view-text-date-picker .base-date-picker-error-icon {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.5em);
+    color: var(--base-color-danger);
+    cursor: pointer;
 }
 </style>
