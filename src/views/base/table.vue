@@ -2,43 +2,14 @@
 const step: string = `const tableRef = ref();
 const {setsRequired} = cpaSets();
 const tableData = reactive<TsTable.Model>([
-    {
-        name: "",
-        otherName: "张三丰",
-        sex: 0,
-        age: "30",
-        birthday: "",
-        status: true,
-    }, {
-        name: "",
-        otherName: "张三丰",
-        sex: 1,
-        age: "30",
-        birthday: "",
-        status: false,
-    }, {
-        name: "",
-        otherName: "张三丰",
-        sex: 2,
-        age: "30",
-        birthday: "",
-        status: true,
-    }
+    {name: "",otherName: "张三丰",sex: 0,age: "30",birthday: "",status: true},
+    {name: "",otherName: "张三丰",sex: 1,age: "30",birthday: "",status: false},
+    {name: "",otherName: "张三丰",sex: 2,age: "30",birthday: "",status: true}
 ]);
 const optionsSex: TsTableSelect.Options = [
-    {
-        label: "男",
-        value: 0,
-        type: "primary"
-    }, {
-        label: "女",
-        value: 1,
-        type: "warning"
-    }, {
-        label: "未知",
-        value: 2,
-        type: "danger"
-    }
+    {label: "男",value: 0,type: "primary"},
+    {label: "女",value: 1,type: "warning"},
+    {label: "未知",value: 2,type: "danger"}
 ]
 function onValidate() {
     tableRef.value.validates();

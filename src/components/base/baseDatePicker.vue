@@ -98,9 +98,9 @@ function validate(): boolean {
             <el-tooltip :content="errorMsg" placement="top" v-if="errorMsg">
                 <base-icons :icon="iconErr" class="base-date-picker-error-icon"></base-icons>
             </el-tooltip>
-            {{ model || sets.placeholder || '请选择' }}
-            <base-icons :icon="iconTime" v-if="sets.type && sets.type.indexOf('time') >= 0"></base-icons>
+            <base-icons :icon="iconTime" v-else-if="sets.type && sets.type.indexOf('time') >= 0"></base-icons>
             <base-icons :icon="iconDate" v-else></base-icons>
+            {{ model || sets.placeholder || '请选择' }}
         </div>
         <el-date-picker
             v-else
