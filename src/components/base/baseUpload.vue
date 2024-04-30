@@ -90,7 +90,7 @@ const onExceed = () => {
     });
 };
 const openSelect = () => {
-    refUploadClick.value.parentNode.nextSibling.click();
+    refUploadClick.value.nextSibling.nextSibling.nextSibling.click();
 };
 const onBeforeSelect = () => {
     props.sets.beforeSelect ? props.sets.beforeSelect(openSelect) : openSelect();
