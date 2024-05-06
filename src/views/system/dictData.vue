@@ -86,46 +86,55 @@ function onBack() {
 }
 </script>
 <template>
-    <base-layout @refresh="refresh(page)">
-        <template #form>
-            <base-form v-model="formModel" ref="formRef">
-                <base-form-select label="字典名称" v-model="formModel.dictType" prop="dictType" :options="optionsType" :sets="setsType"></base-form-select>
-                <base-form-input label="字典标签" v-model="formModel.dictLabel" prop="dictLabel"></base-form-input>
-                <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
-                <template #handle>
-                    <base-button label="重置" @click="reload"></base-button>
-                </template>
-            </base-form>
-        </template>
-        <template #handleLeftExtra>
-            <base-button label="新增" @click="onAdd" v-if="isPermit(['system:dict:add'])"></base-button>
-            <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermit(['system:dict:remove'])"></base-button>
-            <base-button label="导出" v-if="isPermit(['system:dict:export'])"></base-button>
-            <base-button label="返回" @click="onBack"></base-button>
-        </template>
-        <template #table>
-            <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
-                <base-table-special type="selection"></base-table-special>
-                <base-table-column label="字典编码" prop="dictCode"></base-table-column>
-                <base-table-column label="字典标签" prop="dictLabel"></base-table-column>
-                <base-table-column label="字典键值" prop="dictValue"></base-table-column>
-                <base-table-column label="字典排序" prop="dictSort"></base-table-column>
-                <base-table-tag label="状态" prop="status" :options="optionsStatus"></base-table-tag>
-                <base-table-column label="备注" prop="remark"></base-table-column>
-                <base-table-time label="创建时间" prop="createTime"></base-table-time>
-                <base-table-special type="handle">
-                    <template #default="scope">
-                        <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:dict:edit'])"></base-button>
-                        <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:dict:remove'])"></base-button>
+    <el-page-header content="字典数据" @back="onBack">
+        <base-layout @refresh="refresh(page)">
+            <template #form>
+                <base-form v-model="formModel" ref="formRef">
+                    <base-form-select label="字典名称" v-model="formModel.dictType" prop="dictType" :options="optionsType" :sets="setsType"></base-form-select>
+                    <base-form-input label="字典标签" v-model="formModel.dictLabel" prop="dictLabel"></base-form-input>
+                    <base-form-select label="状态" v-model="formModel.status" prop="status" :options="optionsStatus"></base-form-select>
+                    <template #handle>
+                        <base-button label="重置" @click="reload"></base-button>
                     </template>
-                </base-table-special>
-            </base-table>
-        </template>
-        <template #pagination>
-            <base-pagination v-model:currentPage="page" v-model:pageSize="pageSize" :total="total"></base-pagination>
-        </template>
-    </base-layout>
+                </base-form>
+            </template>
+            <template #handleLeftExtra>
+                <base-button label="新增" @click="onAdd" v-if="isPermit(['system:dict:add'])"></base-button>
+                <base-button label="批量删除" :sets="setsDeleteMultiple" v-if="isPermit(['system:dict:remove'])"></base-button>
+                <base-button label="导出" v-if="isPermit(['system:dict:export'])"></base-button>
+            </template>
+            <template #table>
+                <base-table v-model="tableModel" v-model:selectData="tableSelect" v-loading="tableLoading" ref="tableRef" :sets="tableSets">
+                    <base-table-special type="selection"></base-table-special>
+                    <base-table-column label="字典编码" prop="dictCode"></base-table-column>
+                    <base-table-column label="字典标签" prop="dictLabel"></base-table-column>
+                    <base-table-column label="字典键值" prop="dictValue"></base-table-column>
+                    <base-table-column label="字典排序" prop="dictSort"></base-table-column>
+                    <base-table-tag label="状态" prop="status" :options="optionsStatus"></base-table-tag>
+                    <base-table-column label="备注" prop="remark"></base-table-column>
+                    <base-table-time label="创建时间" prop="createTime"></base-table-time>
+                    <base-table-special type="handle">
+                        <template #default="scope">
+                            <base-button label="修改" @click="onUpdate(scope.row)" v-if="isPermit(['system:dict:edit'])"></base-button>
+                            <base-button label="删除" @click="onDelete(scope.row)" v-if="isPermit(['system:dict:remove'])"></base-button>
+                        </template>
+                    </base-table-special>
+                </base-table>
+            </template>
+            <template #pagination>
+                <base-pagination v-model:currentPage="page" v-model:pageSize="pageSize" :total="total"></base-pagination>
+            </template>
+        </base-layout>
+    </el-page-header>
     <dialog-dict-data-add ref="dialogAddRef"></dialog-dict-data-add>
     <dialog-dict-data-update ref="dialogUpdateRef"></dialog-dict-data-update>
 </template>
-<style scoped></style>
+<style scoped>
+.el-page-header {
+    height: 100%;
+}
+.el-page-header :deep(.el-page-header__main) {
+    border-top: none;
+    height: calc(100% - 40px);
+}
+</style>

@@ -35,6 +35,7 @@ const rules = computed(() => {
 const slots = reactive({
     append: false,
     prepend: false,
+    option: false,
 })
 const getSlots = useSlots();
 onMounted(()=>{
@@ -44,6 +45,9 @@ onMounted(()=>{
     if(getSlots.prepend) {
         slots.prepend = true;
     }
+    if(getSlots.option) {
+        slots.option = true;
+    }
 })
 </script>
 <template>
@@ -51,7 +55,11 @@ onMounted(()=>{
         <div class="base-form-select-prepend" v-if="slots.prepend">
             <slot name="prepend"></slot>
         </div>
-        <base-select v-bind="$attrs" v-model="model" :options="options" :sets="sets"></base-select>
+        <base-select v-bind="$attrs" v-model="model" :options="options" :sets="sets">
+            <template #option="item" v-if="slots.option">
+                <slot name="option" :option="item.option"></slot>
+            </template>
+        </base-select>
         <div class="base-form-select-append" v-if="slots.append">
             <slot name="append"></slot>
         </div>

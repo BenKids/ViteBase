@@ -124,10 +124,16 @@ export function cpaDictDataDialog() {
         required: true,
         readonly: true,
     }
+    //sets 回显样式设置
+    const setsClass:TsFormSelect.Sets = {
+        multiple: false,
+        multipleLimit: 1,
+    }
     return {
         setsDialog,
         setsForm,
         setsType,
+        setsClass,
     }
 }
 export function cpaNoticeDialog() {
