@@ -57,6 +57,9 @@ const rules = computed(() => {
             trigger: "blur",
         }]
     }
+    if(props.sets.ruleExtra) r.push({
+        validator: props.sets.ruleExtra,
+    });
     return r;
 });
 if (props.label && props.label.indexOf("备注") >= 0) {

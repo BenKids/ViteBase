@@ -41,6 +41,9 @@ const rules = computed(() => {
     </el-form-item>
 </template>
 <style scoped>
+.base-form-item {
+    vertical-align: top;
+}
 .base-form-item.hidden {
     display: none;
 }

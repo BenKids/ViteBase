@@ -4,7 +4,6 @@ const props = withDefaults(
     defineProps<{
         modelValue: TsInput.Model;
         sets?: TsInput.Sets;
-        labelText?: TsTableInput.Label;
     }>(),
     {
         sets: () => {
@@ -69,8 +68,7 @@ function validate():boolean {
     const rule = parent.props.sets as TsTableInput.Sets;
     if (rule) {
         if(rule.required) {
-            console.log("[labelText]",props.labelText);
-            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? props.labelText + "不能为空")
+            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? "不能为空")
         } else if(!model.value && model.value !== 0) {
             errorMsg.value = "";
         }
@@ -82,6 +80,9 @@ function validate():boolean {
         if (pattern && (model.value || model.value === 0)) {
             errorMsg.value = pattern.test(model.value.toString()) ? "" : (rule.errorMsg ?? "格式不正确")
         }
+        if(rule.ruleExtra) rule.ruleExtra("" as any,model.value,(str?:string | Error | undefined) => {
+            if(str) errorMsg.value = typeof(str) === "string" ? str : str.message;
+        },"" as any,"" as any);
         if(errorMsg.value) {
             ElMessage({
                 type: "error",
@@ -109,11 +110,8 @@ async function fnShowTooltip() {
     <div
         v-if="tableIn && !isEdit"
         @click="onText"
-        :class="{
-              'el-input__inner': true,
-              'view-text-input': true,
-              placeholder: !model,
-            }">
+        :class="{'el-input__inner': true,'view-text-input': true,placeholder: !model}"
+    >
         <el-tooltip :content="errorMsg" placement="top" v-if="errorMsg">
             <base-icons :icon="iconErr" class="base-input-error-icon"></base-icons>
         </el-tooltip>

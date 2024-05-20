@@ -193,6 +193,25 @@ namespace TsDraggable {
         disabled?: boolean;
     }
 }
+namespace TsDrawer {
+    type Model = boolean;
+    type Title = string;
+    interface Sets {
+        direction?: 'rtl' | 'ltr' | 'ttb' | 'btt';
+        appendToBody?: boolean;
+        closeOnClickModal?: boolean;
+        closeOnPressEscape?: boolean;
+        openDelay?: number;
+        closeDelay?: number;
+        destroyOnClose?: boolean;
+        modal?: boolean;
+        showClose?: boolean;
+        size?: number | string;
+        withHeader?: boolean;
+        modalClass?: string;
+        zIndex?: number;
+    }
+}
 namespace TsEchartsBar {
     interface Model {
         data: Data;
@@ -572,6 +591,7 @@ namespace TsFormInput {
     interface Sets extends TsFormItem.Sets, TsInput.Sets {
         type?: TsInput.Sets["type"] | 'phone' | 'email' | 'idCard';
         errorMsg?: string;
+        ruleExtra?: TsElement.FormItemRule["validator"];
     }
 }
 namespace TsFormEdit {
@@ -912,7 +932,7 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
-        type?: TsGen.Types;
+
         [x: string]: any;
     }
 
@@ -1030,8 +1050,6 @@ namespace TsTableDatePicker {
     type Prop = TsTableColumn.Prop;
 
     interface Sets extends TsTableColumn.Sets, TsDatePicker.Sets {
-        required?: boolean;
-        errorMsg?: string;
     }
 }
 namespace TsTableInput {
@@ -1043,6 +1061,7 @@ namespace TsTableInput {
         type?: TsFormInput.Sets["type"],
         pattern?: RegExp;
         errorMsg?: string;
+        ruleExtra?: TsElement.FormItemRule["validator"];
     }
 }
 namespace TsTableNumber {
@@ -1273,11 +1292,15 @@ namespace TsTreeSelect {
     }
 }
 namespace TsUpload {
-    type Model = string[];
+    type Model = {
+        name: string;
+        url: string;
+    }[];
 
     interface Sets {
         icon?: string;
         limit?: number;
+        limitSize?: number;
         beforeSelect?: (done: Function) => void;
         action?: string;
         drag?: boolean;
@@ -1290,5 +1313,12 @@ namespace TsUpload {
         placeholder?: string;
         readonly?: boolean;
         tip?: string;
+        updateName?: boolean;
+    }
+}
+namespace TsVideo {
+    type Model = string;
+    interface Sets {
+        height?: number;
     }
 }

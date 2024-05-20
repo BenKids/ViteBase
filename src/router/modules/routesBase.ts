@@ -393,9 +393,18 @@ export const routesBase: TsRoutes.RoutesMenus = [
 			    name: "Upload",
 			    component: () => import("@/views/base/upload.vue"),
 			    meta: {
-			        label: "上传文件",
+			        label: "上传图片",
 			        keepAlive: true,
 			        icon: IconSolarCloudUploadLinear,
+			    },
+			},{
+			    path: "Video",
+			    name: "Video",
+			    component: () => import("@/views/base/video.vue"),
+			    meta: {
+			        label: "视频播放器",
+			        keepAlive: true,
+			        icon: IconSolarVideoFramePlayVerticalLinear,
 			    },
 			}
 		],

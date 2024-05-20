@@ -23,3 +23,9 @@ const show = useVModel(props,"modelValue",emits);
         @close="show = false"
     ></el-image-viewer>
 </template>
+<style>
+.el-image-viewer__wrapper .el-image-viewer__btn.is-disabled,
+.el-image-viewer__wrapper .el-image-viewer__btn.is-disabled .el-icon {
+    display: none;
+}
+</style>

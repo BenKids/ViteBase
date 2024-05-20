@@ -10,23 +10,15 @@ const props = withDefaults(
         },
     }
 );
-const iconFolder = markRaw(IconSolarFolderWithFilesLinear);
+const iconFolder = markRaw(IconSolarGallerySendLinear);
 const iconAlbum = markRaw(IconSolarAlbumLinear);
 const iconTrash = markRaw(IconSolarTrashBinMinimalisticLinear);
-const refUpload = ref(),
-    refUploadClick = ref(),
-    emits = defineEmits(["beforeSelect", "change", "update:modelValue"]);
-let localHandle = ref<boolean>(false),
-    loading = ref<boolean>(false),
-    dialogVisible = ref(false),
-    dialogImageUrl = ref<string[]>([]);
+const refUpload = ref();
+const refUploadClick = ref();
+const demo = getCurrentInstance() as any;
+const emits = defineEmits(["beforeSelect", "change", "update:modelValue"]);
 const dialogSets = reactive<TsImageViewer.Sets>({
     initialIndex: 0,
-});
-let allowUpload = computed(() => {
-    if (props.sets.readonly) return false;
-    else if (props.sets.limit && props.modelValue.length >= props.sets.limit) return false;
-    return true;
 });
 const accept = computed(() => {
     let res = "";
@@ -37,8 +29,29 @@ const accept = computed(() => {
     }
     return res;
 });
-const demo = getCurrentInstance() as any;
-
+const allowUpload = computed(() => {
+    if (props.sets.readonly) return false;
+    else if (props.sets.limit && props.modelValue.length >= props.sets.limit) return false;
+    return true;
+});
+let time: NodeJS.Timeout;
+let localHandle = ref<boolean>(false);
+let loading = ref<boolean>(false);
+let dialogVisible = ref(false);
+let dialogImageUrl = ref<string[]>([]);
+// let model = ref<TsElement.UploadUserFile[]>(evBase64ToUpload(props.modelValue));
+let model = useVModel(props,"modelValue",emits);
+let modelLists = ref<TsElement.UploadUserFile[]>(evBase64ToUpload(props.modelValue));
+watch(
+    () => model.value,
+    (val) => {
+        if (localHandle.value) return (localHandle.value = false);
+        console.log("[val]",val);
+        const rrr = evBase64ToUpload(val);
+        console.log("[rrr]",rrr);
+    }
+);
+//handle 表单验证
 function validate() {
     if (!demo.parent.refs.formItemRef) return;
     const prop = demo.parent.proxy.prop;
@@ -53,18 +66,9 @@ function validate() {
     const formRef = demo.parent.parent.parent.refs.formRef ?? demo.parent.parent.parent.parent.parent.refs.formRef;
     formRef.validateField(prop);
 }
-
-let model = ref<TsElement.UploadUserFile[]>(evBase64ToUpload(props.modelValue));
-watch(
-    () => props.modelValue,
-    (val) => {
-        if (localHandle.value) return (localHandle.value = false);
-        model.value = evBase64ToUpload(val);
-    }
-);
-const onPreview = (file: TsElement.UploadFile) => {
-    console.log("[file]", file);
-    model.value.forEach((item, num) => {
+//handle 查看大图
+function onPreview(file: TsElement.UploadFile) {
+    modelLists.value.forEach((item, num) => {
         if (file.uid && file.uid === item.uid) {
             dialogSets.initialIndex = num;
         } else if (!file.uid && file.name === item.name) {
@@ -74,78 +78,120 @@ const onPreview = (file: TsElement.UploadFile) => {
     if (file.url) {
         dialogVisible.value = true;
         dialogImageUrl.value = [];
-        for (let index = 0; index < model.value.length; index++) {
-            const el = model.value[index];
+        for (let index = 0; index < modelLists.value.length; index++) {
+            const el = modelLists.value[index];
             if (el.url) {
                 dialogImageUrl.value.push(el.url);
             }
         }
     }
-};
-const onExceed = () => {
+}
+//handle 关闭查看大图
+function onClose() {
+    dialogVisible.value = false;
+    dialogImageUrl.value = [];
+}
+//handle 文件个数超出限制
+function onExceed() {
     ElMessage({
         type: "warning",
         message: "超出文件上传限制，最多上传" + props.sets.limit + "个文件！",
         duration: 2 * 1000,
+        showClose: true,
     });
-};
-const openSelect = () => {
-    refUploadClick.value.nextSibling.nextSibling.nextSibling.click();
-};
-const onBeforeSelect = () => {
+}
+//handle 打开文件选择对话框
+function openSelect() {
+    refUploadClick.value.parentNode.children[1].click();
+}
+//handle 打开文件选择对话框拦截
+function onBeforeSelect() {
     props.sets.beforeSelect ? props.sets.beforeSelect(openSelect) : openSelect();
-};
-const onClose = () => {
-    dialogVisible.value = false;
-    dialogImageUrl.value = [];
-};
-const onDelete = (file: TsElement.UploadFile) => {
-    model.value = model.value.filter((i) => i.uid != file.uid);
+}
+//handle 删除文件
+function onDelete(file: TsElement.UploadFile) {
+    modelLists.value = modelLists.value.filter((i) => i.uid !== file.uid);
     localHandle.value = true;
     updateModelValue();
-};
-let time: NodeJS.Timeout;
-
-function onChange(uploadFile: TsElement.UploadFile, uploadFiles: TsElement.UploadFiles) {
+}
+// 选择文件回调
+function onChange(_uploadFile: TsElement.UploadFile, uploadFiles: TsElement.UploadFiles) {
     loading.value = true;
     if (time) {
         clearTimeout(time);
     }
     time = setTimeout(() => {
-        model.value = uploadFiles;
+        if (props.sets.limitSize) {
+            uploadFiles = uploadFiles.filter((i: TsElement.UploadFile) => {
+                if (!i.size) return true;
+                let isLimitSize = (i.size / 1024 / 1024) < props.sets.limitSize!
+                if (!isLimitSize) {
+                    ElMessage({
+                        type: "error",
+                        message: "“" + i.name + "”超过" + props.sets.limitSize + "M",
+                        duration: 5 * 1000,
+                        showClose: true,
+                    })
+                }
+                return isLimitSize;
+            })
+        }
+        modelLists.value = uploadFiles;
         localHandle.value = true;
         updateModelValue();
-        emits("change", uploadFile, uploadFiles);
+        emits("change", modelLists.value);
     }, 300);
 }
-
+//handle 更新modelValue绑定值
 async function updateModelValue() {
-    let res: TsUpload.Model = [];
-    for (let index = 0; index < model.value.length; index++) {
-        const item = model.value[index];
+    model.value = [];
+    for (let index = 0; index < modelLists.value.length; index++) {
+        const item = modelLists.value[index];
         if (!item.raw) {
-            res.push(item.url ?? "");
+            model.value.push({
+                name: item.name,
+                url: item.url ?? "",
+            });
         } else {
             await evUploadToBase64(item).then((r) => {
-                res.push(r as string);
+                model.value.push({
+                    name: item.name,
+                    url: r as string,
+                });
             });
         }
     }
-    emits("update:modelValue", res);
     validate();
     loading.value = false;
+}
+//handle 重命名文件名
+function onRename(file: TsElement.UploadFile) {
+    if (props.sets.readonly) return;
+    if (!props.sets.updateName) return;
+    ElMessageBox.prompt("请输入文件名称", "文件重命名", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+    })
+        .then(({value}) => {
+            localHandle.value = true;
+            file.name = value;
+            updateModelValue();
+        })
+        .catch(() => {
+        });
 }
 </script>
 
 <template>
-    <div class="base-upload empty" v-if="!allowUpload && model.length == 0">
+    <div class="base-upload empty" v-if="!allowUpload && modelLists.length == 0">
         <base-empty label="暂无图片" :image-size="100"></base-empty>
     </div>
     <el-upload
         v-else
         v-loading="loading"
         v-bind="$attrs"
-        v-model:file-list="model"
+        v-model:file-list="modelLists"
         ref="refUpload"
         :action="sets.action || '#'"
         :drag="sets.drag"
@@ -172,8 +218,8 @@ async function updateModelValue() {
                 </div>
             </div>
         </template>
-        <template #file="{ file }" v-if="sets.listType === 'picture-card'">
-            <div>
+        <template #file="{ file }">
+            <div v-if="sets.listType === 'picture-card'">
                 <img class="el-upload-list__item-thumbnail" :src="file.url" alt=""/>
                 <span class="el-upload-list__item-actions">
                   <span class="el-upload-list__item-preview" @click="onPreview(file)">
@@ -184,10 +230,33 @@ async function updateModelValue() {
                   </span>
                 </span>
             </div>
+            <template v-else-if="sets.listType === 'picture'">
+                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" @click="onPreview(file)">
+                <div class="el-upload-list__item-info">
+                    <a class="el-upload-list__item-name" @click="onRename(file)">
+                        <i class="el-icon el-icon--document">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+                                <path fill="currentColor" d="M832 384H576V128H192v768h640zm-26.496-64L640 154.496V320zM160 64h480l256 256v608a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V96a32 32 0 0 1 32-32m160 448h384v64H320zm0-192h160v64H320zm0 384h384v64H320z"></path>
+                            </svg>
+                        </i>
+                        <span class="el-upload-list__item-file-name" title="02.jpg">{{ file.name }}</span>
+                    </a>
+                </div>
+                <label class="el-upload-list__item-status-label" style="display: initial;" v-if="file.status === 'success'">
+                    <i class="el-icon el-icon--upload-success el-icon--check">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+                            <path fill="currentColor" d="M406.656 706.944 195.84 496.256a32 32 0 1 0-45.248 45.248l256 256 512-512a32 32 0 0 0-45.248-45.248L406.592 706.944z"></path>
+                        </svg>
+                    </i>
+                </label>
+                <base-icons :icon="iconTrash" class="el-icon el-icon--close" @click="onDelete(file)" v-if="!sets.readonly"></base-icons>
+            </template>
         </template>
         <template #tip>
             <div class="el-upload__tip">
-                <slot name="tip"><div v-html="sets.tip"></div></slot>
+                <slot name="tip">
+                    <div v-html="sets.tip"></div>
+                </slot>
             </div>
         </template>
     </el-upload>
@@ -218,11 +287,17 @@ async function updateModelValue() {
 .base-upload :deep(.base-upload-dialog-image) {
     width: 100%;
 }
-
+.base-upload .upload-click-icon {
+    color: #8c939d;
+}
+.base-upload :deep(.el-upload--picture-card:hover .upload-click-icon),
+.base-upload :deep(.el-upload--picture-card:focus .upload-click-icon) {
+    border-color: var(--el-color-primary);
+    color: var(--el-color-primary);
+}
 .base-upload :deep(.el-upload-dragger) {
     padding: 0;
     font-size: 28px;
-    color: #8c939d;
 }
 
 .base-upload .upload-click {
@@ -251,5 +326,13 @@ async function updateModelValue() {
 
 .base-upload :deep(.el-upload-dragger:hover .el-icon) {
     color: var(--el-color-primary);
+}
+
+.base-upload .el-upload-list__item-thumbnail {
+    cursor: zoom-in;
+}
+
+.base-upload .el-upload-list__item-name {
+    cursor: pointer;
 }
 </style>

@@ -5,7 +5,6 @@ const props = withDefaults(
         modelValue: TsSelect.Model;
         options: TsSelect.Options;
         sets?: TsSelect.Sets;
-        labelText?: TsTableInput.Label;
     }>(),
     {
         sets: () => {
@@ -31,7 +30,7 @@ let edit = ref<TsInput.Edit>(false);
 const selectRef = ref();
 const text = computed(() => {
     let res = "";
-    if (tableIn && !props.modelValue && props.modelValue !== 0) {
+    if (tableIn && !props.modelValue) {
         return res;
     } else if (Array.isArray(model.value)) {
         for (let index = 0; index < model.value.length; index++) {
@@ -63,7 +62,7 @@ function validate(): boolean {
     const rule = parent.props.sets as TsTableSelect.Sets;
     if (rule) {
         if (rule.required) {
-            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? "请选择" + props.labelText);
+            errorMsg.value = (model.value && model.value !== 0) ? "" : (rule.errorMsg ?? "请选择");
         }
         if (errorMsg.value) {
             ElMessage({
