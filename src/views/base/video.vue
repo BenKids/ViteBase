@@ -2,7 +2,6 @@
 const step:string = ``;
 const template:string = ``;
 const videoSrc:TsVideo.Model = "https://www.runoob.com/try/demo_source/movie.mp4";
-// const videoSrc:TsVideo.Model = evAssets("video/video.mp4");
 const tableAttr:TsTheBaseTable.Model = [];
 const tableSets:TsTheBaseTable.Model = [];
 </script>

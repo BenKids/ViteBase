@@ -3,7 +3,7 @@ export default {
         useRequest(
             () => request.Get("/monitor/server", {
                 name: "apiServeData",
-                transformData(rawdata:TsGen.Response<TsServe.FormData>) {
+                transformData(rawdata:TsGen.ResponseData<TsServe.FormData>) {
                     return rawdata.data;
                 },
             }),

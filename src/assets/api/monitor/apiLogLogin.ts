@@ -5,7 +5,7 @@ export default {
     table: (formModel: TsLogLogin.FormModel) =>
         usePagination(
             (page, pageSize) =>
-                request.Get<TsGen.TableRes<TsLogLogin.Table>>("/monitor/logininfor/list" + evTransDateRange(formModel.dateRange), {
+                request.Get<TsLogLogin.Table>("/monitor/logininfor/list" + evTransDateRange(formModel.dateRange), {
                     name: "apiLogLoginTable",
     			    params: {
     			        ...evRemoveEmpty(formModel,["dateRange"]),
@@ -16,7 +16,7 @@ export default {
     		{
                 watchingStates: [formModel,toRef(formModel,"ipaddr"), toRef(formModel,"userName")],
                 debounce: [0,300,300],
-    			data: (response:TsGen.TableRes<TsLogLogin.Table>) => response.rows,
+    			data: (response:TsGen.ResponseRowsTotal<TsLogLogin.Table>) => response.rows,
     			initialPage: 1,
     			initialPageSize: 10,
     			initialData: {

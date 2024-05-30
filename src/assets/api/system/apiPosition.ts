@@ -13,7 +13,7 @@ export default {
         {
             watchingStates: [formModel, toRef(formModel, "postName"), toRef(formModel, "postCode")],
             debounce: [0, 300, 300],
-            data: (response: TsGen.TableRes<TsPosition.Table>) => response.rows,
+            data: (response: TsGen.ResponseRowsTotal<TsPosition.Table>) => response.rows,
             initialPage: 1,
             initialPageSize: 10,
             initialData: {

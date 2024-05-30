@@ -3,24 +3,23 @@ export default {
     table: (formModel: TsDict.FormModel) =>
         usePagination(
             (page, pageSize) =>
-                request.Get("/system/dict/type/list" + evTransDateRange(formModel.dateRange), {
+                request.Get<TsDict.Table>("/system/dict/type/list" + evTransDateRange(formModel.dateRange), {
                     name: "apiDictTable",
                     params: {
                         ...evRemoveEmpty(formModel, ["dateRange"]),
                         pageNum: page,
                         pageSize: pageSize,
                     },
-                    transformData(rawdata: TsGen.TableRes<TsDict.Table>) {
-                        return {
-                            data: rawdata.rows,
-                            total: rawdata.total,
-                        };
-                    },
                     hitSource: ["apiDictAdd", "apiDictUpdate", "apiDictDelete"],
                 }),
             {
                 watchingStates: [formModel, toRef(formModel, "dictName"), toRef(formModel, "dictType")],
                 debounce: [0, 300, 300],
+                data: (response: TsGen.ResponseRowsTotal<TsDict.Table>) => response.rows,
+                initial: {
+                    rows: [],
+                    total: 0,
+                },
                 middleware: actionDelegationMiddleware("apiDictTable"),
             }
         ),
@@ -30,7 +29,7 @@ export default {
             (id: TsDict.Id) =>
                 request.Get("/system/dict/type/" + id, {
                     name: "apiDictMsg",
-                    transformData(rawdata: TsGen.Response<TsDict.Msg>) {
+                    transformData(rawdata: TsGen.ResponseData<TsDict.Msg>) {
                         return rawdata.data;
                     },
                     hitSource: ["apiDictUpdate", "apiDictDelete"]
@@ -117,7 +116,7 @@ export default {
         useRequest(
             () => request.Get("/system/dict/type/optionselect", {
                 name: "apiDictOptions",
-                transformData(rawdata: TsGen.Response<TsDicts.Options>) {
+                transformData(rawdata: TsGen.ResponseData<TsDicts.Options>) {
                     return evRename({
                         data: rawdata.data,
                         keys: {
@@ -137,7 +136,7 @@ export default {
     data: (formModel: TsDictData.FormModel) =>
         usePagination(
             (page, pageSize) =>
-                request.Get<TsGen.TableRes<TsDictData.Table>>("/system/dict/data/list", {
+                request.Get<TsDictData.Table>("/system/dict/data/list", {
                     name: "apiDictData",
                     params: {
                         ...formModel,
@@ -149,7 +148,7 @@ export default {
             {
                 watchingStates: [formModel, toRef(formModel, "dictType"), toRef(formModel, "dictLabel")],
                 debounce: [0, 300, 300],
-                data: (res: TsGen.TableRes<TsDictData.Table>) => res.rows,
+                data: (res: TsGen.ResponseRowsTotal<TsDictData.Table>) => res.rows,
                 initialPage: 1,
                 initialPageSize: 10,
                 initialData: {
@@ -165,7 +164,7 @@ export default {
         useRequest(
             (id: TsDict.Id) => request.Get("/system/dict/data/" + id, {
                 name: "apiDictDataMsg",
-                transformData(rawdata: TsGen.Response<TsDictDataUpdate.FormModel>) {
+                transformData(rawdata: TsGen.ResponseData<TsDictDataUpdate.FormModel>) {
                     return rawdata.data;
                 },
                 hitSource: ["apiDictDataUpdate"],

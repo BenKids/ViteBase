@@ -3,24 +3,23 @@ export default {
     table: (formModel: TsLogOper.FormModel) =>
         usePagination(
             (pageNum, pageSize) =>
-                request.Get("/monitor/operlog/list" + evTransDateRange(formModel.dateRange), {
+                request.Get<TsLogOper.Table>("/monitor/operlog/list" + evTransDateRange(formModel.dateRange), {
                     name: "apiLogOperTable",
                     params: {
                         ...evRemoveEmpty(formModel, ["dateRange"]),
                         pageNum,
                         pageSize,
                     },
-                    transformData(rawdata: TsGen.ResponseTable<TsLogOper.Table>) {
-                        return {
-                            data: rawdata.rows,
-                            total: rawdata.total,
-                        };
-                    },
                     hitSource: ["apiUserAdd", "apiUserUpdate", "apiUserDelete", "apiUserUpdateStatus"],
                 }),
             {
                 watchingStates: [formModel, toRef(formModel, "operIp"), toRef(formModel, "title"), toRef(formModel, "operName")],
                 debounce: [0, 300, 300, 300],
+                data: (response: TsGen.ResponseRowsTotal<TsLogOper.Table>) => response.rows,
+                initialData: {
+                    rows: [],
+                    total: 0,
+                },
                 middleware: actionDelegationMiddleware("apiLogOperTable"),
             }
         ),

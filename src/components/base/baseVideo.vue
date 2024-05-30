@@ -81,7 +81,7 @@ function formatTooltip(val:number) {
 //handle 进度条拖动
 function onSlider(val:number) {
     videoRef.value.currentTime = val;
-    isInput.value = true;
+    isInput.value = false;
 }
 //handle 全屏
 function onFullscreen() {

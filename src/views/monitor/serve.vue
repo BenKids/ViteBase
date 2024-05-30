@@ -65,7 +65,7 @@ const setsPieJvm = computed((): TsEchartsPie.Sets => {
     }
 })
 //sets JAVA描述列表设置
-const setsJava:TsDescriptions.Sets = {
+const setsJava: TsDescriptions.Sets = {
     labelWidth: "110px",
     labelAlign: "center",
 }
@@ -128,7 +128,7 @@ onSuccess(res => {
         }
     ]
     loading.value = false;
-    nextTick(()=>{
+    nextTick(() => {
         echartsMemRef.value.setOption();
         echartsJvmRef.value.setOption();
     })
@@ -222,7 +222,7 @@ onSuccess(res => {
                         <template #template>
                             <div class="skeleton-mem-item">
                                 <el-skeleton-item variant="text" style="width: 40px;"></el-skeleton-item>
-                                <el-skeleton-item variant="circle" style="width:80px;height:80px;" />
+                                <el-skeleton-item variant="circle" style="width:80px;height:80px;"/>
                             </div>
                         </template>
                         <template #default>
@@ -368,15 +368,18 @@ onSuccess(res => {
     flex: 1;
     text-align: center;
 }
+
 .part.cpu .skeleton-cpu-left {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .part.mem :deep(.el-skeleton) {
     display: flex;
     padding-bottom: 30px;
 }
+
 .part.mem .skeleton-mem-item {
     flex: 1;
     display: flex;

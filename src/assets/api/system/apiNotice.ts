@@ -4,7 +4,7 @@ export default {
     	useRequest(
     	    (id:TsNotice.Id) => request.Get("/system/notice/"+id,{
     	        name: "apiNoticeMsg",
-                transformData(rawdata:TsGen.Response<TsNoticeUpdate.FormModel>) {
+                transformData(rawdata:TsGen.ResponseData<TsNoticeUpdate.FormModel>) {
                     return rawdata.data;
                 },
                 hitSource: ["apiNoticeUpdate"],
@@ -18,7 +18,7 @@ export default {
     table: (formModel: TsNotice.FormModel) =>
         usePagination(
             (page, pageSize) =>
-                request.Get<TsGen.TableRes<TsNotice.Table>>("/system/notice/list", {
+                request.Get<TsNotice.Table>("/system/notice/list", {
                     name: "apiNoticeTable",
                     params: {
                         ...formModel,
@@ -30,7 +30,7 @@ export default {
             {
                 watchingStates: [formModel, toRef(formModel, "noticeTitle"), toRef(formModel, "createBy")],
                 debounce: [0, 300, 300],
-                data: (response: TsGen.TableRes<TsNotice.Table>) => response.rows,
+                data: (response: TsGen.ResponseRowsTotal<TsNotice.Table>) => response.rows,
                 initialPage: 1,
                 initialPageSize: 10,
                 initialData: {

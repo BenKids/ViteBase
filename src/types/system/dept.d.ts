@@ -57,7 +57,15 @@ namespace TsDept {
         depts: TreeRoleIdDepts[];
     }
     interface Msg {
-
+        deptId: TsGen.Id;
+        deptName: DeptName;
+        email: TsGen.Email;
+        leader: string;
+        orderNum: number;
+        parentId: TsGen.Id;
+        parentName: DeptName;
+        phone: TsGen.Phonenumber;
+        status: TsGen.Status;
     }
 }
 namespace TsDeptAdd {

@@ -86,7 +86,7 @@ function onUnlock(row:TsLogLogin.TableItem) {
             </base-table>
         </template>
         <template #pagination>
-            <base-pagination v-model:currentPage="page" v-model:pageSize="pageSize" :total="total"></base-pagination>
+            <base-pagination v-model:currentPage="page" v-model:pageSize="pageSize" :total="total || 0"></base-pagination>
         </template>
     </base-layout>
 </template>

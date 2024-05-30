@@ -3,7 +3,8 @@ const props = withDefaults(
     defineProps<{
         modelValue: TsTable.Model;
         selectData?: TsTable.Model;
-        sets?: TsTable.Sets;
+        // sets?: TsTable.Sets<TsTable.Row>; // 这里若是这样写给组件赋值时会有ts报错，暂时先写成any
+        sets?: TsTable.Sets<any>;
     }>(),
     {
         sets: () => {

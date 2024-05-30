@@ -21,7 +21,7 @@ export default {
     ),
     // 用户列表
     table: (formModel: TsUser.FormModel) => usePagination(
-        (pageNum, pageSize) => request.Get(
+        (pageNum, pageSize) => request.Get<TsUser.Table>(
             "/system/user/list" + evTransDateRange(formModel.dateRange),
             {
                 name: "apiUserTable",
@@ -31,24 +31,22 @@ export default {
                     pageSize,
                 },
                 hitSource: ["apiUserAdd", "apiUserUpdate", "apiUserDelete", "apiUserUpdateStatus"],
-                transformData(rawdata: TsGen.ResponseTable<TsUser.Table>) {
-                    for (let index = 0; index < rawdata.rows.length; index++) {
-                        const item = rawdata.rows[index];
-                        item.deptName = item.dept.deptName;
-                    }
-                    return {
-                        data: rawdata.rows,
-                        total: rawdata.total,
-                    };
-                }
             }
         ),
         {
             watchingStates: [formModel, toRef(formModel, "userName"), toRef(formModel, "phonenumber")],
             debounce: [0, 300, 300],
             middleware: actionDelegationMiddleware("apiUserTable"),
+            data: (rawdata: TsGen.ResponseRowsTotal<TsUser.Table>) => {
+                const data = rawdata.rows;
+                for (let index = 0; index < data.length; index++) {
+                    const item = data[index];
+                    item.deptName = item.dept.deptName;
+                }
+                return data;
+            },
             initialData: {
-                data: [],
+                rows: [],
                 total: 0,
             }
         }

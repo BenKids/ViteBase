@@ -28,7 +28,7 @@ function open(id: TsDept.DeptId) {
         .then(res => {
             updateForm(evReObj({
                 obj: form.value,
-                cover: res.data,
+                cover: res,
             }))
         })
 }

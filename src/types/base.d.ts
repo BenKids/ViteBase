@@ -825,7 +825,7 @@ namespace TsPagination {
     interface Sets {
         pageSizes?: number[];
         small?: boolean;
-        background?: string;
+        background?: boolean;
         layout?: string;
         pagerCount?: number;
         prevText?: string;
@@ -932,7 +932,6 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
-
         [x: string]: any;
     }
 
@@ -992,8 +991,9 @@ namespace TsTable {
 
     type Model = Row[];
     type Loading = boolean;
-    type Rules = (()=>boolean)[];
-    interface Sets<T = TsGen.Object> {
+    type Rules = (()=>boolean)[];;
+    type RowKey<T> = keyof T | ((row: T) => keyof T);
+    interface Sets<T> {
         height?: string | number;
         maxHeight?: string | number;
         stripe?: boolean;
@@ -1147,7 +1147,7 @@ namespace TsTag {
     }
 
     interface Sets {
-        type?: TsGen.Types | "text";
+        type?: TsGen.Types;
         closable?: boolean;
         size?: TsGen.Size;
         effect?: "dark" | "light" | "plain";
@@ -1156,9 +1156,7 @@ namespace TsTag {
         round?: boolean;
     }
 
-    interface Option {
-        label: string;
-        value: string | number | boolean;
+    interface Option extends TsGen.LvItem {
         type?: TsGen.Types;
     }
 

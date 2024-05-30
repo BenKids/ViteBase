@@ -13,7 +13,7 @@ namespace TsDicts {
     }
 
     interface ResItem extends TsGen.LvItem {
-        type: TsTag.Sets["type"];
+        type?: TsGen.Types;
     }
 
     type Res = ResItem[];

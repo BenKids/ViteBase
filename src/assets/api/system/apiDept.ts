@@ -25,9 +25,12 @@ export default {
     msg: () =>
         useRequest(
             (deptId: TsDept.DeptId) =>
-                request.Get<TsGen.Response<TsDept.Msg>>("/system/dept/" + deptId, {
+                request.Get("/system/dept/" + deptId, {
                     name: "apiDeptMsg",
                     hitSource: ["apiDeptAdd", "apiDeptDelete", "apiDeptUpdate"],
+                    transformData: (rawdata: TsGen.ResponseData<TsDept.Msg>) => {
+                        return rawdata.data;
+                    }
                 }),
             {
                 force: true,

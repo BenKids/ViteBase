@@ -3,7 +3,7 @@ export default {
     table: (formModel: TsOnline.FormModel) =>
         usePagination(
             (page, pageSize) =>
-                request.Get<TsGen.TableRes<TsOnline.Table>>("/monitor/online/list", {
+                request.Get<TsOnline.Table>("/monitor/online/list", {
                     name: "apiOnlineTable",
                     params: {
                         ...formModel,
@@ -15,7 +15,7 @@ export default {
             {
                 watchingStates: [formModel, toRef(formModel, "ipaddr"), toRef(formModel, "userName")],
                 debounce: [0, 300, 300],
-                data: (response: TsGen.TableRes<TsOnline.Table>) => response.rows,
+                data: (response: TsGen.ResponseRowsTotal<TsOnline.Table>) => response.rows,
                 initialPage: 1,
                 initialPageSize: 10,
                 initialData: {

@@ -1,6 +1,6 @@
 namespace TsGen {
 	interface LvItem {
-		label: string;
+		label: string | number;
 		value: string | number;
 	}
 	type Lv = LvItem[];
@@ -28,17 +28,17 @@ namespace TsGen {
 	// 图片填充方式
 	type Fit = "fill" | "contain" | "cover" | "none" | "scale-down";
 	// 请求返回参数
-	interface Response<T> {
+	interface ResponseData<T> {
 		code: number;
 		msg: string;
 		data: T;
 	}
 	// 表格请求返回参数
-	interface ResponseTable<T> {
+	interface ResponseRowsTotal<T> {
 		code: number;
 		msg: string;
 		rows: T;
-		total: number;
+		total: TsPagination.Total;
 	}
 	// 角色
 	type Roles = string[];
@@ -53,11 +53,6 @@ namespace TsGen {
 	interface FormDate {
 		"params%5BbeginTime%5D": string;
 		"params%5BendTime%5D": string;
-	}
-	// 表格数据
-	interface TableRes<T> {
-		rows: T;
-		total: TsPagination.Total;
 	}
 	// 正常/停用状态
 	type StatusIs = "0" | "1";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
     withDefaults(defineProps<{
-        total: TsPagination.Total,
+        total?: TsPagination.Total,
         sets?: TsPagination.Sets
     }>(),{
         sets: () => {

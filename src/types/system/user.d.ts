@@ -22,7 +22,7 @@ namespace TsUser {
         createTime: string;
     }
     type Table = TableItem[];
-    interface Msg extends TsGen.Response<TsUserEdit.FormModel>{
+    interface Msg extends TsGen.ResponseData<TsUserEdit.FormModel>{
         roles: {
             roleId: TsRole.RoleId;
             roleName: TsRole.Name;

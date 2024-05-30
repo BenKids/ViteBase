@@ -14,7 +14,7 @@ const setsDeptName: TsTableColumn.Sets = {
     minWidth: 200,
 }
 //sets 表格设置
-const tableSets:TsTable.Sets = {
+const tableSets:TsTable.Sets<TsDept.TableItem> = {
     defaultExpandAll: true,
 }
 //ref 表单数据

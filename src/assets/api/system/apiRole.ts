@@ -36,7 +36,7 @@ export default {
             watchingStates: [formModel, toRef(formModel, "roleName"), toRef(formModel, "roleKey")],
             debounce: [0, 300, 300],
             middleware: actionDelegationMiddleware("apiRoleTable"),
-            data: (res: TsGen.ResponseTable<TsRole.Table>) => res.rows,
+            data: (res: TsGen.ResponseRowsTotal<TsRole.Table>) => res.rows,
             initialData: {
                 rows: [],
                 total: 0,
