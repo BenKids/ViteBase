@@ -84,7 +84,7 @@ onMounted(()=>{
         <div class="base-form-input-prepend" v-if="slots.prepend">
             <slot name="prepend"></slot>
         </div>
-        <base-input v-bind="$attrs" v-model="model" :sets="sets" :class="props.sets.type"></base-input>
+        <base-input v-bind="$attrs" v-model="model" :sets="sets as TsInput.Sets" :class="props.sets.type"></base-input>
         <div class="base-form-input-append" v-if="slots.append">
             <slot name="append"></slot>
         </div>

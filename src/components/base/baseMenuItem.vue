@@ -44,7 +44,7 @@
                 @click="onMenuItem(item)"
                 class="base-menu-item"
             >
-                <base-icons :icon="item.meta.icon"></base-icons>
+                <base-icons :icon="item.meta.icon ?? ''"></base-icons>
                 <template #title>
                     <span>{{ item.meta.label }}</span>
                 </template>

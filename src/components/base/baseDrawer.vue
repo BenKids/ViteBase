@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
     defineProps<{
-        title?: TsDrawer.TItle;
+        title?: TsDrawer.Title;
         sets?: TsDrawer.Sets;
     }>(),
     {

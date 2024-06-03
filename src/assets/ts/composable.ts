@@ -33,7 +33,7 @@ export function cpaDialogForm() {
 }
 export function cpaSets() {
     //sets 必填项
-    const setsRequired: TsFormItem.Sets = {
+    const setsRequired = {
         required: true,
     }
     //sets 手机号码设置

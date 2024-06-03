@@ -12,7 +12,7 @@ const setsLogin = computed((): TsButton.Sets => {
     };
 });
 //sets 表单设置
-const formSets = reactive({
+const formSets = reactive<TsForm.Sets>({
     size: "large",
     inline: true,
 });

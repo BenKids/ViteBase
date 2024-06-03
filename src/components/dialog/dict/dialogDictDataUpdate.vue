@@ -53,7 +53,7 @@ defineExpose({
             <base-form-input label="数据键值" v-model="form.dictValue" prop="dictValue" :sets="setsRequired"></base-form-input>
             <base-form-select label="回显样式" v-model="form.listClass" prop="listClass" :options="optionsClass">
                 <template #option="{option}">
-                    <el-tag :type="option.value" effect="dark" style="margin-right:10px;"></el-tag>
+                    <el-tag :type="option.value as TsGen.Types" effect="dark" style="margin-right:10px;"></el-tag>
                     <span>{{option.label}}</span>
                 </template>
             </base-form-select>

@@ -144,7 +144,7 @@ function onUncheckAll() {
             :default-checked-keys="defaultExpandedKeys"
             :empty-text="sets.emptyText"
             :expand-on-click-node="sets.expandOnClickNode ?? false"
-            :filter-node-method="filterNode"
+            :filter-node-method="filterNode as TsTree.FilterNodeMethod"
             :highlight-current="sets.highlightCurrent ?? true"
             :indent="sets.indent"
             :icon="sets.icon"

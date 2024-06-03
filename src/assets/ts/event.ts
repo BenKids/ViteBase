@@ -439,14 +439,14 @@ export function evTextOver(el: HTMLDivElement) {
 	return rangeWidth > targetW;
 }
 // 将base64图片信息转name url格式
-export function evBase64ToUpload(params: string[]): TsElement.UploadUserFile[] {
+export function evBase64ToUpload(params: TsUpload.Model): TsElement.UploadUserFile[] {
 	let res: TsElement.UploadUserFile[] = [];
 	for (let index = 0; index < params.length; index++) {
 		const item = params[index];
 		if (!item) continue;
-		const itemArr = item.split("base64,");
+		const itemArr = item.url.split("base64,");
 		res.push({
-			name: "upload" + index,
+			name: item.name,
 			url: itemArr.length > 1 ? itemArr[0] + "base64," + itemArr[1] : "data:image/png;base64," + itemArr[0],
 		});
 	}

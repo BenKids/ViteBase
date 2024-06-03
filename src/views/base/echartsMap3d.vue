@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// import mapJson from "@/assets/map/mapJson";
+// import mapOptions from "@/assets/map/mapOptions";
 const step:string = `const map3dRef = ref();
 let model = ref<TsEchartsMap3d.Model>(411500)
 let data = reactive<TsEchartsMap3d.Data>({
@@ -8,12 +10,12 @@ let options = reactive<TsEchartsMap3d.Options>({
     item1: {
         name: "数据一二二二二二",
         map: false,
-        tooltip: true,
+        tooltip: true
     },
     item2: {
         name: "数据二",
         map: true,
-        tooltip: true,
+        tooltip: true
     }
 })
 function onMap(params: TsEchartsMap3d.ClickParams, done: TsEchartsMap3d.Done) {
@@ -291,6 +293,7 @@ const tableSets:TsTheBaseTable.Model = [
             <base-alert title="2、点击空白区域返回上一级" :sets="setAlertTip"></base-alert>
         </template>
         <template #view>
+<!--            :map-json="mapJson" :map-options="mapOptions"-->
             <base-echarts-map3d ref="map3dRef" v-model="model" :data="data" :options="options" @click="onMap" @back="onBack"></base-echarts-map3d>
         </template>
         <template #attr>

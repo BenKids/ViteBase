@@ -1,36 +1,38 @@
 <script setup lang="ts">
-const step: string = `const setsAlert:TsAlert.Sets = {
-    showIcon: true,
-    type: "warning"
-}
+// import mapJson from "@/assets/map/mapJson";
+// import mapOptions from "@/assets/map/mapOptions";
+const step: string = `// 地图实例
 const mapRef = ref();
+//ref 绑定adcode
 let model = ref<TsEchartsMap.Model>(411500)
+//ref 地图展示数据
 let data = reactive<TsEchartsMap.Data>({
-    411522: {}
+    411522: []
 })
-let options = reactive<TsEchartsMap.Options>({
-    item1: "数据一二二二二二",
-    item2: "数据二",
-})
-
+//api 获取数据
+setTimeout(() => {
+    data[411522] = [
+        {
+            label: "数据一二二二二二",
+            value: 123,
+        },{
+            label: "数据二",
+            value: 456
+        }
+    ]
+    mapRef.value.setOption();
+}, 500);
+//handle 地图点击事件
 function onMap(params: TsEchartsMap.ClickParams, done: TsEchartsMap.Done) {
     console.log("[onMap]", params)
     done();
 }
-
+//handle 地图返回上级事件
 function onBack(params: TsEchartsMap.ClickParams, done: TsEchartsMap.Done) {
     console.log("[onBack]", params);
     done();
-}
-
-setTimeout(() => {
-    data[411522] = {
-        item1: 123,
-        item2: 456
-    }
-    mapRef.value.setOption();
-}, 500);`;
-const template: string = `<base-alert title="tips：组件要放在一个有宽高的div中" :sets="setsAlert"></base-alert>`;
+}`;
+const template: string = `<base-echarts-map ref="mapRef" v-model="model" :data="data" @click="onMap" @back="onBack"></base-echarts-map>`;
 const setsAlert:TsAlert.Sets = {
     showIcon: true,
     type: "warning",
@@ -42,13 +44,21 @@ const setAlertTip:TsAlert.Sets = {
 const mapRef = ref();
 let model = ref<TsEchartsMap.Model>(411500)
 let data = reactive<TsEchartsMap.Data>({
-    411522: {}
+    411522: []
 })
-let options = reactive<TsEchartsMap.Options>({
-    item1: "数据一二二二二二",
-    item2: "数据二",
-})
-
+//api 获取数据
+setTimeout(() => {
+    data[411522] = [
+        {
+            label: "数据一二二二二二",
+            value: 123,
+        },{
+            label: "数据二",
+            value: 456
+        }
+    ]
+    mapRef.value.setOption();
+}, 500);
 function onMap(params: TsEchartsMap.ClickParams, done: TsEchartsMap.Done) {
     console.log("[onMap]", params)
     done();
@@ -59,13 +69,6 @@ function onBack(params: TsEchartsMap.ClickParams, done: TsEchartsMap.Done) {
     done();
 }
 
-setTimeout(() => {
-    data[411522] = {
-        item1: 123,
-        item2: 456
-    }
-    mapRef.value.setOption();
-}, 500);
 const tableAttr: TsTheBaseTable.Model = [
     {
         key: "v-model",
@@ -295,7 +298,7 @@ const tableSets: TsTheBaseTable.Model = [
             <base-alert title="2、点击空白区域返回上一级" :sets="setAlertTip"></base-alert>
         </template>
         <template #view>
-            <base-echarts-map ref="mapRef" v-model="model" :data="data" :options="options" @click="onMap" @back="onBack"></base-echarts-map>
+            <base-echarts-map ref="mapRef" v-model="model" :data="data" @click="onMap" @back="onBack"></base-echarts-map>
         </template>
         <template #attr>
             <the-base-table :data="tableAttr"></the-base-table>

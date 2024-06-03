@@ -79,7 +79,7 @@ function formatTooltip(val:number) {
     return onFormat(val);
 }
 //handle 进度条拖动
-function onSlider(val:number) {
+function onSlider(val:TsVideo.InputSliderVal) {
     videoRef.value.currentTime = val;
     isInput.value = false;
 }

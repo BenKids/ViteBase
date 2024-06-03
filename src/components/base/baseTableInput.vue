@@ -17,7 +17,7 @@ const className = computed(():TsTableSpecial.Sets['className'] => {
 <template>
     <base-table-column :label="label" :prop="prop" :sets="sets" :class-name="className">
         <template #default="scope">
-            <base-input v-bind="$attrs" v-model="scope.row[prop]" :sets="sets"></base-input>
+            <base-input v-bind="$attrs" v-model="scope.row[prop]" :sets="sets as TsInput.Sets"></base-input>
         </template>
     </base-table-column>
 </template>

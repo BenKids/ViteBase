@@ -16,7 +16,7 @@ namespace TsGen {
 	}
 	// 日期格式
 	type Fmt = "YYYY-MM-DD hh:mm:ss" | "YYYY-MM-DD hh:mm" | "YYYY-MM-DD" | "YYYY-MM" | "MM-DD" | "hh:mm:ss" | "mm:ss" | "YYYY";
-	type Date = `${number}-${number}-${number}`;
+	type Date = Date;
 	type Time = `${number}-${number}-${number} ${number}:${number}:${number}`;
 	type CreateTime = Date | string;
 	// 组件尺寸
@@ -57,6 +57,9 @@ namespace TsGen {
 	// 正常/停用状态
 	type StatusIs = "0" | "1";
 	type Status = StatusIs | "";
+	// 是/否
+	type WhetherIs = "Y" | "N";
+	type Whether = WhetherIs | "";
 	// 手机号码
 	type Phonenumber = number;
 	// 邮箱

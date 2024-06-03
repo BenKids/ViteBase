@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Arrayable } from 'element-plus/es/utils';
 const props = withDefaults(
     defineProps<{
         prop: TsFormItem.Prop;
@@ -11,9 +12,9 @@ const props = withDefaults(
         },
     }
 );
-const rules = computed(() => {
+const rules = computed(():Arrayable<TsElement.FormItemRule> | undefined => {
     if (!props.sets || !props.sets.required) return undefined;
-    else if (evTypeOf(props.sets.required) == "boolean") {
+    else if (typeof(props.sets.required) == "boolean") {
         return [
             {
                 required: true,

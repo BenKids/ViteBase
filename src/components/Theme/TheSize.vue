@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {size} = pinia.storeToRefs(storeConfig());
-const options: TsRadio.Options = [
+const options: TsElement.Options = [
     {
         label: "大",
         value: "large",

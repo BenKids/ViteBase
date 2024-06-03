@@ -1,6 +1,6 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
-    modelValue: TsBadge.Model,
+    modelValue?: TsBadge.Model,
     sets?: TsBadge.Sets,
 }>(),{
     sets: ()=>{
@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 
 <template>
     <el-badge
-        :value="modelValue"
+        :value="modelValue ?? ''"
         :max="sets.max"
         :is-dot="sets.isDot"
         :hidden="sets.hidden && sets.hidden()"

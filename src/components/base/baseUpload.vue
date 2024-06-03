@@ -41,14 +41,12 @@ let dialogVisible = ref(false);
 let dialogImageUrl = ref<string[]>([]);
 // let model = ref<TsElement.UploadUserFile[]>(evBase64ToUpload(props.modelValue));
 let model = useVModel(props,"modelValue",emits);
-let modelLists = ref<TsElement.UploadUserFile[]>(evBase64ToUpload(props.modelValue));
+let modelLists = ref<TsElement.UploadUserFile[]>([]);
 watch(
     () => model.value,
     (val) => {
         if (localHandle.value) return (localHandle.value = false);
-        console.log("[val]",val);
-        const rrr = evBase64ToUpload(val);
-        console.log("[rrr]",rrr);
+        modelLists.value = evBase64ToUpload(val);
     }
 );
 //handle 表单验证

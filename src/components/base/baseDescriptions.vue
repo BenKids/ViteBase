@@ -1,8 +1,8 @@
 <script setup lang="ts">
-    withDefaults(defineProps<{
+    const props = withDefaults(defineProps<{
         title?: TsDescriptions.Title,
         sets?: TsDescriptions.Sets,
-        options: TsDescriptions.Options<TsGen.Object>,
+        options: TsDescriptions.Options<any>,
         modelValue: TsDescriptions.Model,
     }>(),{
         sets: () => {
@@ -22,6 +22,7 @@
             }
         }
     })
+    const optionsObj = computed(():TsDescriptions.Options<TsGen.Object> => props.options)
 </script>
 
 <template>
@@ -36,7 +37,7 @@
         <template #title v-if="temp.title"><slot name="title"></slot></template>
         <template #extra v-if="temp.extra"><slot name="extra"></slot></template>
         <el-descriptions-item
-            v-for="item in options"
+            v-for="item in optionsObj"
             :key="item.prop"
             :align="item.align || sets.align"
             :label-align="item.labelAlign || sets.labelAlign"

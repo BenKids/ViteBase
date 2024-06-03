@@ -73,6 +73,17 @@ export const routesMenus: TsRoutes.RoutesMenus = [
 				},
 			},
 			{
+			    path: "Config",
+			    name: "Config",
+			    component: () => import("@/views/system/config.vue"),
+			    meta: {
+			        label: "参数设置",
+			        keepAlive: true,
+			        icon: IconSolarCode2Linear,
+			        hidden: () => evPermit(["system:config:list"]),
+			    },
+			},
+			{
 				path: "Dict/DictData",
 				name: "DictData",
 				component: () => import("@/views/system/dictData.vue"),

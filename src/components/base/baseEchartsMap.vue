@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import mapJson from "@/assets/map/mapJson";
-import mapOptions from "@/assets/map/mapOptions";
-
 onActivated(() => {
     resize();
 });
 onMounted(() => {
+    if(props.mapJson && props.mapOptions) {
+        mapData.mapJson = props.mapJson;
+        mapData.mapOptions = props.mapOptions;
+        init();
+    } else {
+        apiGen.mapJson(adcode.value).then(({options,jsons}) => {
+            mapData.mapJson = jsons;
+            mapData.mapOptions = options;
+            init();
+        })
+    }
     if (mapEcharts) mapEcharts.off("click");
     mapEcharts = null;
     window.removeEventListener("resize", resizeEv);
@@ -14,8 +22,9 @@ const props = withDefaults(
     defineProps<{
         modelValue: TsEchartsMap.Model;
         data: TsEchartsMap.Data;
-        options: TsEchartsMap.Options;
         sets?: TsEchartsMap.Sets;
+        mapOptions?: TsEchartsMap.MapOptions;
+        mapJson?: TsEchartsMap.MapJson;
     }>(),
     {
         sets: () => {
@@ -23,6 +32,10 @@ const props = withDefaults(
         },
     }
 );
+let mapData = reactive<TsEchartsMap3d.MapData>({
+    mapJson: [],
+    mapOptions: [],
+})
 const emits = defineEmits(["click", "back", "update:modelValue"]);
 const box = ref();
 const adcode = computed({
@@ -34,9 +47,9 @@ const mapName = "Map";
 
 function fearures(): any {
     let res = [];
-    for (let index = 0; index < mapOptions[adcode.value].regions.length; index++) {
-        const item = mapOptions[adcode.value].regions[index];
-        const element = mapOptions[mapOptions[adcode.value].regions[index]];
+    for (let index = 0; index < mapData.mapOptions[adcode.value].regions.length; index++) {
+        const item = mapData.mapOptions[adcode.value].regions[index];
+        const element = mapData.mapOptions[mapData.mapOptions[adcode.value].regions[index]];
         res.push({
             type: "Feature",
             properties: {
@@ -50,7 +63,7 @@ function fearures(): any {
             },
             geometry: {
                 type: "MultiPolygon",
-                coordinates: mapJson[item],
+                coordinates: mapData.mapJson[item],
             },
         });
     }
@@ -92,7 +105,7 @@ const init = function () {
                 {
                     adcode: data.adcode,
                     name: data.name,
-                    value: data.value,
+                    value: props.data[data.adcode] ? JSON.parse(JSON.stringify(props.data[data.adcode])) : undefined,
                 },
                 setOption
             );
@@ -106,12 +119,12 @@ const init = function () {
                         clickItem.value = false;
                         return;
                     }
-                    adcode.value = mapOptions[adcode.value].parent.adcode;
+                    adcode.value = mapData.mapOptions[adcode.value].parent.adcode;
                     emits(
                         "back",
                         {
                             adcode: adcode.value,
-                            name: mapOptions[adcode.value].name,
+                            name: mapData.mapOptions[adcode.value].name,
                             value: props.data[adcode.value],
                         },
                         setOption
@@ -123,15 +136,13 @@ const init = function () {
         );
     });
 };
-init();
 
 function maxFn() {
     let max = 0;
-    let objActive = Object.keys(props.options)[0];
     for (const key in props.data) {
         let item = props.data[key];
-        if (item && objActive && Number(item[objActive]) > max) {
-            max = Number(item[objActive]);
+        if (item && item[0] && Number(item[0].value) > max) {
+            max = Number(item[0].value);
         }
     }
     return max;
@@ -181,13 +192,12 @@ const setOption = function () {
                         const value = res.data.data;
                         let texts = "<span class='tooltip-name'>" + `${res.name}` + "</span>";
                         if (!value) return texts;
-                        for (const key in value) {
-                            const option = props.options[key];
+                        value.forEach((item:TsGen.LvItem) => {
                             texts += "<div class='tooltip-content'>";
-                            texts += "<span class='tooltip-label'>" + option + "</span>";
-                            texts += "<span class='tooltip-value'>" + value[key] + "</span>";
+                            texts += "<span class='tooltip-label'>" + item.label + "</span>";
+                            texts += "<span class='tooltip-value'>" + item.value + "</span>";
                             texts += "</div>";
-                        }
+                        })
                         return texts;
                     },
                 },
@@ -236,17 +246,16 @@ const setOption = function () {
                         },
                         // 数据：
                         data: (() => {
-                            let objActive = Object.keys(props.options)[0];
                             let res = [];
-                            for (let index = 0; index < mapOptions[adcode.value].regions.length; index++) {
-                                const item = mapOptions[adcode.value].regions[index];
+                            for (let index = 0; index < mapData.mapOptions[adcode.value].regions.length; index++) {
+                                const item = mapData.mapOptions[adcode.value].regions[index];
                                 let obj = {
-                                    name: mapOptions[item].name,
-                                    adcode: mapOptions[item].adcode,
-                                    value: props.data[item] && props.data[item][objActive] != undefined ? props.data[item][objActive] : 0,
+                                    name: mapData.mapOptions[item].name,
+                                    adcode: mapData.mapOptions[item].adcode,
+                                    value: props.data[item] && props.data[item][0].value != undefined ? props.data[item][0].value : 0,
                                     data: props.data[item],
                                     itemStyle: {
-                                        color: props.sets.singleColor ? mapOptions[item].regionColor : undefined,
+                                        color: props.sets.singleColor ? mapData.mapOptions[item].regionColor : undefined,
                                     },
                                 };
                                 res.push(obj);

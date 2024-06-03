@@ -148,3 +148,16 @@ export function cpaNoticeDialog() {
         setsForm,
     }
 }
+export function cpaConfigDialog() {
+    const setsDialog: TsDialog.Sets = {
+        width: 450,
+    }
+    const setsForm: TsForm.Sets = {
+        labelWidth: "7em",
+        inline: false,
+    }
+    return {
+        setsDialog,
+        setsForm
+    }
+}

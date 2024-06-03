@@ -25,7 +25,7 @@ namespace TsAvatar {
 
     interface Sets {
         icon?: TsGen.Icon;
-        size?: TsGen.Size;
+        size?: TsGen.Size | number;
         fit?: TsGen.Fit;
         shape?: "circle" | "square";
         type?: "black" | TsGen.Types;
@@ -80,7 +80,7 @@ namespace TsCarousel {
         height?: number;
         trigger?: "hover" | "click";
         autoplay?: boolean;
-        interval?: string;
+        interval?: number;
         indicatorPosition?: "outside" | "none";
         arrow?: "always" | "hover" | "never";
         type?: "card";
@@ -121,7 +121,7 @@ namespace TsCheckbox {
     }
 }
 namespace TsDatePicker {
-    type Model = string | string[];
+    type Model = Date | [Date, Date] | [string, string] | "";
     type Type = "year" | "month" | "monthrange" | "datetime" | "datetimerange" | "date" | "dates" | "daterange";
 
     interface Sets {
@@ -196,6 +196,7 @@ namespace TsDraggable {
 namespace TsDrawer {
     type Model = boolean;
     type Title = string;
+
     interface Sets {
         direction?: 'rtl' | 'ltr' | 'ttb' | 'btt';
         appendToBody?: boolean;
@@ -360,11 +361,7 @@ namespace TsEchartsMap {
     type Model = number;
 
     interface Data {
-        [propName: number]: TsGen.Object;
-    }
-
-    interface Options {
-        [propName: string]: string;
+        [propName: number]: TsGen.Lv;
     }
 
     type Done = () => void;
@@ -399,6 +396,38 @@ namespace TsEchartsMap {
         scaleLimitMax?: number;
         singleColor?: boolean;
         selectDisabled?: boolean;
+    }
+
+    interface MapOptions {
+        [propsName: number]: {
+            adcode: number;
+            name: string;
+            level: "province" | "city" | "district";
+            parent: {
+                adcode: number;
+            };
+            centroid: [number, number];
+            center: [number, number];
+            acroutes: number[];
+            distance: number;
+            beta: number;
+            alpha: number;
+            offset: [number, number, number];
+            regionColor: string;
+            linesColor: string;
+            symbol: [number, number];
+            label: [number, number];
+            regions: number[];
+        };
+    }
+
+    interface MapJson {
+        [propsName: number]: any;
+    }
+
+    interface MapData {
+        mapJson: MapJson;
+        mapOptions: MapOptions;
     }
 }
 namespace TsEchartsMap3d {
@@ -445,31 +474,13 @@ namespace TsEchartsMap3d {
         value?: TsGen.Object;
     }
 
-    interface MapOptions {
-        [propsName: number]: {
-            adcode: number;
-            name: string;
-            level: "province" | "city" | "district";
-            parent: {
-                adcode: number;
-            };
-            centroid: [number, number];
-            center: [number, number];
-            acroutes: number[];
-            distance: number;
-            beta: number;
-            alpha: number;
-            offset: [number, number, number];
-            regionColor: string;
-            linesColor: string;
-            symbol: [number, number];
-            label: [number, number];
-            regions: number[];
-        };
+    interface MapOptions extends TsEchartsMap.MapOptions {
     }
 
-    interface MapJson {
-        [propsName: number]: any;
+    interface MapJson extends TsEchartsMap.MapJson {
+    }
+
+    interface MapData extends TsEchartsMap.MapData {
     }
 }
 namespace TsEchartsPie {
@@ -580,7 +591,7 @@ namespace TsFormItem {
     interface Sets {
         disabled?: boolean;
         hidden?: boolean;
-        required?: TsElement.FormItemRule[] | TsElement.FormItemRule['validator'] | boolean;
+        required?: Arrayable<FormItemRule> | true;
     }
 }
 namespace TsFormInput {
@@ -680,7 +691,7 @@ namespace TsIcons {
     }
 }
 namespace TsImage {
-    type Model = string | null;
+    type Model = string | undefined;
 
     interface Sets {
         fit?: TsGen.Fit;
@@ -861,8 +872,8 @@ namespace TsProgress {
         status?: 'success' | 'exception' | 'warning';
         indeterminate?: boolean;
         duration?: number;
-        color?: string | Function | { color: string; percentage: number }[];
-        width?: string | number;
+        color?: string | ((percentage: number) => string) | { color: string; percentage: number }[];
+        width?: number;
         showText?: boolean;
         strokeLinecap?: 'butt' | 'round' | 'square';
         format?: (percentage: number) => string;
@@ -895,7 +906,7 @@ namespace TsRadio {
 
     interface Option {
         label: string | number;
-        value: string | number | boolean;
+        value: string | number;
         badge?: number;
         disabled?: boolean;
         sets?: SetsBadge;
@@ -932,6 +943,7 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
+
         [x: string]: any;
     }
 
@@ -991,9 +1003,11 @@ namespace TsTable {
 
     type Model = Row[];
     type Loading = boolean;
-    type Rules = (()=>boolean)[];;
+    type Rules = (() => boolean)[];
+    ;
     type RowKey<T> = keyof T | ((row: T) => keyof T);
-    interface Sets<T> {
+
+    interface Sets<T = TsGen.Object> {
         height?: string | number;
         maxHeight?: string | number;
         stripe?: boolean;
@@ -1050,6 +1064,7 @@ namespace TsTableDatePicker {
     type Prop = TsTableColumn.Prop;
 
     interface Sets extends TsTableColumn.Sets, TsDatePicker.Sets {
+        required?: boolean;
     }
 }
 namespace TsTableInput {
@@ -1147,7 +1162,7 @@ namespace TsTag {
     }
 
     interface Sets {
-        type?: TsGen.Types;
+        type?: TsGen.Types | "text";
         closable?: boolean;
         size?: TsGen.Size;
         effect?: "dark" | "light" | "plain";
@@ -1191,7 +1206,7 @@ namespace TsTour {
     interface Sets {
         showArrow?: boolean;
         placement?: Placement;
-        contentStyle?: string;
+        contentStyle?: CSSProperties;
         mask?: boolean | { style?: CSSProperties; color?: string; };
         type?: "default" | "primary";
         current?: number;
@@ -1209,11 +1224,11 @@ namespace TsTour {
         description?: string;
         showArrow?: boolean;
         placement?: TsTour.Sets.Placement;
-        contentStyle?: string;
+        contentStyle?: CSSProperties;
         mask?: boolean | { style?: CSSProperties; color?: string; };
         type?: "default" | "primary";
-        nextButtonProps?: { children: VueNode | string; onClick: Function }
-        prevButtonProps?: { children: VueNode | string; onClick: Function }
+        nextButtonProps?: TourBtnProps;
+        prevButtonProps?: TourBtnProps;
         scrollIntoViewOptions?: boolean;
         showClose?: boolean;
         closeIcon?: string;
@@ -1240,6 +1255,8 @@ namespace TsTree {
         search?: boolean;
         showCheckbox?: boolean;
     }
+
+    type FilterNodeMethod = FilterNodeMethodFunction;
 
     interface Option {
         label: string;
@@ -1316,7 +1333,10 @@ namespace TsUpload {
 }
 namespace TsVideo {
     type Model = string;
+
     interface Sets {
         height?: number;
     }
+
+    type InputSliderVal = Arrayable<number>;
 }

@@ -2,16 +2,16 @@
 const optionsRequired: TsTableTag.Options = [
   {
     label: "是",
-    value: true,
+    value: "true",
     type: "success",
   },
   {
     label: "否",
-    value: false,
+    value: "false",
     type: "warning",
   },
 ];
-const tableSets: TsTable.Sets = {
+const tableSets: TsTable.Sets<TsGen.Object> = {
     maxHeight: 500,
     showOverflowTooltip: false,
 }
