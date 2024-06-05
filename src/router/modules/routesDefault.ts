@@ -1,6 +1,6 @@
 export const routesDefault: TsRouter.RouteRecordRaw[] = [
     {
-        path: "/",
+        path: "",
         redirect: "/Login",
     },{
         path: "/Login",

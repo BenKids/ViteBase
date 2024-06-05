@@ -8,7 +8,7 @@ const r = createRouter({
 			path: "",
 			name: "",
 			component: () => import("@/views/app/appLayout.vue"),
-			children: routesExport as unknown as TsRouter.RouteRecordRaw[]
+			children: routesMenus as unknown as TsRouter.RouteRecordRaw[]
 		}
 	],
 });
@@ -27,7 +27,7 @@ r.beforeEach((to, _from, next) => {
 		next({ name: "Login" });
 	} else if (exclude.value.findIndex((item) => item === to.name) >= 0) {
 		next({ name: "Error" });
-	} else if(to.name != "TheLock") {
+	} else if(to.name && to.name != "TheLock") {
 		stores.addTabs(to);
 		next();
 	} else {

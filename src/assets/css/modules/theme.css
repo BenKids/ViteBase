@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* list-style: none; */
+    /* text-decoration: none; */
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", "Helvetica", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Alternative custom animation style */
+::view-transition-old(root),
+::view-transition-new(root) {
+    height: auto;
+    width: 100vw;
+    animation: none;
+    mix-blend-mode: normal;
+}
+html.dark::view-transition-old(root) {
+    z-index: 2147483646;
+}
+html.dark::view-transition-new(root) {
+    z-index: 1;
+}
+html::view-transition-old(root) {
+    z-index: 1;
+}
+html::view-transition-new(root) {
+    z-index: 2147483646;
+}
+
+:host {
+    /* 解决报错时页面展示内容被el-table遮盖的问题 */
+    z-index: 10;
+}
+
+vite-error-overlay {
+    /* 解决页面出错时页面层级混乱问题 */
+    z-index: 10000;
+}
+
+
+

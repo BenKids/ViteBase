@@ -5,6 +5,7 @@ export default defineStore("storeConfig", {
         language: "zh-cn",
         size: "default",
         autoInsertSpace: false,
+        themeMode: "light",
     }),
     getters: {},
     actions: {},

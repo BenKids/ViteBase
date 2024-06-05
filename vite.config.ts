@@ -6,6 +6,7 @@ import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Icons from "unplugin-icons/vite";
 import IconsResolver from "unplugin-icons/resolver";
+import viteCompression from "vite-plugin-compression";
 const Timestamp = new Date().getTime();//随机时间戳
 
 export default ({ mode }) => {
@@ -98,6 +99,14 @@ export default ({ mode }) => {
 					}),
 				],
 			}),
+			// 文件打包压缩，页面访问时加载压缩过的文件，提高访问速度
+			viteCompression({
+				filter: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i, // 需要压缩的文件
+				threshold: 1024, // 文件容量大于这个值进行压缩
+				algorithm: 'gzip', // 压缩方式
+				ext: 'gz', // 后缀名
+				deleteOriginFile: false, // 压缩后是否删除压缩源文件，开启后访问时403，暂没有找到解决办法
+			})
 		],
 		build: {
 			chunkSizeWarningLimit: 1500,

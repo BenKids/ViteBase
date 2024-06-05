@@ -1,6 +1,13 @@
 <script setup lang="ts">
-const iconDay = markRaw(IconSolarSunFogBold);
-const iconNight = markRaw(IconSolarMoonFogBold);
+
+const {themeMode} = pinia.storeToRefs(storeConfig());
+const setsTheme: TsSwitch.Sets = {
+    inlinePrompt: true,
+    activeValue: "dark",
+    inactiveValue: "light",
+    activeActionIcon: markRaw(IconSolarMoonFogBold),
+    inactiveActionIcon: markRaw(IconSolarSunFogBold)
+}
 let isDark = useDark({
     disableTransition: false,
     // 存储到localStorage/sessionStorage中的Key 根据自己的需求更改
@@ -10,7 +17,6 @@ let isDark = useDark({
     // 高亮class名字
     valueLight: 'light',
 });
-let val = ref<boolean>(isDark.value);
 const onToggle = useToggle(isDark);
 const {x, y} = useMouse();
 
@@ -52,14 +58,7 @@ function updateView() {
 </script>
 <template>
     <base-tooltip content="主题">
-        <el-switch
-            v-model="val"
-            inline-prompt
-            :active-action-icon="iconNight"
-            :inactive-action-icon="iconDay"
-            @change="updateView"
-            class="the-toggle-circle"
-        />
+        <base-switch v-model="themeMode" :sets="setsTheme" @change="updateView" class="the-toggle-circle"></base-switch>
     </base-tooltip>
 </template>
 <style scoped>

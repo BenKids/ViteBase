@@ -30,7 +30,7 @@ let edit = ref<TsInput.Edit>(false);
 const selectRef = ref();
 const text = computed(() => {
     let res = "";
-    if (tableIn && !props.modelValue) {
+    if (tableIn && !props.modelValue && props.modelValue !== 0) {
         return res;
     } else if (Array.isArray(model.value)) {
         for (let index = 0; index < model.value.length; index++) {
@@ -62,7 +62,7 @@ function validate(): boolean {
     const rule = parent.props.sets as TsTableSelect.Sets;
     if (rule) {
         if (rule.required) {
-            errorMsg.value = (model.value && model.value !== 0) ? "" : (rule.errorMsg ?? "请选择");
+            errorMsg.value = (model.value || model.value === 0) ? "" : (rule.errorMsg ?? "请选择");
         }
         if (errorMsg.value) {
             ElMessage({
@@ -165,6 +165,9 @@ function onChange(val: TsSelect.Model) {
             }"
             @change="onChange"
             @blur="onBlur">
+            <template #label="item">
+                <slot name="label" :option="item"></slot>
+            </template>
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
                 <slot name="option" :option="item"></slot>
             </el-option>

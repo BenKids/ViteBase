@@ -42,9 +42,11 @@ defineExpose({
             <base-form-input label="数据标签" v-model="form.dictLabel" prop="dictLabel" :sets="setsRequired"></base-form-input>
             <base-form-input label="数据键值" v-model="form.dictValue" prop="dictValue" :sets="setsRequired"></base-form-input>
             <base-form-select label="回显样式" v-model="form.listClass" prop="listClass" :options="optionsClass" :sets="setsClass">
+                <template #label="{item}">
+                    <el-tag :type="item.value">{{item.label}}</el-tag>
+                </template>
                 <template #option="{option}">
-                    <el-tag :type="option.value as TsGen.Types" effect="dark" style="margin-right:10px;"></el-tag>
-                    <span>{{option.label}}</span>
+                    <el-tag :type="option.tagType">{{option.label}}</el-tag>
                 </template>
             </base-form-select>
             <base-form-number label="显示排序" v-model="form.dictSort" prop="dictSort" :sets="setsRequired"></base-form-number>

@@ -5,7 +5,7 @@ import BaseDialog from "@/components/base/baseDialog.vue";
 
 const {setsRequired,setsRemark} = cpaSets();
 //sets 其他设置
-const {setsDialog,setsForm,setsType} = cpaDictDataDialog();
+const {setsDialog,setsForm,setsType,setsClass} = cpaDictDataDialog();
 //api 类型数据
 const optionsClass = apiGen.status();
 //api 状态数据
@@ -51,10 +51,12 @@ defineExpose({
             <base-form-input label="字典类型" v-model="form.dictType" prop="dictType" :sets="setsType"></base-form-input>
             <base-form-input label="数据标签" v-model="form.dictLabel" prop="dictLabel" :sets="setsRequired"></base-form-input>
             <base-form-input label="数据键值" v-model="form.dictValue" prop="dictValue" :sets="setsRequired"></base-form-input>
-            <base-form-select label="回显样式" v-model="form.listClass" prop="listClass" :options="optionsClass">
+            <base-form-select label="回显样式" v-model="form.listClass" prop="listClass" :options="optionsClass" :sets="setsClass">
+                <template #label="{item}">
+                    <el-tag :type="item.value">{{item.label}}</el-tag>
+                </template>
                 <template #option="{option}">
-                    <el-tag :type="option.value as TsGen.Types" effect="dark" style="margin-right:10px;"></el-tag>
-                    <span>{{option.label}}</span>
+                    <el-tag :type="option.tagType">{{option.label}}</el-tag>
                 </template>
             </base-form-select>
             <base-form-number label="显示排序" v-model="form.dictSort" prop="dictSort" :sets="setsRequired"></base-form-number>

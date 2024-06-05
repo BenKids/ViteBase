@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import "echarts-gl";
-import {imageBg, imageSymbol} from "@/assets/map/echarts.image";
-console.log("imageBg",imageBg)
+import imageSymbol from "@/assets/map/mapSymbol.ts";
+const imageBg = evAssets("image/mapBg.jpg");
 onActivated(() => {
     resize();
 });
@@ -45,15 +45,20 @@ let mapData = reactive<TsEchartsMap3d.MapData>({
     mapJson: [],
     mapOptions: [],
 })
+let clickItem = ref(false);
+let mapEcharts: TsEcharts.ECharts | null;
 const emits = defineEmits(["click", "back", "update:modelValue"]);
 const adcodeInit = props.modelValue;
 const adcode = computed({
     get: () => props.modelValue,
     set: (val) => emits("update:modelValue", val),
 });
-let mapEcharts: TsEcharts.ECharts | null;
 const mapName = "3D地图";
 const box = ref();
+const resizeEv = evDebounce({
+    func: resize,
+    wait: 300,
+});
 function fearures(): any {
     let res = [];
     for (let index = 0; index < mapData.mapOptions[adcode.value].regions.length; index++) {
@@ -84,7 +89,6 @@ function fearures(): any {
         features: res,
     };
 }
-let clickItem = ref(false);
 function init() {
     nextTick(() => {
         mapEcharts = echarts.init(box.value);
@@ -131,7 +135,7 @@ function init() {
         );
     });
 }
-const setOption = function () {
+function setOption() {
     nextTick(() => {
         if (!mapEcharts) return;
         mapEcharts.clear();
@@ -146,15 +150,15 @@ const setOption = function () {
             // 视距控制
             distance: props.sets.distance || mapData.mapOptions[adcode.value].distance || 105,
             // 是否开启自动旋转
-            autoRotate: props.sets.autoRotate ?? false,
+            autoRotate: props.sets.autoRotate ?? true,
             // 旋转方向 cw | ccw
             autoRotateDirection: props.sets.autoRotateDirection || "ccw",
             // 循环旋转
             loop: props.sets.loop ?? true,
             // y轴最小旋转角度
-            minBeta: props.sets.minBeta || -180,
+            minBeta: props.sets.minBeta || -18000,
             // y轴最大旋转角度
-            maxBeta: props.sets.maxBeta || 180,
+            maxBeta: props.sets.maxBeta || 18000,
         };
         echarts.registerMap(mapName, fearures());
         mapEcharts.setOption({
@@ -240,6 +244,8 @@ const setOption = function () {
                             show: false,
                         },
                     },
+                    // 用于鼠标的旋转，缩放等视角控制
+                    viewControl: viewControl,
                     // 地图着色效果
                     shading: "lambert",
                     // 光照相关的设置
@@ -456,23 +462,19 @@ const setOption = function () {
         });
         mapEcharts.hideLoading();
     });
-};
-const clear = function () {
+}
+function clear() {
     nextTick(() => {
         if (!mapEcharts) return;
         mapEcharts.clear();
     });
-};
-const resize = function () {
+}
+function resize() {
     nextTick(() => {
         if (!mapEcharts || !box.value.offsetWidth) return;
         mapEcharts.resize();
     });
-};
-const resizeEv = evDebounce({
-    func: resize,
-    wait: 300,
-});
+}
 defineExpose({
     clear,
     resize,

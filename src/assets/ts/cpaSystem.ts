@@ -128,6 +128,7 @@ export function cpaDictDataDialog() {
     const setsClass:TsFormSelect.Sets = {
         multiple: false,
         multipleLimit: 1,
+        clearable: false,
     }
     return {
         setsDialog,

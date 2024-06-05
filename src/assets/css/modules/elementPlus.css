@@ -1,0 +1,105 @@
+
+.el-popper {
+    font-size: 14px !important;
+    max-width: 50%;
+}
+
+.el-popper.base-tooltip-input .el-popper__arrow,
+.el-popper.base-tooltip-select .el-popper__arrow,
+.el-popper.base-tooltip-tree-select .el-popper__arrow {
+    /* 解决文字从有变空时样式问题 */
+    transform: none !important;
+    left: calc(50% - 5px) !important;
+}
+
+.el-message {
+    align-items: flex-start;
+}
+
+.el-message__content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.el-scrollbar__wrap {
+    overflow: auto;
+}
+
+.el-popper.is-pure:has(.el-menu--vertical) {
+    max-height: calc(100% - 40px);
+    overflow: auto;
+}
+
+/*菜单导航*/
+.base-menu {
+    border-right: none!important;
+}
+
+.base-menu:not(.el-menu--collapse) {
+    width: 200px;
+}
+
+.base-menu-item:not(.is-active) .el-icon,
+.el-sub-menu:not(.is-active) .el-icon {
+    color: var(--base-text-color-placeholder);
+}
+
+.el-sub-menu__title span {
+    position: relative;
+    z-index: 10;
+}
+
+.base-menu-item,
+.base-menu-item:hover,
+.el-sub-menu__title:hover {
+    background-color: transparent!important;
+}
+
+.base-menu-item:before,
+.el-sub-menu__title:before {
+    content: "";
+    display: block;
+    margin: 0 10px;
+    border-radius: var(--base-radius);
+    color: var(--base-bgc-white);
+    height: 40px;
+    width: calc(100% - 20px);
+    position: absolute;
+    top: 8px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--base-bgc-menu-hover);
+    transform-origin: center right;
+    transform: scaleX(0);
+    transition: transform 0.25s ease-in-out;
+}
+
+.el-sub-menu .base-menu-item:before {
+    top: 5px;
+}
+
+.base-menu-item:hover:before,
+.el-sub-menu__title:hover:before {
+    transform-origin: center left;
+    transform: scaleX(1);
+}
+
+.base-menu-item span {
+    position: relative;
+    z-index: 10;
+}
+
+.base-menu-item.is-active:before,
+.el-menu--collapse .el-sub-menu.is-active .el-sub-menu__title:before {
+    background-color: var(--base-color-primary);
+    transform: scaleX(1);
+}
+
+.base-menu-item.is-active:hover:before,
+.el-menu--collapse .el-sub-menu.is-active .el-sub-menu__title:hover:before {
+    background-color: var(--base-color-primary);
+    transform: scaleX(0);
+}

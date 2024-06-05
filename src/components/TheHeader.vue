@@ -17,7 +17,7 @@ const optBreadcrumb = computed(() => {
     let pathArr = route.path.split("/");
     pathArr.splice(0, 1);
     let names = evMatchObjs({
-        data: routesExport,
+        data: routesMenus,
         dataKey: "name",
         params: pathArr,
     });

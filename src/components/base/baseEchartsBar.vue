@@ -76,7 +76,7 @@ const processValue = function () {
 const processAxis = function () {
     return {
         type: "category",
-        boundaryGap: true,
+        boundaryGap: props.sets.axisBoundaryGap ?? true,
         axisLabel: {
             show: props.sets.axisLabel ?? true,
             color: props.sets.axisLabelColor || props.sets.axisColor || color.shaft,
@@ -144,7 +144,7 @@ const processSearies = function () {
     for (const key in props.options) {
         const item = props.options[key];
         res.push({
-            type: "bar",
+            type: item.type ?? "bar",
             name: item.label,
             data: props.modelValue.data[key],
             stack: props.sets.stack ? "stack" : item.stack,

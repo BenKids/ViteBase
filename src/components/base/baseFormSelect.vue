@@ -36,6 +36,7 @@ const slots = reactive({
     append: false,
     prepend: false,
     option: false,
+    label: false,
 })
 const getSlots = useSlots();
 onMounted(()=>{
@@ -48,6 +49,9 @@ onMounted(()=>{
     if(getSlots.option) {
         slots.option = true;
     }
+    if(getSlots.label) {
+        slots.label = true;
+    }
 })
 </script>
 <template>
@@ -56,6 +60,9 @@ onMounted(()=>{
             <slot name="prepend"></slot>
         </div>
         <base-select v-bind="$attrs" v-model="model" :options="options" :sets="sets">
+            <template #label="item" v-if="slots.label">
+                <slot name="label" :item="item.option"></slot>
+            </template>
             <template #option="item" v-if="slots.option">
                 <slot name="option" :option="item.option"></slot>
             </template>

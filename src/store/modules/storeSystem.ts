@@ -31,7 +31,7 @@ export default defineStore("storeSystem", {
         // 移除缓存页面
         removeInclude(name: string) {
             const res = evKeyChild({
-                data: routesExport,
+                data: routesMenus,
                 param: name,
                 key: "name"
             })
@@ -41,12 +41,12 @@ export default defineStore("storeSystem", {
         },
         // 添加tabs栏项
         addTabs(to: TsRouter.RouteLocationNormalized) {
-            // if (!to.name || !to.meta.label) return;
+            if (!to.name || !to.meta.label) return;
             let exits = this.tabs.findIndex((item) => item.value == to.name);
             if (exits == -1) {
                 this.tabs.push({
-                    value: to.name!.toString(),
-                    label: to.meta.label!.toString(),
+                    value: to.name.toString(),
+                    label: to.meta.label.toString(),
                     query: to.query,
                     icon: shallowRef(to.meta.icon!) as unknown as string,
                 })

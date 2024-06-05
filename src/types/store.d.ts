@@ -43,5 +43,6 @@ namespace TsStore {
 		size: TsGen.Size;
 		language: "zh-cn" | "en";
 		autoInsertSpace: boolean;
+		themeMode: "dark" | "light";
 	}
 }

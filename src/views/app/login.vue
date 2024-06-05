@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// 环境变量
+const envMenu = import.meta.env.VITE_BASE_MENU;
 // 移除主题样式
 document.documentElement.classList.remove("dark");
 const storeUs = storeUser();
@@ -67,7 +69,9 @@ const onLogin = () => {
         .then(() => sendUser())
         .then((res: TsStore.UserRes) => {
             storeUs.getUserInfo(res);
-            router.push({name: "Home"});
+            router.push({
+                name: envMenu == "Handelbook" ? "Base" : "Home"
+            });
         })
         .catch(() => {
             sendImage();

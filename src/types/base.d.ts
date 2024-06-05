@@ -241,6 +241,7 @@ namespace TsEchartsBar {
     interface Options {
         [propName: string]: {
             label: string;
+            type?: "line" | "bar";
             stack?: string;
             color?: string;
             markLine?: MarkLine;
@@ -260,6 +261,7 @@ namespace TsEchartsBar {
         axisLineColor?: string;
         axisTick?: boolean;
         axisTickColor?: string;
+        axisBoundaryGap?: boolean;
         valueColor?: string;
         valueRotate?: number;
         valueLabel?: boolean;
@@ -316,6 +318,7 @@ namespace TsEchartsLine {
             color?: string;
             markLine?: MarkLine;
             markPoint?: boolean;
+            type?: "line" | "bar"
         };
     }
 
@@ -331,6 +334,7 @@ namespace TsEchartsLine {
         axisLineColor?: string;
         axisTick?: boolean;
         axisTickColor?: string;
+        axisBoundaryGap?: boolean;
         valueColor?: string;
         valueRotate?: number;
         valueLabel?: boolean;
@@ -943,7 +947,7 @@ namespace TsSelect {
         label: string | number;
         value: string | number;
         disabled?: boolean;
-
+        tagType?: TsGen.Types;
         [x: string]: any;
     }
 
@@ -988,11 +992,13 @@ namespace TsSwitch {
         width?: number | string;
         activeText?: string;
         inactiveText?: string;
-        activeIcon?: string;
-        inactiveIcon?: string;
+        activeIcon?: TsGen.Icon;
+        inactiveIcon?: TsGen.Icon;
         activeValue?: Model;
         inactiveValue?: Model;
         inlinePrompt?: boolean;
+        activeActionIcon?: TsGen.Icon;
+        inactiveActionIcon?: TsGen.Icon;
     }
 
     type Change = TsGen.StatusIs;
@@ -1004,7 +1010,6 @@ namespace TsTable {
     type Model = Row[];
     type Loading = boolean;
     type Rules = (() => boolean)[];
-    ;
     type RowKey<T> = keyof T | ((row: T) => keyof T);
 
     interface Sets<T = TsGen.Object> {
@@ -1255,7 +1260,7 @@ namespace TsTree {
         search?: boolean;
         showCheckbox?: boolean;
     }
-
+    type LoadNode = TsGen.Object;
     type FilterNodeMethod = FilterNodeMethodFunction;
 
     interface Option {
@@ -1275,7 +1280,6 @@ namespace TsTree {
 namespace TsTreeSelect {
     type Model = TsTree.Model;
     type Options = TsTree.Options;
-
     interface Sets {
         showTooltip?: boolean;
         renderAfterExpand?: boolean;

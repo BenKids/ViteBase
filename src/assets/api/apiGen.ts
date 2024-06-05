@@ -23,25 +23,30 @@ export default {
 			}
 		),
 	// 状态选择数据
-	status: () => {
+	status: ():TsSelect.Options => {
 		return [
 			{
+				tagType: "info",
 				value: "info",
 				label: "默认"
 			},
 			{
+				tagType: "primary",
 				value: "primary",
 				label: "主要"
 			},
 			{
+				tagType: "success",
 				value: "success",
 				label: "成功"
 			},
 			{
+				tagType: "warning",
 				value: "warning",
 				label: "警告"
 			},
 			{
+				tagType: "danger",
 				value: "danger",
 				label: "危险"
 			}

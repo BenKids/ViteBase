@@ -87,21 +87,29 @@ const handleCreated = (editor: any) => {
 .base-edit-toolbar :deep(.w-e-bar-item svg) {
     color: var(--base-text-color-primary);
     fill: var(--base-text-color-primary);
-    border-radius: var(--base-radius);
 }
 .base-edit-toolbar :deep(.w-e-bar-item .disabled),
 .base-edit-toolbar :deep(.w-e-bar-item .disabled svg) {
     color: var(--base-text-color-disabled);
     fill: var(--base-text-color-disabled);
 }
-.base-edit-toolbar :deep(.w-e-bar-item button:hover),
-.base-edit-toolbar :deep(.w-e-bar-item button:hover svg),
-.base-edit-toolbar :deep(.w-e-bar-item .disabled:hover),
-.base-edit-toolbar :deep(.w-e-bar-item .disabled:hover svg) {
-    color: var(--base-bgc-gray);
-    fill: var(--base-bgc-gray);
-}
 .base-edit :deep(.w-e-bar-divider) {
     background-color: var(--base-border-color);
+}
+</style>
+<style>
+html.light .base-edit-toolbar .w-e-bar-item button:hover,
+html.light .base-edit-toolbar .w-e-bar-item button:hover svg,
+html.light .base-edit-toolbar .w-e-bar-item .disabled:hover,
+html.light .base-edit-toolbar .w-e-bar-item .disabled:hover svg {
+    color: var(--base-text-color-primary);
+    fill: var(--base-text-color-primary);
+}
+html.dark .base-edit-toolbar .w-e-bar-item button:hover,
+html.dark .base-edit-toolbar .w-e-bar-item button:hover svg,
+html.dark .base-edit-toolbar .w-e-bar-item .disabled:hover,
+html.dark .base-edit-toolbar .w-e-bar-item .disabled:hover svg {
+    color: var(--base-bgc-gray);
+    fill: var(--base-bgc-gray);
 }
 </style>

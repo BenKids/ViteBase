@@ -18,6 +18,8 @@
         :active-value="sets.activeValue"
         :inactive-value="sets.inactiveValue"
         :inline-prompt="sets.inlinePrompt"
+        :active-action-icon="sets.activeActionIcon"
+        :inactive-action-icon="sets.inactiveActionIcon"
         :style="
             (sets.colorOn ? '--el-switch-on-color: '+sets.colorOn+';':'') + 
             (sets.colorOff ? '--el-switch-off-color: '+sets.colorOff+';':'')

@@ -1,0 +1,3 @@
+html.dark {
+    --base-bgc-menu: var(--el-bg-color);
+}

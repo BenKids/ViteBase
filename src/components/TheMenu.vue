@@ -1,6 +1,6 @@
 <script setup lang="ts">
 let {collapse} = pinia.storeToRefs(storeSystem());
-const options = routesExport;
+const options = routesMenus;
 const logo = evAssets("image/vite.svg");
 const title = import.meta.env.VITE_BASE_TITLE;
 const scrollbarRef = ref()
@@ -30,13 +30,12 @@ const onMenuItem = (item: TsMenu.Option) => {
     }
 };
 const route = useRoute();
-const menu = computed((): TsMenu.Model => {
-    let r = evKeyChild({
+const menu = computed((): TsMenu.Model | undefined => {
+    return evKeyChild({
         data: options,
         param: route.name!.toString(),
         key: "name",
     });
-    return r!;
 });
 onMounted(() => {
     nextTick(() => onScrollTo())
@@ -79,7 +78,7 @@ function fnScrollTo(ini: number, top: number) {
             <span>{{ title }}</span>
         </div>
         <div class="menu-box">
-            <el-scrollbar ref="scrollbarRef">
+            <el-scrollbar ref="scrollbarRef" v-if="menu">
                 <base-menu v-model="menu" :options="options" :collapse="collapse" @menuItem="onMenuItem"></base-menu>
             </el-scrollbar>
         </div>
